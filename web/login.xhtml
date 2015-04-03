@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+         <h:outputStylesheet name="/css/layout.css"/>
+    </h:head>
+    <h:body>
+        <section class="contenedorLogin">
+            <center>
+                <p:panel header="Acceso de Usuario" style="width: 320px;">
+                    <h:form>
+                        <p:growl id="MensajeGeneral" showDetail="true" sticky="false"/>
+                        <h:panelGrid columns="2" cellpadding="2">
+                            <h:outputLabel value="Usuario:"/>
+                            <h:inputText pt:placeholder="Usuario" value="#{mbsLogin.login}"/>
+                            <h:outputLabel value="Contraseña:"/>
+                            <h:inputSecret pt:placeholder="Contraseña" value="#{mbsLogin.pwd}"/>
+                            <section>
+                                <center>
+                                    <h:commandButton type="submit" value="Entrar" action="#{mbsLogin.login()}"/>
+                                </center>
+                            </section>
+                        </h:panelGrid>
+                    </h:form>
+                </p:panel>
+            </center>
+        </section>
+    </h:body>
+</html>
+

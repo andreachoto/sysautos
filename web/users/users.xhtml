@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h:form id="frmUsers">
+            <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+            <article class="module width_full">
+                <header><h3>Personal</h3></header>
+                <div class="module_content">
+                    <p:tabView id="tbvusers">
+                        <p:tab title="Usuarios">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
+                                <h:outputText value="After a break of more than 15 years..." />
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="Perfiles">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:graphicImage name="demo/images/godfather/godfather2.jpg" />
+                                <h:outputText value="Francis Ford Coppola's legendary..." />
+                            </h:panelGrid>
+                        </p:tab>
+                        <!-- Pestania para la gestion de Roles-->
+                        <p:tab id="tabroles" title="Roles">
+                            <center>
+                                <h:panelGrid cellpadding="3" width="80%">
+                                    <p:dataTable id="tblroles" var="rol" value="#{dtRolesView.roles}" 
+                                                 selection="#{dtRolesView.rolselection}" selectionMode="single"
+                                                 rowKey="#{rol.rolid}" paginator="true" 
+                                                 paginatorPosition="bottom" rows="10" rendered="true">
+                                        <p:column headerText="Nombre" width="200"> 
+                                            <h:outputText value="#{rol.name}" />
+                                        </p:column>
+                                        <p:column headerText="Descripcion">
+                                            <h:outputText value="#{rol.desc}"/>
+                                        </p:column>
+                                        <p:column headerText="Activo" width="40" > 
+                                            <center><p:selectBooleanCheckbox value="#{rol.active}" disabled="true" /></center>
+                                        </p:column>
+                                        <f:facet name="footer">
+                                            <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newrole').show()" />
+                                            <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtRolesView.loadrol(dtRolesView.rolselection.rolid)}"/>
+                                            <p:commandButton id="EliminarRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmUsers" 
+                                                             actionListener="#{dtRolesView.delete(dtRolesView.rolselection.rolid)}"> 
+                                                <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
+                                            </p:commandButton> 
+                                        </f:facet>
+                                    </p:dataTable>
+                                </h:panelGrid>
+                            </center>
+                        </p:tab>
+                    </p:tabView>
+                </div>
+                <footer> 
+                </footer>
+            </article>
+            <p:confirmDialog global="true">  
+                <center>
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                </center>
+            </p:confirmDialog>
+        </h:form> 
+        <!-- Popup para el ingreso de Roles -->
+        <h:form>
+            <p:dialog id="newrole" widgetVar="newrole" header="Roles" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Nuevo Rol</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Nombre:" />
+                            <h:inputText value="#{dtRolesView.role.name}" />
+                            <h:outputText value="Descripcion:" />
+                            <h:inputText value="#{dtRolesView.role.desc}" />
+                            <h:outputText value="Activo:" />
+                            <p:selectBooleanCheckbox value="#{dtRolesView.role.active}" />
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Guardar" update=":frmUsers" actionListener="#{dtRolesView.register()}" oncomplete="PF('newrole').hide()"/>
+                        <p:commandButton value="Cerrar" oncomplete="PF('newrole').hide()" />
+                    </center>
+                </article>
+
+            </p:dialog>
+        </h:form>
+        <!-- Popup para el Editar datos de Rol -->
+        <h:form id="frmEditRole">
+            <p:dialog id="editrole" widgetVar="editrole" header="Roles" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Editar Rol</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid id="panelEditRole" columns="2">
+                            <h:outputText value="Nombre:" />
+                            <h:inputText value="#{dtRolesView.rolselection.name}" />
+                            <h:outputText value="Descripcion:" />
+                            <h:inputText value="#{dtRolesView.rolselection.desc}" />
+                            <h:outputText value="Activo:" />
+                            <p:selectBooleanCheckbox value="#{dtRolesView.rolselection.active}" />
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Actualizar" update=":frmUsers" actionListener="#{dtRolesView.update(dtRolesView.rolselection)}" oncomplete="PF('editrole').hide()"/>
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

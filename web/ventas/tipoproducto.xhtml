@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <div id="tipoproductos">
+            <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+            <article class="module width_full">
+                <header><h3>Categorias de Producto</h3></header>
+                <div class="module_content">
+                    <h:form id="frmTipoproductos">
+                        <center>
+                            <h:panelGrid cellpadding="3" width="80%">
+                                <p:dataTable id="tblroles" value="#{dtTipoproductoView.tipoproductos}" var="tipo"
+                                             selection="#{dtTipoproductoView.tipoproductosel}" selectionMode="single" 
+                                             rowKey="#{tipo.id}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                             rendered="true">
+                                    <p:column headerText="Nombre" width="200"> 
+                                        <h:outputText value="#{tipo.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Descripcion">
+                                        <h:outputText value="#{tipo.desc}"/>
+                                    </p:column>
+                                    <p:column headerText="Stock minimo" width="50">
+                                        <h:outputText value="#{tipo.stockmin}"/>
+                                    </p:column>
+                                    <f:facet name="footer">
+                                        <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newtipoproducto').show()" />
+                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtTipoproductoView.loadtipoproducto(dtTipoproductoView.tipoproductosel)}" />
+                                        <p:commandButton id="delRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmTipoproductos" 
+                                                         actionListener="#{dtTipoproductoView.delete(dtTipoproductoView.tipoproductosel)}"> 
+                                            <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
+                                        </p:commandButton> 
+                                    </f:facet>
+                                </p:dataTable>
+                            </h:panelGrid>
+                        </center>
+                        <p:confirmDialog global="true">  
+                            <center>
+                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                            </center>
+                        </p:confirmDialog>
+                    </h:form>
+                </div>
+                <footer> 
+                </footer>
+            </article>
+        </div>
+        <!-- Popup para el ingreso de Tipos de Productos -->
+        <h:form>
+            <p:dialog id="newtipoproducto" widgetVar="newtipoproducto" header="Categorias de Producto" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Nueva Categoria</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Nombre:" />
+                            <h:inputText value="#{dtTipoproductoView.tipoproducto.nombre}" />
+                            <h:outputText value="Descripcion:" />
+                            <h:inputText value="#{dtTipoproductoView.tipoproducto.desc}" />
+                            <h:outputText value="Activo:" />
+                            <h:inputText value="#{dtTipoproductoView.tipoproducto.stockmin}" />
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Guardar"  update=":frmTipoproductos" actionListener="#{dtTipoproductoView.register()}" oncomplete="PF('newtipoproducto').hide()"/>
+                        <p:commandButton value="Cerrar" oncomplete="PF('newtipoproducto').hide()" />
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
+        <!-- Popup para el Editar datos de Rol -->
+        <h:form id="frmEditTipoproducto">
+            <p:dialog id="edittipoproducto" widgetVar="edittipoproducto" header="Categorias de Producto" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Editar Categoria</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid id="panelEditRole" columns="2">
+                            <h:outputText value="Nombre:" />
+                            <h:inputText value="#{dtTipoproductoView.tipoproductosel.nombre}" />
+                            <h:outputText value="Descripcion:" />
+                            <h:inputText value="#{dtTipoproductoView.tipoproductosel.desc}" />
+                            <h:outputText value="Activo:" />
+                            <h:inputText value="#{dtTipoproductoView.tipoproductosel.stockmin}" />
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Actualizar" update=":frmTipoproductos" 
+                                         actionListener="#{dtTipoproductoView.update(dtTipoproductoView.tipoproductosel)}" 
+                                         oncomplete="PF('edittipoproducto').hide()"/>
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
