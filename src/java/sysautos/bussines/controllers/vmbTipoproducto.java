@@ -61,7 +61,6 @@ public final class vmbTipoproducto implements Serializable {
     public void setTipoproductos(List<Tipoproducto> tipoproductos) {
         this.tipoproductos = tipoproductos;
     }
-    
 
     //businnes logical methods
     public void loadtipoproductos() {
@@ -82,7 +81,7 @@ public final class vmbTipoproducto implements Serializable {
                 MbsMessages.error("Seleccione un registro");
             }
         } catch (Exception ex) {
-             MbsMessages.fatal(ex.getMessage());
+            MbsMessages.fatal(ex.getMessage());
         }
 
     }
@@ -93,11 +92,12 @@ public final class vmbTipoproducto implements Serializable {
             if (ban != 0) {
                 this.loadtipoproductos();
                 MbsMessages.info("Tipo de Producto creado exitosamente!");
+            } else {
+                MbsMessages.error("No se pudo insertar el registro!");
             }
         } catch (Exception ex) {
-             MbsMessages.fatal(ex.getMessage());
+            MbsMessages.fatal(ex.getMessage());
         }
-
     }
 
     public void update(Tipoproducto tipoproducto) {
@@ -105,26 +105,28 @@ public final class vmbTipoproducto implements Serializable {
             if (dvrTipoproducto.tipoproductoUpdate(tipoproducto)) {
                 this.loadtipoproductos();
                 MbsMessages.info("Tipo de Producto actualizado correctamente!");
+            } else {
+                MbsMessages.error("No se pudo Actualizar el registro!");
             }
         } catch (Exception ex) {
             MbsMessages.fatal(ex.getMessage());
         }
-
     }
+
     public void delete(Tipoproducto tipo) {
         try {
-             if (tipo != null) {
+            if (tipo != null) {
                 if (dvrTipoproducto.tipoproductoDelete(tipo)) {
-                this.loadtipoproductos();
-                MbsMessages.info("Tipo de Producto eliminado correctamente!");
-            }
+                    this.loadtipoproductos();
+                    MbsMessages.info("Tipo de Producto eliminado correctamente!");
+                } else {
+                    MbsMessages.error("No se pudo Eliminar!");
+                }
             } else {
                 MbsMessages.error("Seleccione un registro");
             }
-            
         } catch (Exception ex) {
             MbsMessages.fatal(ex.getMessage());
         }
-
     }
 }
