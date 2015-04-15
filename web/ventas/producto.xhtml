@@ -30,9 +30,13 @@
                                     <p:column headerText="PVP">
                                         <h:outputText value="#{item.pvp}"/>
                                     </p:column>
+                                    <p:column headerText="Disponibles">
+                                        <h:outputText value="#{item.stock}"/>
+                                    </p:column>
                                     <f:facet name="footer">
                                         <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newproducto').show()" />
-                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtProductoView.loadproducto(dtProductoView.productoselect)}" />
+                                        <p:commandButton value="Editar" icon="ui-icon-pencil" 
+                                                         actionListener="#{dtProductoView.loadproducto(dtProductoView.productoselect)}" />
                                         <p:commandButton id="delRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmProducto" 
                                                          actionListener="#{dtProductoView.delete(dtProductoView.productoselect)}"> 
                                             <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
@@ -61,9 +65,10 @@
                     <div class="module_content">
                         <h:panelGrid columns="4">
                             <p:outputLabel for="tipo" value="Tipo:" />
-                            <p:selectOneMenu id="tipo" value="#{dtProductoView.tipoproductos}" style="width:150px">
-                                <f:selectItem itemLabel="Seleccionar Tipo" itemValue="#{dtProductoView.producto.tipoproducto}" noSelectionOption="true" />
-                                <f:selectItems value="#{dtProductoView.tipoproductos}" />
+                            <p:selectOneMenu id="tipo" style="width:150px" value="#{dtProductoView.producto.tptid}" >
+                                <f:selectItem itemLabel="Seleccionar Tipo" itemValue="-1" noSelectionOption="true" />
+                                <f:selectItems value="#{dtProductoView.tipoproductos}" var="tipo" 
+                                               itemValue="#{tipo.id}" itemLabel="#{tipo.nombre}" />
                             </p:selectOneMenu>
                             <h:outputText value="Nombre:"/>
                             <h:inputText value="#{dtProductoView.producto.nombre}" />
@@ -94,18 +99,34 @@
             </p:dialog>
         </h:form>
         <!-- Popup para el Editar datos de Rol -->
-        <h:form id="frmEditTipoproducto">
-            <p:dialog id="edittipoproducto" widgetVar="edittipoproducto" header="Categorias de Producto" modal="true" resizable="false">
+        <h:form id="frmEditProducto">
+            <p:dialog id="editproducto" widgetVar="editproducto" header="Producto" modal="true" resizable="false">
                 <article class="module width_full">
-                    <header><center><h3>Editar Categoria</h3></center></header>
+                    <header><center><h3>Editar Datos Producto</h3></center></header>
                     <div class="module_content">
-                        <h:panelGrid id="panelEditRole" columns="2">
-                            <h:outputText value="Nombre:" />
+                        <h:panelGrid id="panelEditProducto" columns="4">
+                            <p:outputLabel for="tipo" value="Tipo:" />
+                            <p:selectOneMenu id="tipo" style="width:150px" value="#{dtProductoView.productoselect.tptid}">
+                                <f:selectItem itemLabel="Seleccionar Tipo" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{dtProductoView.tipoproductos}" var="tipo" 
+                                               itemValue="#{tipo.id}" itemLabel="#{tipo.nombre}" />
+                            </p:selectOneMenu>
+                            <h:outputText value="Nombre:"/>
                             <h:inputText value="#{dtProductoView.productoselect.nombre}" />
-                            <h:outputText value="Descripcion:" />
-                            <h:inputText value="#{dtProductoView.productoselect.marca}" />
-                            <h:outputText value="Stock minimo:" />
-                            <h:inputText value="#{dtProductoView.productoselect.modelo}" />
+                            <h:outputText value="Marca:" />
+                            <h:inputText value="#{dtProductoView.productoselect.marca}"/>
+                            <h:outputText value="Modelo:" />
+                            <h:inputText value="#{dtProductoView.productoselect.modelo}"/>
+                            <h:outputText value="Serie:" />
+                            <h:inputText value="#{dtProductoView.productoselect.serial}"/>
+                            <h:outputText value="Cilindraje:" />
+                            <h:inputText value="#{dtProductoView.productoselect.cilindraje}"/>
+                            <h:outputText value="Valor compra:" />
+                            <h:inputText value="#{dtProductoView.productoselect.valorunit}"/>
+                            <h:outputText value="Precio:" />
+                            <h:inputText value="#{dtProductoView.productoselect.pvp}"/>
+                            <h:outputText value="Stock:" />
+                            <h:inputText value="#{dtProductoView.productoselect.stock}"/>
                         </h:panelGrid>
                     </div>
                 </article>
@@ -114,7 +135,7 @@
                     <center>
                         <p:commandButton value="Actualizar" update=":frmProducto" 
                                          actionListener="#{dtProductoView.update(dtProductoView.productoselect)}" 
-                                         oncomplete="PF('edittipoproducto').hide()"/>
+                                         oncomplete="PF('editproducto').hide()"/>
                     </center>
                 </article>
             </p:dialog>

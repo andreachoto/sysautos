@@ -46,7 +46,7 @@ public class dvrProducto {
     public static boolean productoUpdate(Producto objeto) throws Exception {
         boolean respuesta = false;
         List<Parameter> parametros = new ArrayList<>();
-        parametros.add(new Parameter(1, objeto.getTptid(), Types.INTEGER));
+        parametros.add(new Parameter(1, objeto.getId(), Types.INTEGER));
         parametros.add(new Parameter(2, objeto.getTptid(), Types.INTEGER));
         parametros.add(new Parameter(3, objeto.getSerial(), Types.VARCHAR));
         parametros.add(new Parameter(4, objeto.getStock(), Types.INTEGER));
@@ -56,7 +56,7 @@ public class dvrProducto {
         parametros.add(new Parameter(8, objeto.getModelo(), Types.VARCHAR));
         parametros.add(new Parameter(9, objeto.getCilindraje(), Types.DECIMAL));
         parametros.add(new Parameter(10, objeto.getNombre(), Types.VARCHAR));
-        String llamadaPA = "SELECT autos.\"productoUpdate_pa\"(?,?,?,?,?,?,?,?)";
+        String llamadaPA = "SELECT autos.\"productoUpdate_pa\"(?,?,?,?,?,?,?,?,?,?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
             respuesta = true;

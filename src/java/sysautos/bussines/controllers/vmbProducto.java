@@ -19,23 +19,24 @@ import sysautos.bussines.session.MbsMessages;
  *
  * @author SOPORTE01
  */
-@ManagedBean (name = "dtProductoView")
+@ManagedBean(name = "dtProductoView")
 @ViewScoped
 public final class vmbProducto {
-    
+
     //atributos del bean
+    private List<Tipoproducto> tipoproductos;
     private List<Producto> productos;
     private Producto producto;
     private Producto productoselect;
-    private List<Tipoproducto> tipoproductos;
-    private Tipoproducto tipoproductosel;
-    
+
     /**
      * Creates a new instance of NewJSFManagedBean
+     *
      * @throws java.lang.Exception
      */
     public vmbProducto() throws Exception {
         this.producto = new Producto();
+        this.productoselect = new Producto();
         this.loadProductos();
         this.tipoproductos = dvrTipoproducto.getTipoproductoList();
     }
@@ -72,14 +73,6 @@ public final class vmbProducto {
         this.tipoproductos = tipoproductos;
     }
 
-    public Tipoproducto getTipoproductosel() {
-        return tipoproductosel;
-    }
-
-    public void setTipoproductosel(Tipoproducto tipoproductosel) {
-        this.tipoproductosel = tipoproductosel;
-    }
-    
     //Metodos para el negocio
     public void loadProductos() {
         try {
@@ -88,7 +81,7 @@ public final class vmbProducto {
             MbsMessages.fatal(ex.getMessage());
         }
     }
-    
+
     public void loadproducto(Producto prod) {
         try {
             if (prod != null) {
@@ -105,8 +98,7 @@ public final class vmbProducto {
 
     public void register() {
         try {
-            Producto pro = this.producto;
-            int ban = dvrProducto.productoRegister(pro);
+            int ban = dvrProducto.productoRegister(this.producto);
             if (ban != 0) {
                 this.loadProductos();
                 MbsMessages.info("Producto creado exitosamente!");
@@ -147,5 +139,5 @@ public final class vmbProducto {
             MbsMessages.fatal(ex.getMessage());
         }
     }
-    
+
 }
