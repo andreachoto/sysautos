@@ -5,6 +5,7 @@
  */
 package sysautos.bussines.drivers;
 
+import java.math.BigDecimal;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,38 +18,45 @@ import sysautos.integration.Parameter;
  * @author hp
  */
 public class dvrProducto {
-    
+
     //Insertar un nuevo registro a la tabla
-    public static int proveedorRegister(Producto objeto) throws Exception {
+    public static int productoRegister(Producto objeto) throws Exception {
         int codigo = 0;
         List<Parameter> parametros = new ArrayList<>();
-        parametros.add(new Parameter(1, objeto.getNombre(), Types.VARCHAR));
-//        parametros.add(new Parameter(2, objeto.getDireccion(), Types.VARCHAR));
-//        parametros.add(new Parameter(3, objeto.getTelefono(), Types.VARCHAR));
-//        parametros.add(new Parameter(4, objeto.getEmail(), Types.VARCHAR));
-//        parametros.add(new Parameter(5, objeto.getMovil(), Types.VARCHAR));
-//        parametros.add(new Parameter(6, objeto.getFax(), Types.VARCHAR));
-        String llamadaPA = "SELECT autos.\"proveedorRegister_pa\"(?,?,?,?,?,?)";
+        parametros.add(new Parameter(1, objeto.getTptid(), Types.INTEGER));
+        parametros.add(new Parameter(2, objeto.getSerial(), Types.VARCHAR));
+        parametros.add(new Parameter(3, objeto.getStock(), Types.INTEGER));
+        parametros.add(new Parameter(4, objeto.getValorunit(), Types.DECIMAL));
+        parametros.add(new Parameter(5, objeto.getPvp(), Types.DECIMAL));
+        parametros.add(new Parameter(6, objeto.getMarca(), Types.VARCHAR));
+        parametros.add(new Parameter(7, objeto.getModelo(), Types.VARCHAR));
+        parametros.add(new Parameter(8, objeto.getCilindraje(), Types.DECIMAL));
+        parametros.add(new Parameter(9, objeto.getNombre(), Types.VARCHAR));
+
+        String llamadaPA = "SELECT autos.\"productoRegister_pa\"(?,?,?,?,?,?,?,?,?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
-            codigo = con.getInt("proveedorRegister_pa");
+            codigo = con.getInt("productoRegister_pa");
         }
         con.cerrarConexion();
         return codigo;
     }
 
     //Editar un nuevo registro de la tabla
-    public static boolean proveedorUpdate(Producto objeto) throws Exception {
+    public static boolean productoUpdate(Producto objeto) throws Exception {
         boolean respuesta = false;
         List<Parameter> parametros = new ArrayList<>();
-//        parametros.add(new Parameter(1, objeto.getId(), Types.INTEGER));
-//        parametros.add(new Parameter(2, objeto.getNombre(), Types.VARCHAR));
-//        parametros.add(new Parameter(3, objeto.getDireccion(), Types.VARCHAR));
-//        parametros.add(new Parameter(4, objeto.getTelefono(), Types.VARCHAR));
-//        parametros.add(new Parameter(5, objeto.getEmail(), Types.VARCHAR));
-//        parametros.add(new Parameter(6, objeto.getMovil(), Types.VARCHAR));
-//        parametros.add(new Parameter(7, objeto.getFax(), Types.VARCHAR));
-        String llamadaPA = "SELECT autos.\"proveedorUpdate_pa\"(?,?,?,?,?,?,?)";
+        parametros.add(new Parameter(1, objeto.getTptid(), Types.INTEGER));
+        parametros.add(new Parameter(2, objeto.getTptid(), Types.INTEGER));
+        parametros.add(new Parameter(3, objeto.getSerial(), Types.VARCHAR));
+        parametros.add(new Parameter(4, objeto.getStock(), Types.INTEGER));
+        parametros.add(new Parameter(5, objeto.getValorunit(), Types.DECIMAL));
+        parametros.add(new Parameter(6, objeto.getPvp(), Types.DECIMAL));
+        parametros.add(new Parameter(7, objeto.getMarca(), Types.VARCHAR));
+        parametros.add(new Parameter(8, objeto.getModelo(), Types.VARCHAR));
+        parametros.add(new Parameter(9, objeto.getCilindraje(), Types.DECIMAL));
+        parametros.add(new Parameter(10, objeto.getNombre(), Types.VARCHAR));
+        String llamadaPA = "SELECT autos.\"productoUpdate_pa\"(?,?,?,?,?,?,?,?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
             respuesta = true;
@@ -58,11 +66,11 @@ public class dvrProducto {
     }
 
     //Eliminar un registro de la tabla
-    public static boolean proveedorDelete(Producto objeto) throws Exception {
+    public static boolean productoDelete(Producto objeto) throws Exception {
         boolean respuesta = false;
         List<Parameter> parametros = new ArrayList<>();
-//        parametros.add(new Parameter(1, objeto.getId(), Types.INTEGER));
-        String llamadaPA = "SELECT autos.\"proveedorDelete_pa\"(?)";
+        parametros.add(new Parameter(1, objeto.getId(), Types.INTEGER));
+        String llamadaPA = "SELECT autos.\"productoDelete_pa\"(?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
             respuesta = true;
@@ -74,17 +82,20 @@ public class dvrProducto {
     //Listar todos los registros de la tabla
     public static List<Producto> getProductoList() throws Exception {
         List<Producto> lista = new ArrayList<>();
-        String llamadaPA = "SELECT * from autos.\"proveedorSelectAll_pa\"()";
+        String llamadaPA = "SELECT * from autos.\"productoSelectAll_pa\"()";
         Conexion con = new Conexion(llamadaPA);
         while (con.siguiente()) {
             int id = con.getInt("outid");
-            String name = con.getString("outnombre");
-            String dir = con.getString("outdireccion");
-            String fono = con.getString("outtelefono");
-            String mail = con.getString("outemail");
-            String movil = con.getString("outmovil");
-            String fax = con.getString("outfax");
-//            lista.add(new Producto(id, name, dir, fono, mail, movil, fax));
+            int tptid = con.getInt("outtptid");
+            String nombre = con.getString("outnombre");
+            String serial = con.getString("outserial");
+            int stock = con.getInt("outstock");
+            BigDecimal valoruni = con.getBigDecimal("outvaloruni");
+            BigDecimal pvp = con.getBigDecimal("outpvp");
+            String marca = con.getString("outmarca");
+            String modelo = con.getString("outmodelo");
+            BigDecimal cilindraje = con.getBigDecimal("outcilindraje");
+            lista.add(new Producto(id, tptid, nombre, serial, stock, valoruni, pvp, marca, modelo, cilindraje));
         }
         con.cerrarConexion();
         return lista;
@@ -95,17 +106,20 @@ public class dvrProducto {
         Producto var = null;
         List<Parameter> parametros = new ArrayList<>();
         parametros.add(new Parameter(1, val, Types.INTEGER));
-        String llamadaPA = "SELECT * from autos.\"proveedorByID_pa\"(?)";
+        String llamadaPA = "SELECT * from autos.\"productoByID_pa\"(?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         if (con.siguiente()) {
             int id = con.getInt("outid");
-            String name = con.getString("outnombre");
-            String dir = con.getString("outdireccion");
-            String fono = con.getString("outtelefono");
-            String mail = con.getString("outemail");
-            String movil = con.getString("outmovil");
-            String fax = con.getString("outfax");
-//            var = new Producto(id, name, dir, fono, mail, movil, fax);
+            int tptid = con.getInt("outtptid");
+            String nombre = con.getString("outnombre");
+            String serial = con.getString("outserial");
+            int stock = con.getInt("outstock");
+            BigDecimal valoruni = con.getBigDecimal("outvaloruni");
+            BigDecimal pvp = con.getBigDecimal("outpvp");
+            String marca = con.getString("outmarca");
+            String modelo = con.getString("outmodelo");
+            BigDecimal cilindraje = con.getBigDecimal("outcilindraje");
+            var = new Producto(id, tptid, nombre, serial, stock, valoruni, pvp, marca, modelo, cilindraje);
         }
         con.cerrarConexion();
         return var;
@@ -116,20 +130,22 @@ public class dvrProducto {
         List<Producto> lista = new ArrayList<>();
         List<Parameter> parametros = new ArrayList<>();
         parametros.add(new Parameter(1, text, Types.VARCHAR));
-        String llamadaPA = "SELECT * from autos.\"proveedorByName_pa\"(?)";
+        String llamadaPA = "SELECT * from autos.\"productoByName_pa\"(?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
             int id = con.getInt("outid");
-            String name = con.getString("outnombre");
-            String dir = con.getString("outdireccion");
-            String fono = con.getString("outtelefono");
-            String mail = con.getString("outemail");
-            String movil = con.getString("outmovil");
-            String fax = con.getString("outfax");
-//            lista.add(new Producto(id, name, dir, fono, mail, movil, fax));
+            int tptid = con.getInt("outtptid");
+            String nombre = con.getString("outnombre");
+            String serial = con.getString("outserial");
+            int stock = con.getInt("outstock");
+            BigDecimal valoruni = con.getBigDecimal("outvaloruni");
+            BigDecimal pvp = con.getBigDecimal("outpvp");
+            String marca = con.getString("outmarca");
+            String modelo = con.getString("outmodelo");
+            BigDecimal cilindraje = con.getBigDecimal("outcilindraje");
+            lista.add(new Producto(id, tptid, nombre, serial, stock, valoruni, pvp, marca, modelo, cilindraje));
         }
         con.cerrarConexion();
         return lista;
     }
-    
 }

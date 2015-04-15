@@ -6,32 +6,35 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
-        <div id="tipoproductos">
+        <div id="producto">
             <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
             <article class="module width_full">
                 <header><h3>Gestion de Productos</h3></header>
                 <div class="module_content">
-                    <h:form id="frmTipoproductos">
+                    <h:form id="frmProducto">
                         <center>
-                            <h:panelGrid cellpadding="3" width="80%">
-                                <p:dataTable id="tblroles" value="#{dtTipoproductoView.tipoproductos}" var="tipo"
-                                             selection="#{dtTipoproductoView.tipoproductosel}" selectionMode="single" 
-                                             rowKey="#{tipo.id}" paginator="true" paginatorPosition="bottom" rows="10" 
+                            <h:panelGrid cellpadding="3">
+                                <p:dataTable id="tblroles" value="#{dtProductoView.productos}" var="item"
+                                             selection="#{dtProductoView.productoselect}" selectionMode="single" 
+                                             rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
                                              rendered="true">
-                                    <p:column headerText="Nombre" width="200"> 
-                                        <h:outputText value="#{tipo.nombre}" />
+                                    <p:column headerText="Nombre"> 
+                                        <h:outputText value="#{item.nombre}" />
                                     </p:column>
-                                    <p:column headerText="Descripcion">
-                                        <h:outputText value="#{tipo.desc}"/>
+                                    <p:column headerText="Marca">
+                                        <h:outputText value="#{item.marca}"/>
                                     </p:column>
-                                    <p:column headerText="Stock minimo" width="50">
-                                        <h:outputText value="#{tipo.stockmin}"/>
+                                    <p:column headerText="Modelo">
+                                        <h:outputText value="#{item.modelo}"/>
+                                    </p:column>
+                                    <p:column headerText="PVP">
+                                        <h:outputText value="#{item.pvp}"/>
                                     </p:column>
                                     <f:facet name="footer">
-                                        <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newtipoproducto').show()" />
-                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtTipoproductoView.loadtipoproducto(dtTipoproductoView.tipoproductosel)}" />
-                                        <p:commandButton id="delRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmTipoproductos" 
-                                                         actionListener="#{dtTipoproductoView.delete(dtTipoproductoView.tipoproductosel)}"> 
+                                        <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newproducto').show()" />
+                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtProductoView.loadproducto(dtProductoView.productoselect)}" />
+                                        <p:commandButton id="delRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmProducto" 
+                                                         actionListener="#{dtProductoView.delete(dtProductoView.productoselect)}"> 
                                             <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
                                         </p:commandButton> 
                                     </f:facet>
@@ -50,27 +53,42 @@
                 </footer>
             </article>
         </div>
-        <!-- Popup para el ingreso de Tipos de Productos -->
+        <!-- Popup para el ingreso de Nuevos Productos -->
         <h:form>
-            <p:dialog id="newtipoproducto" widgetVar="newtipoproducto" header="Categorias de Producto" modal="true" resizable="false">
+            <p:dialog id="newproducto" widgetVar="newproducto" header="Productos" modal="true" resizable="false">
                 <article class="module width_full">
-                    <header><center><h3>Nueva Categoria</h3></center></header>
+                    <header><center><h3>Nuevo Producto</h3></center></header>
                     <div class="module_content">
-                        <h:panelGrid columns="2">
+                        <h:panelGrid columns="4">
+                            <p:outputLabel for="tipo" value="Tipo:" />
+                            <p:selectOneMenu id="tipo" value="#{dtProductoView.tipoproductos}" style="width:150px">
+                                <f:selectItem itemLabel="Seleccionar Tipo" itemValue="#{dtProductoView.producto.tipoproducto}" noSelectionOption="true" />
+                                <f:selectItems value="#{dtProductoView.tipoproductos}" />
+                            </p:selectOneMenu>
                             <h:outputText value="Nombre:"/>
-                            <h:inputText value="#{dtTipoproductoView.tipoproducto.nombre}" />
-                            <h:outputText value="Descripcion:" />
-                            <h:inputText value="#{dtTipoproductoView.tipoproducto.desc}" />
-                            <h:outputText value="Stock minimo:" />
-                            <h:inputText value="#{dtTipoproductoView.tipoproducto.stockmin}"/>
+                            <h:inputText value="#{dtProductoView.producto.nombre}" />
+                            <h:outputText value="Marca:" />
+                            <h:inputText value="#{dtProductoView.producto.marca}"/>
+                            <h:outputText value="Modelo:" />
+                            <h:inputText value="#{dtProductoView.producto.modelo}"/>
+                            <h:outputText value="Serie:" />
+                            <h:inputText value="#{dtProductoView.producto.serial}"/>
+                            <h:outputText value="Cilindraje:" />
+                            <h:inputText value="#{dtProductoView.producto.cilindraje}"/>
+                            <h:outputText value="Valor compra:" />
+                            <h:inputText value="#{dtProductoView.producto.valorunit}"/>
+                            <h:outputText value="Precio:" />
+                            <h:inputText value="#{dtProductoView.producto.pvp}"/>
+                            <h:outputText value="Stock:" />
+                            <h:inputText value="#{dtProductoView.producto.stock}"/>
                         </h:panelGrid>
                     </div>
                 </article>
                 <br/>
                 <article>
                     <center>
-                        <p:commandButton value="Guardar"  update=":frmTipoproductos" actionListener="#{dtTipoproductoView.register()}" oncomplete="PF('newtipoproducto').hide()"/>
-                        <p:commandButton value="Cerrar" oncomplete="PF('newtipoproducto').hide()" />
+                        <p:commandButton value="Guardar"  update=":frmProducto" actionListener="#{dtProductoView.register()}" oncomplete="PF('newproducto').hide()"/>
+                        <p:commandButton value="Cerrar" oncomplete="PF('newproducto').hide()" />
                     </center>
                 </article>
             </p:dialog>
@@ -83,19 +101,19 @@
                     <div class="module_content">
                         <h:panelGrid id="panelEditRole" columns="2">
                             <h:outputText value="Nombre:" />
-                            <h:inputText value="#{dtTipoproductoView.tipoproductosel.nombre}" />
+                            <h:inputText value="#{dtProductoView.productoselect.nombre}" />
                             <h:outputText value="Descripcion:" />
-                            <h:inputText value="#{dtTipoproductoView.tipoproductosel.desc}" />
+                            <h:inputText value="#{dtProductoView.productoselect.marca}" />
                             <h:outputText value="Stock minimo:" />
-                            <h:inputText value="#{dtTipoproductoView.tipoproductosel.stockmin}" />
+                            <h:inputText value="#{dtProductoView.productoselect.modelo}" />
                         </h:panelGrid>
                     </div>
                 </article>
                 <br/>
                 <article>
                     <center>
-                        <p:commandButton value="Actualizar" update=":frmTipoproductos" 
-                                         actionListener="#{dtTipoproductoView.update(dtTipoproductoView.tipoproductosel)}" 
+                        <p:commandButton value="Actualizar" update=":frmProducto" 
+                                         actionListener="#{dtProductoView.update(dtProductoView.productoselect)}" 
                                          oncomplete="PF('edittipoproducto').hide()"/>
                     </center>
                 </article>

@@ -15,11 +15,11 @@ import sysautos.bussines.drivers.dvrTipoproducto;
  */
 public class Producto {
 
-    private int pdtid;
-    private int tptid; //di tipo producto
+    private int id;
+    private int tptid; //id tipo producto
     private String nombre;
     private String serial;
-    private int pdtstock;
+    private int stock;
     private BigDecimal valorunit;
     private BigDecimal pvp;
     private String marca;
@@ -27,14 +27,15 @@ public class Producto {
     private BigDecimal cilindraje;
     private Tipoproducto tipoproducto;
 
-    public Producto(int pdtid, int tptid, String nombre, String serial, int pdtstock, 
-            BigDecimal valorunit, BigDecimal pvp, String marca, String modelo,
-            BigDecimal cilindraje) throws Exception {
-        this.pdtid = pdtid;
+    public Producto() {
+    }
+
+    public Producto(int id, int tptid, String nombre, String serial, int stock, BigDecimal valorunit, BigDecimal pvp, String marca, String modelo, BigDecimal cilindraje) throws Exception {
+        this.id = id;
         this.tptid = tptid;
         this.nombre = nombre;
         this.serial = serial;
-        this.pdtstock = pdtstock;
+        this.stock = stock;
         this.valorunit = valorunit;
         this.pvp = pvp;
         this.marca = marca;
@@ -45,15 +46,32 @@ public class Producto {
         } else {
             this.tipoproducto = null;
         }
-        
     }
 
-    public int getPdtid() {
-        return pdtid;
+    public Producto(int id, String nombre, String serial, int stock, BigDecimal valorunit, BigDecimal pvp, String marca, String modelo, BigDecimal cilindraje, Tipoproducto tipoproducto) {
+        this.id = id;
+        this.nombre = nombre;
+        this.serial = serial;
+        this.stock = stock;
+        this.valorunit = valorunit;
+        this.pvp = pvp;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.cilindraje = cilindraje;
+        if (tipoproducto != null) {
+            this.tipoproducto = tipoproducto;
+            this.tptid = this.tipoproducto.getId();
+        } else {
+            this.tptid = 0;
+        }
     }
 
-    public void setPdtid(int pdtid) {
-        this.pdtid = pdtid;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getTptid() {
@@ -80,12 +98,12 @@ public class Producto {
         this.serial = serial;
     }
 
-    public int getPdtstock() {
-        return pdtstock;
+    public int getStock() {
+        return stock;
     }
 
-    public void setPdtstock(int pdtstock) {
-        this.pdtstock = pdtstock;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public BigDecimal getValorunit() {
@@ -144,8 +162,8 @@ public class Producto {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + this.pdtid;
-        hash = 67 * hash + Objects.hashCode(this.serial);
+        hash = 97 * hash + this.id;
+        hash = 97 * hash + Objects.hashCode(this.serial);
         return hash;
     }
 
@@ -158,6 +176,12 @@ public class Producto {
             return false;
         }
         final Producto other = (Producto) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.serial, other.serial)) {
+            return false;
+        }
         return true;
     }
 }
