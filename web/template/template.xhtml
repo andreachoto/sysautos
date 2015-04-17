@@ -54,7 +54,7 @@
             </header> <!-- end of header bar <a href="#">Salir</a>-->
 
             <section id="secondary_bar">
-                <div class="user"><p><p:outputLabel value="#{mbsLogin.login}"/></p></div>
+                <div class="user"><p><p:outputLabel value="#{mbsLogin.user.fisrtname} #{mbsLogin.user.lastname}"/></p></div>
                 <div class="breadcrumbs_container"></div>
             </section><!-- end of secondary bar -->
             </h:form>
@@ -72,12 +72,12 @@
             <ul class="toggle">
                 <li class="icn_new_article"><h:link value="Proveedores" outcome="/ventas/proveedor"/></li>
                 <li class="icn_categories"><h:link value="Categorias de Producto" outcome="/ventas/tipoproducto"/></li>
-                <li class="icn_edit_article"><h:link value="Productos" outcome="/ventas/producto"/></li>
-                <li class="icn_tags"><a href="#">Pedidos</a></li>
+                <li class="icn_producto"><h:link value="Productos" outcome="/ventas/producto"/></li>
+                <li class="icn_pedido"><a href="#">Pedidos</a></li>
             </ul>
             <h3>Ventas</h3>
             <ul class="toggle">
-                <li class="icn_folder"><a href="#">Ventas</a></li>
+                <li class="icn_venta"><a href="#">Ventas</a></li>
                 <li class="icn_photo"><h:link value="Formas de Pago" outcome="/ventas/formapago"/></li>
                 <li class="icn_audio"><a href="#">Pagos</a></li>
             </ul>

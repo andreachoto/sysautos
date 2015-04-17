@@ -345,6 +345,15 @@ aside#sidebar {
 #sidebar li.icn_jump_back a {
     background: url(../images/icn_jump_back.png) no-repeat center left;
 }
+#sidebar li.icn_pedido a {
+    background: url(../images/pedido.png) no-repeat center left;
+}
+#sidebar li.icn_venta a {
+    background: url(../images/carrito.png) no-repeat center left;
+}
+#sidebar li.icn_producto a {
+    background: url(../images/product.png) no-repeat center left;
+}
 
 #sidebar p {
     color: #666666;

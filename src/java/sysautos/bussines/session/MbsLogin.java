@@ -23,6 +23,7 @@ import sysautos.bussines.drivers.dvrUser;
 public class MbsLogin {
 
     private String login;
+    private User user;
     private String pwd;
 
     public String getLogin() {
@@ -41,13 +42,23 @@ public class MbsLogin {
         this.pwd = pwd;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public String login() throws Exception {
         try {
             User usuario = dvrUser.getUserByLogin(this.login, this.pwd);
             if (usuario != null) {
                 if (usuario.getPwd().equals(this.pwd)) {
+                    this.user = usuario;
                     HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                     httpSession.setAttribute("login", this.login);
+                    httpSession.setAttribute("user", usuario);
                     return "/main";
                 }
             }
