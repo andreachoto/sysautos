@@ -29,8 +29,8 @@ public class Venta {
     private BigDecimal total;
     private String estado;
     private Boolean cancelado;
-    private Cliente cliente;
-    private Modopago modopago;
+//    private Cliente cliente;
+//    private Modopago modopago;
     private User user;
 
     public Venta() {
@@ -53,16 +53,16 @@ public class Venta {
         this.total = total;
         this.estado = estado;
         this.cancelado = cancelado;
-        if (clitid != 0) {
-            this.cliente = dvrCliente.getClienteById(clitid);
-        } else {
-            this.cliente = null;
-        }
-        if (mpgid != 0) {
-            this.modopago = dvrModopago.getModopagoById(mpgid);
-        } else {
-            this.modopago = null;
-        }
+//        if (clitid != 0) {
+//            this.cliente = dvrCliente.getClienteById(clitid);
+//        } else {
+//            this.cliente = null;
+//        }
+//        if (mpgid != 0) {
+//            this.modopago = dvrModopago.getModopagoById(mpgid);
+//        } else {
+//            this.modopago = null;
+//        }
         if (usrid != 0) {
             this.user = dvrUser.getUserById(usrid);
         } else {
@@ -182,21 +182,21 @@ public class Venta {
         this.cancelado = cancelado;
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Modopago getModopago() {
-        return modopago;
-    }
-
-    public void setModopago(Modopago modopago) {
-        this.modopago = modopago;
-    }
+//    public Cliente getCliente() {
+//        return cliente;
+//    }
+//
+//    public void setCliente(Cliente cliente) {
+//        this.cliente = cliente;
+//    }
+//
+//    public Modopago getModopago() {
+//        return modopago;
+//    }
+//
+//    public void setModopago(Modopago modopago) {
+//        this.modopago = modopago;
+//    }
 
     public User getUser() {
         return user;

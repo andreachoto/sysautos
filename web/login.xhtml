@@ -6,28 +6,39 @@
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
          <h:outputStylesheet name="/css/layout.css"/>
+         <h:outputStylesheet name="/css/styleanim.css"/>
     </h:head>
     <h:body>
-        <section class="contenedorLogin">
-            <center>
-                <p:panel header="Acceso de Usuario" style="width: 320px;">
-                    <h:form>
-                        <p:growl id="MensajeGeneral" showDetail="true" sticky="false"/>
-                        <h:panelGrid columns="2" cellpadding="2">
-                            <h:outputLabel value="Usuario:"/>
-                            <h:inputText pt:placeholder="Usuario" value="#{mbsLogin.login}"/>
-                            <h:outputLabel value="Contraseña:"/>
-                            <h:inputSecret pt:placeholder="Contraseña" value="#{mbsLogin.pwd}"/>
-                            <section>
-                                <center>
-                                    <h:commandButton type="submit" value="Entrar" action="#{mbsLogin.login()}"/>
-                                </center>
-                            </section>
-                        </h:panelGrid>
-                    </h:form>
-                </p:panel>
-            </center>
-        </section>
+        <ul class="cb-slideshow">
+            <li><span>Image 01</span></li>
+            <li><span>Image 02</span></li>
+            <li><span>Image 03</span></li>
+            <li><span>Image 04</span></li>
+            <li><span>Image 05</span></li>
+            <li><span>Image 06</span></li>
+        </ul>
+        <div class="container">
+            <section class="contenedorLogin">
+                <center>
+                    <p:panel header="Acceso de Usuario" style="width: 320px;">
+                        <h:form>
+                            <p:growl id="MensajeGeneral" showDetail="true" sticky="false"/>
+                            <h:panelGrid columns="2" cellpadding="2">
+                                <h:outputLabel value="Usuario:"/>
+                                <h:inputText pt:placeholder="Usuario" value="#{mbsLogin.login}"/>
+                                <h:outputLabel value="Contraseña:"/>
+                                <h:inputSecret pt:placeholder="Contraseña" value="#{mbsLogin.pwd}"/>
+                                <section>
+                                    <center>
+                                        <h:commandButton type="submit" value="Entrar" action="#{mbsLogin.login()}"/>
+                                    </center>
+                                </section>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:panel>
+                </center>
+            </section>
+        </div>
     </h:body>
 </html>
 

@@ -9,10 +9,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.context.RequestContext;
-import sysautos.bussines.drivers.dvrProducto;
-import sysautos.bussines.drivers.dvrTipoproducto;
-import sysautos.bussines.entities.Producto;
-import sysautos.bussines.entities.Tipoproducto;
+import sysautos.bussines.drivers.dvrPedido;
+import sysautos.bussines.entities.Pedido;
 import sysautos.bussines.session.MbsMessages;
 
 /**
@@ -24,10 +22,9 @@ import sysautos.bussines.session.MbsMessages;
 public final class vmbPedido {
 
     //atributos del bean
-    private List<Tipoproducto> tipoproductos;
-    private List<Producto> productos;
-    private Producto producto;
-    private Producto productoselect;
+    private Pedido pedido;
+    private Pedido pedidoselect;
+    private List<Pedido> pedidos;
 
     /**
      * Creates a new instance of NewJSFManagedBean
@@ -35,59 +32,50 @@ public final class vmbPedido {
      * @throws java.lang.Exception
      */
     public vmbPedido() throws Exception {
-        this.producto = new Producto();
-        this.productoselect = new Producto();
-        this.loadProductos();
-        this.tipoproductos = dvrTipoproducto.getTipoproductoList();
+        this.pedido = new Pedido();
+        this.pedidoselect = new Pedido();
+        this.loadPedidos();
     }
 
-    public List<Producto> getProductos() {
-        return productos;
+    public List<Pedido> getPedidos() {
+        return pedidos;
     }
 
-    public void setProductos(List<Producto> productos) {
-        this.productos = productos;
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 
-    public Producto getProducto() {
-        return producto;
+    public Pedido getPedido() {
+        return pedido;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
 
-    public Producto getProductoselect() {
-        return productoselect;
+    public Pedido getPedidoselect() {
+        return pedidoselect;
     }
 
-    public void setProductoselect(Producto productoselect) {
-        this.productoselect = productoselect;
-    }
-
-    public List<Tipoproducto> getTipoproductos() {
-        return tipoproductos;
-    }
-
-    public void setTipoproductos(List<Tipoproducto> tipoproductos) {
-        this.tipoproductos = tipoproductos;
+    public void setPedidoselect(Pedido pedidoselect) {
+        this.pedidoselect = pedidoselect;
     }
 
     //Metodos para el negocio
-    public void loadProductos() {
+    public void loadPedidos() {
         try {
-            this.productos = dvrProducto.getProductoList();
+            this.pedidos = dvrPedido.getPedidoList();
         } catch (Exception ex) {
             MbsMessages.fatal(ex.getMessage());
         }
     }
 
-    public void loadproducto(Producto prod) {
+    public void loadpedido(Pedido prod) {
         try {
             if (prod != null) {
-                this.productoselect = dvrProducto.getProductoById(prod.getId());
-                RequestContext.getCurrentInstance().update("frmEditProducto");
-                RequestContext.getCurrentInstance().execute("PF('editproducto').show()");
+                this.pedidoselect = dvrPedido.getPedidoById(prod.getId());
+                RequestContext.getCurrentInstance().update("frmEditPedido");
+                RequestContext.getCurrentInstance().execute("PF('editpedido').show()");
             } else {
                 MbsMessages.error("Seleccione un registro");
             }
@@ -98,10 +86,10 @@ public final class vmbPedido {
 
     public void register() {
         try {
-            int ban = dvrProducto.productoRegister(this.producto);
+            int ban = dvrPedido.pedidoRegister(this.pedido);
             if (ban != 0) {
-                this.loadProductos();
-                MbsMessages.info("Producto creado exitosamente!");
+                this.loadPedidos();
+                MbsMessages.info("Pedido creado exitosamente!");
             } else {
                 MbsMessages.error("No se pudo insertar el registro!");
             }
@@ -110,11 +98,11 @@ public final class vmbPedido {
         }
     }
 
-    public void update(Producto producto) {
+    public void update(Pedido pedido) {
         try {
-            if (dvrProducto.productoUpdate(producto)) {
-                this.loadProductos();
-                MbsMessages.info("Producto actualizado correctamente!");
+            if (dvrPedido.pedidoUpdate(pedido)) {
+                this.loadPedidos();
+                MbsMessages.info("Pedido actualizado correctamente!");
             } else {
                 MbsMessages.error("No se pudo Actualizar el registro!");
             }
@@ -123,12 +111,12 @@ public final class vmbPedido {
         }
     }
 
-    public void delete(Producto tipo) {
+    public void delete(Pedido tipo) {
         try {
             if (tipo != null) {
-                if (dvrProducto.productoDelete(tipo)) {
-                    this.loadProductos();
-                    MbsMessages.info("Producto eliminado exitosamente!");
+                if (dvrPedido.pedidoDelete(tipo)) {
+                    this.loadPedidos();
+                    MbsMessages.info("Pedido eliminado exitosamente!");
                 } else {
                     MbsMessages.error("No se pudo Eliminar!");
                 }
