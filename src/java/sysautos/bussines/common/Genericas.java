@@ -20,114 +20,6 @@ import java.util.logging.Logger;
  */
 public class Genericas {
 
-    //METODOS PARA MANEJAR CLASES, FORMULARIOS Y OBJETOS DE FORMULARIOS
-    //Verifica si una ventana fue ya abierta.
-//    public static boolean existeVentana(Class formulario, JDesktopPane contenidos) {
-//        boolean respuesta = false;
-//        for (Component component : contenidos.getComponents()) {
-//            if (component.getClass().equals(formulario)) {
-//                respuesta = true;
-//                break;
-//            }
-//        }
-//        return respuesta;
-//    }
-
-    //Centra un jinternalframe a la pantalla.
-//    public static void centrarVentana(JInternalFrame formulario) {
-//        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
-//        Dimension ventana = formulario.getSize();
-//        formulario.setLocation((pantalla.width - ventana.width) / 2, (pantalla.height - ventana.height) / 2);
-//    }
-//
-//    //Centra un jinternalframe a la pantalla.
-//    public static void centrarVentana(JFrame formulario) {
-//        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
-//        Dimension ventana = formulario.getSize();
-//        formulario.setLocation((pantalla.width - ventana.width) / 2, (pantalla.height - ventana.height) / 2);
-//    }
-//
-//    //Cargar un componente tipo combobox dado una lista
-//    public static void cargarCombo(JComboBox combobox, List datos) {
-//        DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
-//        datos.stream().forEach((dato) -> {
-//            modeloCombo.addElement(dato);
-//        });
-//        combobox.setModel(modeloCombo);
-//    }
-
-//    //Carga una lista mediante el modelo
-//    public static void cargaLista(DefaultListModel Model, List lista, JList listado) {
-//        //Model.clear();
-//        lista.stream().forEach((elemento) -> {
-//            Model.addElement(elemento);
-//        });
-//        listado.setModel(Model);
-//    }
-
-//////    // Metodo de habilitar/deshabilitar un container y sus hijos
-//////    public static void setEnableContainer(Container c, boolean band) {
-//////        Component[] components = c.getComponents();
-//////        c.setEnabled(band);
-//////        for (Component component : components) {
-//////            component.setEnabled(band);
-//////            if (component instanceof Container) {
-//////                setEnableContainer((Container) component, band);
-//////            }
-//////        }
-//////    }
-//////
-//////    // Metodo de habilitar/deshabilitar los componentes tipo texto de un container
-//////    public static void setEnableContainerText(Container c, boolean band) {
-//////        Component[] components = c.getComponents();
-//////        for (Component component : components) {
-//////            if (component instanceof JTextField) {
-//////                component.setEnabled(band);
-//////            } else if (component instanceof JPasswordField) {
-//////                component.setEnabled(band);
-//////            }
-//////        }
-//////    }
-//////
-//////    // Metodo de limpia cajas de texto de container de componentes tipo panel
-//////    public static void clearInputText(Container c) {
-//////        Component[] components = c.getComponents();
-//////        for (Component component : components) {
-//////            //Limpia todos los JTextField de un JPanel
-//////            if (component instanceof JTextField) {
-//////                ((JTextField) component).setText("");
-//////            } else if (component instanceof JPasswordField) {
-//////                ((JPasswordField) component).setText("");
-//////            }
-//////        }
-//////    }
-//////
-//////    // Metodo de limpia cajas de texto de container de componentes con paneles interiores
-//////    public static void clearContainerText(Container c) {
-//////        Component[] components = c.getComponents();
-//////        for (Component component : components) {
-//////            //Envia un panel que contiene componentes
-//////            if (component instanceof JPanel) {
-//////                //Limpia todos los JTextField de un JPanel
-//////                clearInputText((JPanel) component);
-//////            }
-//////        }
-//////    }
-
-//    //Toma la fecha de jdatechooser y transforma a un tipo date.
-//    public static java.util.Date getdateSelected(JDateChooser jdcfecha) {
-//        java.util.Date fec = jdcfecha.getDate();
-//        java.util.Date fecha = new java.util.Date(fec.getTime());
-//        return fecha;
-//    }
-//
-//    //Toma la fecha de jdatechooser y transforma a un tipo Timestamp.
-//    public static Timestamp getTimestampSelected(JDateChooser jdcfecha) {
-//        java.util.Date fec = jdcfecha.getDate();
-//        Timestamp fecha = new Timestamp(fec.getTime());
-//        return fecha;
-//    }
-
     //METODOS PARA MANEJAR CADENAS A FECHAS TIMESTAMP Y DATE 
     //Convertir una cadena a fecha
     public static java.util.Date convertStringtoDate(String fecha) {
@@ -160,6 +52,12 @@ public class Genericas {
         Timestamp timestamp = new Timestamp(parsedTimeStamp.getTime());
         return timestamp;
     }
+    
+    //Convertir una fecha formato "yyyy-MM-dd hh:mm:ss" a Timestamp
+    public static Timestamp parsDatetoTimestamp(Date date) throws ParseException {
+        Timestamp timestamp = new Timestamp(date.getTime());
+        return timestamp;
+    }
 
     //Convertir tiemStamp a Cadena segun un formato
     public static String convertTimeStamptoStrFormat(Timestamp tsdate, String format) {
@@ -171,7 +69,7 @@ public class Genericas {
         return result;
     }
 
-    //Convertir tiemStamp a Fecha tipo date
+    //Convertir timeStamp a Fecha tipo date
     public static Date convertTimeStamptoDate(Timestamp tsdate) {
         Date result = new Date();
         if (tsdate != null) {

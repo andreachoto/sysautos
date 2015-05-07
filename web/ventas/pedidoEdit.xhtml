@@ -1,28 +1,98 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <body>
-        <ui:composition template="./../template/template.xhtml">
-            <ui:define name="content">
-                <div id="pedido">
-                    <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
-                    <article class="module width_full">
-                        <header><h3>Editar Pedido</h3></header>
-                        <div class="module_content">
-                            <h:form id="frmPedido">
-                                <center>
-                                    <h:panelGrid cellpadding="4">
-                                        Editar Pedido
+<ui:composition template="./../template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <div id="pedido">
+            <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+            <article class="module width_full">
+                <header><h3>Editar Pedido</h3></header>
+                <div class="module_content">
+                    <h:form id="frmPedidoEdit">
+                        <!--Panel de ingreso-->
+                        <h:panelGrid columns="2" cellpadding="4">
+                            <p:outputLabel for="button" value="Fecha:" />
+                            <p:calendar id="button" value="#{dtPedidoView.date}" showOn="button" />
+                            <p:outputLabel for="tipo" value="Proveedor:" />
+                            <p:selectOneMenu id="tipo" style="width:200px" value="#{dtPedidoView.pedido.pvdid}" >
+                                <f:selectItem itemLabel="Seleccionar proveedor" itemValue="-1" noSelectionOption="true" />
+                                <f:selectItems value="#{dtPedidoView.proveedores}" var="item" 
+                                               itemValue="#{item.id}" itemLabel="#{item.nombre}" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <p:outputLabel value="Detalle" />
+                        <!-- Panel de detalle-->
+                        <table>
+                            <tr>
+                                <td>
+                                    <p:dataTable id="tblpedidoitems" value="#{dtPedidoView.pedidoitems}" var="item"
+                                                 selection="#{dtPedidoView.itemselect}" selectionMode="single" 
+                                                 rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                                 rendered="true">
+                                        <p:column headerText="Producto"> 
+                                            <h:outputText value="#{item.producto.nombre}"/>
+                                        </p:column>
+                                        <p:column headerText="Cantidad">
+                                            <h:outputText value="#{item.cantidad}"/>
+                                        </p:column>
+                                        <p:column headerText="Observaciones">
+                                            <h:outputText value="#{item.obser}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </td>
+                                <td>
+                                    <h:panelGrid>
+                                        <f:facet name="footer">
+                                            <p:commandButton value="ADD" icon="ui-icon-circle-plus" oncomplete="PF('additempedido').show()" />
+                                            <p:commandButton value="DEL" icon="ui-icon-cancel" actionListener="#{dtPedidoView.delItemDetalle()}" update=":frmPedido:tblpedidoitems"/>
+                                        </f:facet>
                                     </h:panelGrid>
-                                </center>
-                            </h:form>
-                        </div>
-                    </article>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- Panel de comandos-->
+                        <h:panelGrid>
+                            <center>
+                                <f:facet name="footer">
+                                    <p:commandButton value="Guardar" icon="ui-icon-circle-plus" actionListener="#{dtPedidoView.register()}" action="pedido" />
+                                    <p:commandButton value="Cancelar" icon="ui-icon-cancel" action="pedido" />
+                                </f:facet>
+                            </center>
+                        </h:panelGrid>
+                    </h:form>
                 </div>
-            </ui:define>
-        </ui:composition>
-    </body>
-</html>
+            </article>
+        </div>
+        <!-- Agregar item de Pedido-->
+        <h:form id = "additem">
+            <p:dialog id="additempedido" widgetVar="additempedido" header="Items de Pedido" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Nuevo Item</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="producto" value="Producto:" />
+                            <p:selectOneMenu id="producto" style="width:150px" value="#{dtPedidoView.itempedido.pdtid}">
+                                <f:selectItem itemLabel="Seleccionar Producto" itemValue="-1" noSelectionOption="true" />
+                                <f:selectItems value="#{dtPedidoView.productos}" var="itemprod" 
+                                               itemValue="#{itemprod.id}" itemLabel="#{itemprod.nombre}" />
+                                <ajax event="change"/>
+                            </p:selectOneMenu>
+                            <h:outputText value="Cantidad"/>
+                            <h:inputText value="#{dtPedidoView.itempedido.cantidad}" ><ajax event="change"/></h:inputText>
+                            <h:outputText value="Observaciones" />
+                            <h:inputText value="#{dtPedidoView.itempedido.obser}"><ajax event="change"/></h:inputText>
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtPedidoView.addItemDetalle()}" 
+                                                 oncomplete="PF('additempedido').hide()" update=":frmPedido:tblpedidoitems"/>
+                            </center>
+                        </f:facet> 
+                    </div>
+                </article>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

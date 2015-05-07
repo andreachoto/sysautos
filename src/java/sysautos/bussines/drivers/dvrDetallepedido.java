@@ -70,8 +70,6 @@ public class dvrDetallepedido {
         return respuesta;
     }
 
-    //OUT outid integer, OUT  integer, OUT  integer, OUT  integer, 
-    //OUT  character varying, OUT  character varying
     //Listar todos los registros de la tabla
     public static List<Detallepedido> getDetallepedidoList() throws Exception {
         List<Detallepedido> lista = new ArrayList<>();
@@ -110,12 +108,13 @@ public class dvrDetallepedido {
         return var;
     }
 
-    //Listar los registros de la tabla dado el nombre 
-    public static List<Detallepedido> getDetallepedidoListByName(String text) throws Exception {
+    //Listar los registros de la tabla dado Foreing ID
+    public static List<Detallepedido> getDetallepedidoByForeingID(int id1, int id2) throws Exception {
         List<Detallepedido> lista = new ArrayList<>();
         List<Parameter> parametros = new ArrayList<>();
-        parametros.add(new Parameter(1, text, Types.VARCHAR));
-        String llamadaPA = "SELECT * from autos.\"detallepedidoByName_pa\"(?)";
+        parametros.add(new Parameter(1, id1, Types.INTEGER));
+        parametros.add(new Parameter(2, id2, Types.INTEGER));
+        String llamadaPA = "SELECT * from autos.\"detallepedidoByForeingID_pa\"(?,?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
             int id = con.getInt("outid");

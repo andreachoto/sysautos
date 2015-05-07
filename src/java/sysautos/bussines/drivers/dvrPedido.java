@@ -24,7 +24,7 @@ public class dvrPedido {
         int codigo = 0;
         List<Parameter> parametros = new ArrayList<>();
         parametros.add(new Parameter(1, objeto.getPvdid(), Types.INTEGER));
-        parametros.add(new Parameter(2, objeto.getUsrid(), Types.VARCHAR));
+        parametros.add(new Parameter(2, objeto.getUsrid(), Types.INTEGER));
         parametros.add(new Parameter(3, objeto.getFecha(), Types.TIMESTAMP));
         parametros.add(new Parameter(4, objeto.getEstado(), Types.VARCHAR));
         String llamadaPA = "SELECT autos.\"pedidoRegister_pa\"(?,?,?,?)";
@@ -42,7 +42,7 @@ public class dvrPedido {
         List<Parameter> parametros = new ArrayList<>();
         parametros.add(new Parameter(1, objeto.getId(), Types.INTEGER));
         parametros.add(new Parameter(2, objeto.getPvdid(), Types.INTEGER));
-        parametros.add(new Parameter(3, objeto.getUsrid(), Types.VARCHAR));
+        parametros.add(new Parameter(3, objeto.getUsrid(), Types.INTEGER));
         parametros.add(new Parameter(4, objeto.getFecha(), Types.TIMESTAMP));
         parametros.add(new Parameter(5, objeto.getEstado(), Types.VARCHAR));
         String llamadaPA = "SELECT autos.\"pedidoUpdate_pa\"(?,?,?,?,?)";
