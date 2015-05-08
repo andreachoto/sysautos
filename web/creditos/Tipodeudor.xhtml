@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <div id="cliente">
+            <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+            <article class="module width_full">
+                <header><h3>Tipo Deudor</h3></header>
+                <div class="module_content">
+                    <h:form id="frmTipo">
+                        <center>
+                            <h:panelGrid cellpadding="3" width="90%">
+                                <p:dataTable id="tblroles" value="#{dtTipodView.listaTipoDeudores}" var="item"
+                                             selection="#{dtTipodView.objTipoDeudorSel}" selectionMode="single" 
+                                             rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                             rendered="true">
+                                    <p:column headerText="Nombre"> 
+                                        <h:outputText value="#{item.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Descripcion" width="70">
+                                        <h:outputText value="#{item.descrip}"/>
+                                    </p:column>
+                                    
+
+                                    <f:facet name="footer">
+                                        <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newtipo').show()" />
+                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtTipodView.loadtipo(dtTipodView.objTipoDeudorSel)}" />
+                                        <p:commandButton id="delRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmTipo" 
+                                                         actionListener="#{dtTipodView.delete(dtTipodView.objTipoDeudorSel)}"> 
+                                            <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
+                                        </p:commandButton> 
+                                    </f:facet>
+                                </p:dataTable>
+                            </h:panelGrid>
+                        </center>
+                        <p:confirmDialog global="true">  
+                            <center>
+                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                            </center>
+                        </p:confirmDialog>
+                    </h:form>
+                </div>
+                <footer> 
+                </footer>
+            </article>
+        </div>
+        <!-- Ingreso de Datos Modo Cliente -->
+         <h:form>
+            <p:dialog id="newmodo" widgetVar="newtipo" header="TipoDeudor" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Nuevo Tipo Deudor</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Nombre:" />
+                            <h:inputText value="#{dtTipodView.tipoDueudor.nombre}" />
+                            <h:outputText value="Descripcion:" />
+                            <h:inputText value="#{dtTipodView.tipoDueudor.descrip}" />
+                            
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Guardar"  update=":frmTipo" actionListener="#{dtTipodView.register()}" oncomplete="PF('newtipo').hide()"/>
+                        <p:commandButton value="Cerrar" oncomplete="PF('newtipo').hide()" />
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
+        
+        
+        
+        <!-- Editar datos de Tipo Dedudor -->
+        <h:form id="frmEditTipo">
+            <p:dialog id="edittipo" widgetVar="edittipo" header="Tipo Deudor" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Editar Datos Modo Pago</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid id="panelEditTipo" columns="2">
+                            <h:outputText value="Nombre:" />
+                            <h:inputText value="#{dtTipodView.objTipoDeudorSel.nombre}" />
+                            <h:outputText value="Descripcion:" />
+                            <h:inputText value="#{dtTipodView.objTipoDeudorSel.descrip}" />
+                            
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Actualizar" update=":frmTipo" 
+                                         actionListener="#{dtTipodView.update(dtTipodView.objTipoDeudorSel)}" 
+                                         oncomplete="PF('edittipo').hide()"/>
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

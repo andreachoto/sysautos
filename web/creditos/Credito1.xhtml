@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <div id="cliente">
+            <h:form id="nuevo">
+                <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+                <article class="module width_full">
+                    <header><h3>NUEVO CREDITO</h3></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="6">
+                            <h:outputText value="Cliente" />
+                            <p:selectOneMenu value="#{dtCreditoView.intIdCliente}">
+                                <f:selectItem itemLabel="Cliente" itemValue="0" id="gl"/>
+                                <f:selectItems value="#{dtCreditoView.lstClients}" var="cliente" itemValue="#{cliente.id}"
+                                               itemLabel="#{cliente.nombre} #{cliente.apellido}"/>
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Tipo Deudor" />
+                            <p:selectOneMenu value="#{dtCreditoView.intTipoDeudor}">
+                                <f:selectItem itemLabel="Tipo" itemValue="0" id="tpd"/>
+                                <f:selectItems value="#{dtCreditoView.listaTipodeudor}" var="garante" itemValue="#{garante.id}"
+                                               itemLabel="#{garante.nombre}"/>
+                            </p:selectOneMenu>
+                            <h:outputText value="Fecha" />
+                            <p:calendar  
+                                value="#{dtCreditoView.fecha}" pattern="MM/dd/yyyy ">
+                                <p:ajax event="change" />
+                            </p:calendar> 
+                            <h:outputText value="Fecha de vencimiento." />
+                            <p:calendar  
+                                value="#{dtCreditoView.fecha1}" pattern="MM/dd/yyyy">
+                                <p:ajax event="change"/>
+                            </p:calendar>
+                            <h:outputText value="Forma Pago" />
+                            <p:selectOneMenu value="#{dtCreditoView.strFormaPago}">
+                                <f:selectItem itemLabel="Forma Pago" itemValue="0" id="Forma"/>
+                                <f:selectItem  itemValue="Mensual"
+                                               itemLabel="Mensual"/>
+                                <f:selectItem itemValue="Trimestral"
+                                              itemLabel="Trimestral"/>
+                            </p:selectOneMenu>
+                            <h:outputText value="Monto" />
+                            <p:inputText  
+                                value="#{dtCreditoView.credito.monto}"/>
+                            <h:outputText value="Interes" />
+                            <p:inputText  
+                                value="#{dtCreditoView.credito.interes}"/> 
+
+                            <h:outputText value="Vence Hasta." />
+                            <p:inputText disabled="true" id="impVence"
+                                         value="#{dtCreditoView.fechaActua}" />
+
+                            <h:outputText value="Plazo" />
+                            <p:selectOneMenu value="#{dtCreditoView.credito.plazo}">
+                                <f:selectItem itemLabel="Plazo" itemValue="0" id="Plazo"/>
+                                <f:selectItem  itemValue="1"
+                                               itemLabel="1 A"/>
+                                <f:selectItem itemValue="2"
+                                              itemLabel="2 A"/>
+                                <f:selectItem itemValue="3"
+                                              itemLabel="3 A"/>
+                                <f:selectItem itemValue="4"
+                                              itemLabel="4 A"/>
+                                <f:selectItem itemValue="5"
+                                              itemLabel="5 A"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <br />
+                        <article> 
+                            <h:outputText value="Garantes" />
+                            <br />
+                            <br />
+                            <table>
+                                <tr>
+                                    <td>
+                                        <p:dataTable id="tblCredito" value="#{dtCreditoView.lstClienteCredito}"
+                                                     var="clicre" paginator="true" rows="10" >
+                                            <p:column headerText="Nombre Cliente">
+                                                <h:outputText value="#{clicre.cli.nombre} #{clicre.cli.apellido}"/>
+                                            </p:column>
+                                            <p:column headerText="Tipo Deudor">
+                                                <h:outputText value="#{clicre.tpd.descrip}"/>
+                                            </p:column>
+
+                                        </p:dataTable>
+                                    </td>
+                                    <td> 
+                                        <p:commandButton value="Add" icon="ui-icon-circle-plus" oncomplete="PF('newgarante').show()" />
+                                        <p:commandButton value="Del" icon="ui-icon-circle"  oncomplete="PF('wdlgAmortizacion').show()"  />
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </article>
+                        <f:facet name="footer" ><p:commandButton value="Guardar" 
+                                                                 action="#{dtCreditoView.ingresar()}" /></f:facet>
+                        <div  style="text-align:center">
+                            <p:commandButton value="Guardar" 
+                                             action="#{dtCreditoView.ingresar()}" />
+                            <p:commandButton value="Generar Tabla" icon="ui-icon-circle-plus" oncomplete="PF('wdlgAmortizacion').show()" action="#{dtCreditoView.generarAmortizacion()}" />
+                        </div>
+
+                    </div>
+                </article>
+            </h:form>
+            <h:form id="lista">
+                <p:dialog id="newgarante" widgetVar="newgarante" header="Añadir Garante" modal="true" resizable="false">
+                    <article class="module width_full">
+                        <header><center><h3>Nuevo Garante</h3></center></header>
+                        <div class="module_content">
+                            <h:panelGrid columns="2">
+
+                                <p:selectOneMenu value="#{dtCreditoView.client.id}" id="cliente6">
+                                    <f:selectItem itemLabel="Garante" itemValue="0" id="cl6"/>
+                                    <f:selectItems value="#{dtCreditoView.lstClients}" var="cliente" itemValue="#{cliente.id}"
+                                                   itemLabel="#{cliente.nombre} #{cliente.apellido}"/> 
+                                    <p:ajax event="change"/>
+                                </p:selectOneMenu>
+                                <p:selectOneMenu value="#{dtCreditoView.tipodeudor.id}" id="tipod">
+                                    <f:selectItem itemLabel="Tipo Deudor" itemValue="0" id="tipodeu"/>
+                                    <f:selectItems value="#{dtCreditoView.lstTipodeudor}" var="tipo" itemValue="#{tipo.id}"
+                                                   itemLabel="#{tipo.nombre}"/>
+                                    <p:ajax event="change"/>
+                                </p:selectOneMenu>
+
+
+                            </h:panelGrid>
+
+
+                        </div>
+                    </article>
+                    <br/>
+                    <article>
+                        <center>
+                            <p:commandButton value="Añadir" actionListener="#{dtCreditoView.addgarante()}" update=":nuevo:tblCredito" oncomplete="PF('newgarante').hide()"  />
+                            <p:commandButton value="Cancelar" oncomplete="PF('newgarante').hide()" />
+                        </center>
+                    </article>
+                </p:dialog>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

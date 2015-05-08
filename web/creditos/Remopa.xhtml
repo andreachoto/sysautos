@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <div id="cliente">
+            <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+            <article class="module width_full">
+                <header><h3>Requisito Modo Pago</h3></header>
+                <div class="module_content">
+                    <h:form id="frmRemopa">
+                        <center>
+                            <h:panelGrid cellpadding="3" width="90%">
+                                <p:dataTable id="tblroles" value="#{dtRemopaView.listaReModoPago}" var="item"
+                                             selection="#{dtRemopaView.rmpSel}" selectionMode="single" 
+                                             rowKey="#{item.rqtid}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                             rendered="true">
+                                    <p:column headerText="Requisito"> 
+                                        <h:outputText value="#{item.detallereq.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Modo Pago" width="70">
+                                        <h:outputText value="#{item.modo.nombre}"/>
+                                    </p:column>
+                                    <p:column headerText="Tipo Deudor" width="70">
+                                        <h:outputText value="#{item.aplica.nombre}"/>
+                                    </p:column>
+
+
+                                    <f:facet name="footer">
+                                        <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newremopa').show()" />
+                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtRemopaView.loadremopa(dtRemopaView.rmpSel)}" />
+                                        <p:commandButton id="delRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmRemopa" 
+                                                         actionListener="#{dtRemopaView.delete(dtRemopaView.rmpSel)}"> 
+                                            <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
+                                        </p:commandButton> 
+                                    </f:facet>
+                                </p:dataTable>
+                            </h:panelGrid>
+                        </center>
+                        <p:confirmDialog global="true">  
+                            <center>
+                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                            </center>
+                        </p:confirmDialog>
+                    </h:form>
+                </div>
+                <footer> 
+                </footer>
+            </article>
+        </div>
+        <!-- Ingreso de Datos  -->
+        <h:form>
+            <p:dialog id="newremopa" widgetVar="newremopa" header="RequisitosModoPago" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Requisitos Modo Pago</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="2">
+                           
+                            <p:selectOneMenu value="#{dtRemopaView.rmpNuevo.drqid}">
+                                <f:selectItem itemLabel="Elija Requi" itemValue="0" id="ghj"/>
+                                <f:selectItems value="#{dtRemopaView.listreq}" var="req" itemValue="#{req.id}"
+                                               itemLabel="#{req.nombre}"/>
+                            </p:selectOneMenu>
+
+                            <p:selectOneMenu value="#{dtRemopaView.rmpNuevo.mdpid}">
+                                <f:selectItem itemLabel="Elija Modo" itemValue="0" id="gh" />
+                                <f:selectItems value="#{dtRemopaView.listmodo}" var="modo" itemValue="#{modo.id}"
+                                               itemLabel="#{modo.nombre}"/>
+                            </p:selectOneMenu>
+
+                            <p:selectOneMenu value="#{dtRemopaView.rmpNuevo.aplid}">
+                                <f:selectItem itemLabel="Elija T.Deudor" itemValue="0" id="gl"/>
+                                <f:selectItems value="#{dtRemopaView.listaplicar}" var="aplicar" itemValue="#{aplicar.id}"
+                                               itemLabel="#{aplicar.nombre} #{aplicar.descrip}"/>
+                            </p:selectOneMenu>
+
+
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Guardar"  update=":frmRemopa" actionListener="#{dtRemopaView.register()}" oncomplete="PF('newremopa').hide()"/>
+                        <p:commandButton value="Cerrar" oncomplete="PF('newremopa').hide()" />
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
+      
+        <h:form id="frmEditRemopa">
+            <p:dialog id="edittipo" widgetVar="editremopa" header="Tipo Deudor" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Editar Datos Modo Pago</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid id="panelEditTipo" columns="2">
+                            
+                            
+                            <p:selectOneMenu value="#{dtRemopaView.rmpNuevo.detallereq}">
+                                <f:selectItem itemLabel="#{dtRemopaView.rmpSel.detallereq}" itemValue="0" id="ghjr"/>
+                                <f:selectItems value="#{dtRemopaView.listreq}" var="req" itemValue="#{req.id}"
+                                               itemLabel="#{req.nombre}"/>
+                            </p:selectOneMenu>
+                            
+                            
+                            <h:outputText value="Modo Pago:" />
+                            <h:inputText value="#{dtRemopaView.rmpSel.modo}" />
+                            
+                            <h:outputText value="Tipo Deudor" />
+                            <h:inputText value="#{dtRemopaView.rmpSel.aplica}" />
+                            
+                            <!--
+                            <h:outputText value="Requisito:" />
+                            <h:inputText value="#{dtRemopaView.rmpSel.detallereq}" />
+                            -->
+                            
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Actualizar" update=":frmRemopa" 
+                                         actionListener="#{dtRemopaView.update(dtRemopaView.rmpSel)}" 
+                                         oncomplete="PF('editremopa').hide()"/>
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
