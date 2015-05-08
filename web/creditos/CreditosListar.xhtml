@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <div id="cliente">
+            <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+            <article class="module width_full">
+                <header><h3>Tipo Deudor</h3></header>
+                <div class="module_content">
+                    <h:form id="frmRequisitos">
+                        <center>
+                            <h:panelGrid cellpadding="3" width="90%">
+
+                                <p:dataTable id="tblcredito" value="#{dtCreditoView.lstcreditos}" var="item"
+                                             selection="#{dtCreditoView.creditoSelect}" selectionMode="single" 
+                                             rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                             rendered="true">
+
+
+                                    <p:column headerText="Credito Número">
+                                        <h:outputText value="#{item.id}"/>
+                                    </p:column>
+                                    <p:column headerText="Nombre Cliente">
+                                        <h:outputText value="#{item.user.fisrtname}"/>
+                                    </p:column>
+                                    <p:column headerText="ApellidoCliente">
+                                        <h:outputText value="#{item.user.lastname}"/>
+                                    </p:column>
+                                    <p:column headerText="Fecha Crédito">
+                                        <h:outputText value="#{item.fecha}"/>
+                                    </p:column>
+                                    <p:column headerText="Fecha Vencimiento">
+                                        <h:outputText value="#{item.vencimiento}"/>
+                                    </p:column>
+                                    <p:column headerText="Monto">
+                                        <h:outputText value="#{item.monto}"/>
+                                    </p:column>
+
+                                    <f:facet name="footer">
+
+                                        <p:button value="Nuevo Crédito" outcome="/creditos/Credito1"/>
+                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtRequisitosView.loadrequisito(dtRequisitosView.objsel)}" />
+                                        <p:commandButton id="delRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmRequisitos" 
+                                                         actionListener="#{dtRequisitosView.delete(dtRequisitosView.objsel)}"> 
+                                            <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
+                                        </p:commandButton> 
+                                        <p:commandButton value="Ver tabla Amortizacion" icon="ui-icon-circle-plus" oncomplete="PF('wdlgAmortizacion').show()"  />
+
+                                    </f:facet>
+                                </p:dataTable>
+
+                            </h:panelGrid>
+                        </center>
+                        <p:confirmDialog global="true">  
+                            <center>
+                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                            </center>
+                        </p:confirmDialog>
+                    </h:form>
+                </div>
+                <footer> 
+                </footer>
+            </article>
+        </div>
+    </ui:define>
+</ui:composition>

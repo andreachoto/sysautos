@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <div id="cliente">
+            <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+            <article class="module width_full">
+                <header><h3>Modo Pago</h3></header>
+                <div class="module_content">
+                    <h:form id="frmModo">
+                        <center>
+                            <h:panelGrid cellpadding="3" width="90%">
+                                <p:dataTable id="tblroles" value="#{dtModoView.listaModopago}" var="item"
+                                             selection="#{dtModoView.mdpSel}" selectionMode="single" 
+                                             rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                             rendered="true">
+                                    <p:column headerText="Nombre"> 
+                                        <h:outputText value="#{item.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Descripcion" width="70">
+                                        <h:outputText value="#{item.descrip}"/>
+                                    </p:column>
+                                    
+
+                                    <f:facet name="footer">
+                                        <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newmodo').show()" />
+                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtModoView.loadmodo(dtModoView.mdpSel)}" />
+                                        <p:commandButton id="delRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmModo" 
+                                                         actionListener="#{dtModoView.delete(dtModoView.mdpSel)}"> 
+                                            <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
+                                        </p:commandButton> 
+                                    </f:facet>
+                                </p:dataTable>
+                            </h:panelGrid>
+                        </center>
+                        <p:confirmDialog global="true">  
+                            <center>
+                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                            </center>
+                        </p:confirmDialog>
+                    </h:form>
+                </div>
+                <footer> 
+                </footer>
+            </article>
+        </div>
+        <!-- Ingreso de Datos Modo Cliente -->
+         <h:form>
+            <p:dialog id="newmodo" widgetVar="newmodo" header="ModoPago" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Nuevo Modo Pago</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Nombre:" />
+                            <h:inputText value="#{dtModoView.mdpNuevo.nombre}" />
+                            <h:outputText value="Descripcion:" />
+                            <h:inputText value="#{dtModoView.mdpNuevo.descrip}" />
+                            
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Guardar"  update=":frmModo" actionListener="#{dtModoView.register()}" oncomplete="PF('newmodo').hide()"/>
+                        <p:commandButton value="Cerrar" oncomplete="PF('newmodo').hide()" />
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
+        
+        
+        
+        <!-- Editar datos de Cliente -->
+        <h:form id="frmEditModo">
+            <p:dialog id="editmodo" widgetVar="editmodo" header="Modo Pago" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Editar Datos Modo Pago</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid id="panelEditModo" columns="2">
+                            <h:outputText value="Nombre:" />
+                            <h:inputText value="#{dtModoView.mdpSel.nombre}" />
+                            <h:outputText value="Descripcion:" />
+                            <h:inputText value="#{dtModoView.mdpSel.descrip}" />
+                            
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Actualizar" update=":frmModo" 
+                                         actionListener="#{dtModoView.update(dtModoView.mdpSel)}" 
+                                         oncomplete="PF('editmodo').hide()"/>
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
