@@ -71,10 +71,10 @@ public class dvrRole {
         String llamadaPA = "SELECT * from autos.\"roleSelectAll_pa\"()";
         Conexion con = new Conexion(llamadaPA);
         while (con.siguiente()) {
-            int id = con.getInt("outid");
-            String name = con.getString("outname");
-            String desc = con.getString("outdesc");
-            boolean active = con.getBoolean("outisactive");
+            int id = con.getInt("out_id");
+            String name = con.getString("out_name");
+            String desc = con.getString("out_desc");
+            boolean active = con.getBoolean("out_active");
             lista.add(new Role(id,name, desc, active));
         }
         con.cerrarConexion();
@@ -89,10 +89,10 @@ public class dvrRole {
         String llamadaPA = "SELECT * from autos.\"roleByID_pa\"(?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         if (con.siguiente()) {
-            int id = con.getInt("outId");
-            String name = con.getString("outname");
-            String desc = con.getString("outdesc");
-            boolean active = con.getBoolean("outisactive");
+            int id = con.getInt("out_id");
+            String name = con.getString("out_name");
+            String desc = con.getString("out_desc");
+            boolean active = con.getBoolean("out_active");
             var = new Role(id,name, desc, active);
         }
         con.cerrarConexion();
@@ -107,10 +107,10 @@ public class dvrRole {
         String llamadaPA = "SELECT * from autos.\"roleByName_pa\"(?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
-            int id = con.getInt("outid");
-            String name = con.getString("outname");
-            String desc = con.getString("outdesc");
-            boolean active = con.getBoolean("outisactive");
+            int id = con.getInt("out_id");
+            String name = con.getString("out_name");
+            String desc = con.getString("out_desc");
+            boolean active = con.getBoolean("out_active");
             lista.add(new Role(id,name, desc, active));
         }
         con.cerrarConexion();
