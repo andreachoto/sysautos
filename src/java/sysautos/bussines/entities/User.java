@@ -29,6 +29,10 @@ public class User {
     private String login;
     private String pwd;
 
+    public User() {
+    }
+
+    
     public User(int id, String ci, String fisrtname, String lastname, int age, String gender, String tittle, String direction, String phone, String mobile, String email, String department, String position, String disability, String login, String pwd) {
         this.id = id;
         this.ci = ci;
@@ -47,6 +51,8 @@ public class User {
         this.login = login;
         this.pwd = pwd;
     }
+
+  
 
     public int getId() {
         return id;

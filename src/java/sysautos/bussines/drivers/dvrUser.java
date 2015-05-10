@@ -79,7 +79,7 @@ public class dvrUser {
         boolean respuesta = false;
         List<Parameter> parametros = new ArrayList<>();
         parametros.add(new Parameter(1, objeto.getId(), Types.INTEGER));
-        String llamadaPA = "SELECT autos.\"usersDelete_pa\"(?)";
+        String llamadaPA = "SELECT autos.\"usersDelete_paCascada\"(?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
             respuesta = true;

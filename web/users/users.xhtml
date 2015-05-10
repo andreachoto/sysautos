@@ -14,44 +14,133 @@
                 <div class="module_content">
                     <p:tabView id="tbvusers">
                         <p:tab title="Usuarios">
-                            <h:panelGrid columns="2" cellpadding="10">
-                                <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                                <h:outputText value="After a break of more than 15 years..." />
-                            </h:panelGrid>
+                            <center>
+                                <article class="module width_full">
+                                    <header><center><h3>Lista de Usuarios</h3></center></header>
+                                    <div class="module_content">
+                                        <center>
+                                            <h:panelGrid cellpadding="3" width="100%">
+                                                <p:dataTable id="tblusuarios" var="user" value="#{dtUserView.users}" 
+                                                             selection="#{dtUserView.usersel}" selectionMode="single"
+                                                             rowKey="#{user.id}" paginator="true" 
+                                                             paginatorPosition="bottom" rows="10" rendered="true">
+
+                                                    <p:column headerText="Nombre" width="80">
+                                                        <h:outputText value="#{user.fisrtname} #{user.lastname}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Movil" width="80">
+                                                        <h:outputText value="#{user.mobile}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Email" width="110">
+                                                        <h:outputText value="#{user.email}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Departamento" width="90">
+                                                        <h:outputText value="#{user.department}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Cargo" width="80">
+                                                        <h:outputText value="#{user.position}"/>
+                                                    </p:column>
+
+                                                    <p:column headerText="Informacion" width="80" style="text-align: center;">
+                                                        <p:commandButton value="Ver" icon="ui-icon-search" action="#{dtUserView.cargaruser(dtUserView.usersel.id)}" style="width: 60px; height:17px; font-size:11px"/>
+                                                    </p:column>
+
+                                                    <f:facet name="footer">
+                                                        <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newuser').show()" />
+                                                        <p:commandButton value="Editar" icon="ui-icon-pencil" action="#{dtUserView.loaduser(dtUserView.usersel.id)}"/>
+                                                        <p:commandButton id="EliminarRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmUsers" 
+                                                                         actionListener="#{dtUserView.delete(dtUserView.usersel.id)}"> 
+                                                            <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
+                                                        </p:commandButton> 
+                                                    </f:facet>
+                                                </p:dataTable>
+                                            </h:panelGrid>
+                                        </center>
+                                    </div>
+                                </article>
+                            </center>
+
                         </p:tab>
+
                         <p:tab title="Perfiles">
-                            <h:panelGrid columns="2" cellpadding="10">
-                                <p:graphicImage name="demo/images/godfather/godfather2.jpg" />
-                                <h:outputText value="Francis Ford Coppola's legendary..." />
-                            </h:panelGrid>
+                            <center>
+                                <article class="module width_full">
+                                    <header><center><h3>Administración de Perfiles</h3></center></header>
+                                    <div class="module_content">
+                                        <center>
+                                            <h:panelGrid cellpadding="3" width="90%">
+                                                <p:dataTable id="tblprofile" var="profile" value="#{dtProfileView.profiles}" 
+                                                             selection="#{dtProfileView.profilesel}" selectionMode="single"
+                                                             rowKey="#{profile.id}" paginator="true" 
+                                                             paginatorPosition="bottom" rows="10" rendered="true">
+                                                    <p:column headerText="Nombre" width="200"> 
+                                                        <h:outputText value="#{profile.nombre}" />
+                                                    </p:column>
+                                                    <p:column headerText="Descripcion" width="200">
+                                                        <h:outputText value="#{profile.descripcion}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Activo" width="100" > 
+                                                        <center><p:selectBooleanCheckbox value="#{profile.estado}" disabled="true" /></center>
+                                                    </p:column>
+                                                    <p:column headerText="Informacion" width="80" style="text-align: center;">
+                                                        <p:commandButton value="Ver" icon="ui-icon-search" action="#{dtProfileView.cargarverprofile(dtProfileView.profilesel.id)}" style="width: 60px; height:17px; font-size:11px"/>
+                                                    </p:column>
+                                                    <f:facet name="footer">
+                                                        <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newprofile').show()" />
+                                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtProfileView.loadprofile(dtProfileView.profilesel.id)}"/>
+                                                        <p:commandButton id="EliminarRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmUsers" 
+                                                                         actionListener="#{dtProfileView.delete(dtProfileView.profilesel.id)}">  
+                                                            <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
+                                                        </p:commandButton> 
+                                                    </f:facet>
+                                                </p:dataTable>
+                                            </h:panelGrid>
+                                        </center>
+                                    </div>
+                                </article>
+                                <p:confirmDialog global="true">  
+                                    <center>
+                                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                                    </center>
+                                </p:confirmDialog>
+                            </center>
                         </p:tab>
                         <!-- Pestania para la gestion de Roles-->
                         <p:tab id="tabroles" title="Roles">
                             <center>
-                                <h:panelGrid cellpadding="3" width="80%">
-                                    <p:dataTable id="tblroles" var="rol" value="#{dtRolesView.roles}" 
-                                                 selection="#{dtRolesView.rolselection}" selectionMode="single"
-                                                 rowKey="#{rol.rolid}" paginator="true" 
-                                                 paginatorPosition="bottom" rows="10" rendered="true">
-                                        <p:column headerText="Nombre" width="200"> 
-                                            <h:outputText value="#{rol.name}" />
-                                        </p:column>
-                                        <p:column headerText="Descripcion">
-                                            <h:outputText value="#{rol.desc}"/>
-                                        </p:column>
-                                        <p:column headerText="Activo" width="40" > 
-                                            <center><p:selectBooleanCheckbox value="#{rol.active}" disabled="true" /></center>
-                                        </p:column>
-                                        <f:facet name="footer">
-                                            <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newrole').show()" />
-                                            <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtRolesView.loadrol(dtRolesView.rolselection.rolid)}"/>
-                                            <p:commandButton id="EliminarRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmUsers" 
-                                                             actionListener="#{dtRolesView.delete(dtRolesView.rolselection.rolid)}"> 
-                                                <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
-                                            </p:commandButton> 
-                                        </f:facet>
-                                    </p:dataTable>
-                                </h:panelGrid>
+                                <article class="module width_full">
+                                    <header><center><h3>Lista de Roles</h3></center></header>
+                                    <div class="module_content">
+                                        <center>
+                                            <h:panelGrid cellpadding="3" width="90%">
+                                                <p:dataTable id="tblroles" var="rol" value="#{dtRolesView.roles}" 
+                                                             selection="#{dtRolesView.rolselection}" selectionMode="single"
+                                                             rowKey="#{rol.rolid}" paginator="true" 
+                                                             paginatorPosition="bottom" rows="10" rendered="true">
+                                                    <p:column headerText="Nombre" width="200"> 
+                                                        <h:outputText value="#{rol.name}" />
+                                                    </p:column>
+                                                    <p:column headerText="Descripcion" width="200">
+                                                        <h:outputText value="#{rol.desc}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Activo" width="100" > 
+                                                        <center><p:selectBooleanCheckbox value="#{rol.active}" disabled="true" /></center>
+                                                    </p:column>
+                                                    <f:facet name="footer">
+                                                        <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newrole').show()" />
+                                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtRolesView.loadrol(dtRolesView.rolselection.rolid)}"/>
+                                                        <p:commandButton id="EliminarRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmUsers" 
+                                                                         actionListener="#{dtRolesView.delete(dtRolesView.rolselection.rolid)}"> 
+                                                            <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
+                                                        </p:commandButton> 
+                                                    </f:facet>
+                                                </p:dataTable>
+                                            </h:panelGrid>
+                                        </center>
+                                    </div>
+                                </article>
+
                             </center>
                         </p:tab>
                     </p:tabView>
@@ -112,6 +201,292 @@
                 <article>
                     <center>
                         <p:commandButton value="Actualizar" update=":frmUsers" actionListener="#{dtRolesView.update(dtRolesView.rolselection)}" oncomplete="PF('editrole').hide()"/>
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
+        <h:form id="frmEditProfile">
+            <p:dialog id="editprofile" widgetVar="editprofile" header="Perfil" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Editar Perfil</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid id="panelEditProfile" columns="2">
+                            <h:outputText value="Nombre:" />
+                            <h:inputText value="#{dtProfileView.profilesel.nombre}" />
+                            <h:outputText value="Descripcion:" />
+                            <h:inputText value="#{dtProfileView.profilesel.descripcion}" />
+                            <h:outputText value="Activo:" />
+                            <p:selectBooleanCheckbox value="#{dtProfileView.profilesel.estado}" />
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Actualizar" update=":frmUsers" actionListener="#{dtProfileView.update(dtProfileView.profilesel)}" oncomplete="PF('editprofile').hide()"/>
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
+        <h:form>
+            <p:dialog id="newuser" widgetVar="newuser" header="Usuario" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Nuevo Usuario</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="4" >
+                            <h:outputText value="Cedula:"/>
+                            <h:inputText value="#{dtUserView.user.ci}"/>
+                            <h:outputText value="Nombre:"/>
+                            <h:inputText value="#{dtUserView.user.fisrtname}"/>
+                            <h:outputText value="Apellido:"/>
+                            <h:inputText value="#{dtUserView.user.lastname}"/>
+                            <h:outputText value="Edad:"/>
+                            <h:inputText value="#{dtUserView.user.age}"/>
+                            <h:outputText value="Sexo:"/>
+                            <p:selectOneMenu value="#{dtUserView.user.gender}">
+                                <f:selectItem itemLabel="Elija una opción" itemValue="-1"/>
+                                <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
+                                <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+                            </p:selectOneMenu>
+                            <h:outputText value="Titulo:"/>
+                            <p:inputText value="#{dtUserView.user.tittle}"/>
+                            <h:outputText value="Dirección:"/>
+                            <h:inputText value="#{dtUserView.user.direction}"/>
+                            <h:outputText value="Teléfono:"/>
+                            <h:inputText value="#{dtUserView.user.phone}"/>
+                            <h:outputText value="Movil:"/>
+                            <h:inputText value="#{dtUserView.user.mobile}"/>
+                            <h:outputText value="Email:"/>
+                            <h:inputText value="#{dtUserView.user.email}"/>
+                            <h:outputText value="Departamento:"/>
+                            <h:inputText value="#{dtUserView.user.department}"/>
+                            <h:outputText value="Cargo:" />
+                            <h:inputText value="#{dtUserView.user.position}"/>
+                            <h:outputText value="Estado:"/>
+                            <h:inputText value="#{dtUserView.user.disability}" />
+                            <h:outputText value="Login:"/>
+                            <h:inputText value="#{dtUserView.user.login}"/>
+                            <h:outputText value="Contraseña:"/>
+                            <h:inputText value="#{dtUserView.user.pwd}"/>                         
+
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <article class="module width_full">
+                    <header><center><h3>Perfil de Usuario</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="4">
+                            <p:selectManyMenu id="listaperfiles" value="#{dtUserView.selecprofile}"  converter="javax.faces.Integer" style="width: 500px"
+                                              filter="true" filterMatchMode="contains" showCheckbox="true">
+                                <f:selectItems value="#{dtUserView.lstProfile}" var="perfil" 
+                                               itemLabel=" #{perfil.nombre}" 
+                                               itemValue="#{perfil.id}" /> 
+                            </p:selectManyMenu>
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Guardar" update=":frmUsers" action="#{dtUserView.register()}" oncomplete="PF('newuser').hide()"/>
+                        <p:commandButton value="Cerrar" oncomplete="PF('newuser').hide()" />
+                    </center>
+                </article>
+
+            </p:dialog>
+        </h:form>
+        <h:form>
+            <p:dialog id="newprofile" widgetVar="newprofile" header="Usuario" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Nuevo Perfil</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Nombre:"/>
+                            <h:inputText value="#{dtProfileView.profile.nombre}"/>
+                            <h:outputText value="Descripcion:"/>
+                            <h:inputText value="#{dtProfileView.profile.descripcion}"/>
+                            <h:outputText value="Estado:" />
+                            <p:selectBooleanCheckbox value="#{dtProfileView.profile.estado}" />
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <article class="module width_full">
+                    <header><center><h3>Rol del Perfil</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="4">
+                            <p:selectManyMenu id="listarol" value="#{dtProfileView.selecrol}"  converter="javax.faces.Integer" style="width: 500px"
+                                              filter="true" filterMatchMode="contains" showCheckbox="true">
+                                <f:selectItems value="#{dtProfileView.lstRol}" var="rol" 
+                                               itemLabel=" #{rol.name}" 
+                                               itemValue="#{rol.rolid}" /> 
+                            </p:selectManyMenu>
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Guardar" update=":frmUsers" action="#{dtProfileView.register()}" oncomplete="PF('newprofile').hide()"/>
+                        <p:commandButton value="Cerrar" oncomplete="PF('newprofile').hide()" />
+                    </center>
+                </article>
+
+            </p:dialog>
+        </h:form>
+        <!-- Popup para el Editar datos de Usuario -->
+        <h:form id="frmEditUser">
+            <p:dialog id="edituser" widgetVar="edituser" header="Usuario" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Editar Usuario</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid id="panelEditUser" columns="2">
+                            <h:outputText value="Cedula :" />
+                            <h:inputText value="#{dtUserView.usersel.ci}" />
+                            <h:outputText value="Nombre:" />
+                            <h:inputText value="#{dtUserView.usersel.fisrtname}" />
+                            <h:outputText value="Apellido:" />
+                            <h:inputText value="#{dtUserView.usersel.lastname}" />
+                            <h:outputText value="Edad:" />
+                            <h:inputText value="#{dtUserView.usersel.age}" />
+                            <h:outputText value="Sexo:" />
+                            <p:selectOneMenu value="#{dtUserView.usersel.gender}">
+                                <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
+                                <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+                            </p:selectOneMenu>
+                            <h:outputText value="Título:" />
+                            <h:inputText value="#{dtUserView.usersel.tittle}" />
+                            <h:outputText value="Dirección:" />
+                            <h:inputText value="#{dtUserView.usersel.direction}" />
+                            <h:outputText value="Teléfono:" />
+                            <h:inputText value="#{dtUserView.usersel.phone}" />
+                            <h:outputText value="Movil:" />
+                            <h:inputText value="#{dtUserView.usersel.mobile}" />
+                            <h:outputText value="Email:" />
+                            <h:inputText value="#{dtUserView.usersel.email}" />
+                            <h:outputText value="Departamento:" />
+                            <h:inputText value="#{dtUserView.usersel.department}" />
+                            <h:outputText value="Posición:" />
+                            <h:inputText value="#{dtUserView.usersel.position}"/>
+                            <h:outputText value="Estado:" />
+                            <p:selectOneMenu value="#{dtUserView.usersel.disability}">
+                                <f:selectItem itemLabel="Activo" itemValue="Activo"/>
+                                <f:selectItem itemLabel="Inactivo" itemValue="Inactivo"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </div>
+                </article>
+                     <article class="module width_full">
+                    <header><center><h3>Perfil de Usuario</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="4">
+                            <p:selectManyMenu id="lista" value="#{dtUserView.lstUserProfile}"  style="width: 500px"
+                                       showCheckbox="true">           
+                                <f:selectItems value="#{dtUserView.lstProfile}" var="perfil" 
+                                               itemLabel=" #{perfil.nombre}" 
+                                               itemValue="#{perfil.nombre}"/> 
+                            </p:selectManyMenu>
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Actualizar" update=":frmUsers" actionListener="#{dtUserView.update(dtUserView.usersel)}" oncomplete="PF('edituser').hide()"/>
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
+        <!-- Popup para Ver los datos de Usuario -->
+        <h:form id="frmVerUser">
+            <p:dialog id="veruser" widgetVar="veruser" header="Usuario" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Informacion Usuario</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid id="panelVerUser" columns="4" width="60%">
+                            <h:outputText value="Cedula :"/>
+                            <h:inputText value="#{dtUserView.usersel.ci}" disabled="#{dtUserView.usersel != 'ci'}"/>
+                            <h:outputText value="Nombre:"/>
+                            <h:inputText value="#{dtUserView.usersel.fisrtname}" disabled="#{dtUserView.usersel != 'fisrtname'}"/>
+                            <h:outputText value="Apellido:"/>
+                            <h:inputText value="#{dtUserView.usersel.lastname}" disabled="#{dtUserView.usersel != 'lastname'}"/>
+                            <h:outputText value="Edad:"/>
+                            <h:inputText value="#{dtUserView.usersel.age}" disabled="#{dtUserView.usersel != 'age'}"/>
+                            <h:outputText value="Sexo:"/>
+                            <h:inputText value="#{dtUserView.usersel.gender}" disabled="#{dtUserView.usersel != 'gender'}"/>
+                            <h:outputText value="Título:"/>
+                            <h:inputText value="#{dtUserView.usersel.tittle}" disabled="#{dtUserView.usersel != 'tittle'}"/>
+                            <h:outputText value="Dirección:"/>
+                            <h:inputText value="#{dtUserView.usersel.direction}" disabled="#{dtUserView.usersel != 'direction'}"/>
+                            <h:outputText value="Teléfono:"/>
+                            <h:inputText value="#{dtUserView.usersel.phone}" disabled="#{dtUserView.usersel != 'phone'}"/>
+                            <h:outputText value="Movil:"/>
+                            <h:inputText value="#{dtUserView.usersel.mobile}" disabled="#{dtUserView.usersel != 'mobile'}"/>
+                            <h:outputText value="Email:"/>
+                            <h:inputText value="#{dtUserView.usersel.email}" disabled="#{dtUserView.usersel != 'email'}"/>
+                            <h:outputText value="Departamento:"/>
+                            <h:inputText value="#{dtUserView.usersel.department}" disabled="#{dtUserView.usersel != 'department'}"/>
+                            <h:outputText value="Posición:"/>
+                            <h:inputText value="#{dtUserView.usersel.position}" disabled="#{dtUserView.usersel != 'position'}"/>
+                            <h:outputText value="Estado:"/>
+                            <h:inputText value="#{dtUserView.usersel.disability}" disabled="#{dtUserView.usersel != 'disability'}"/>
+
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <article class="module width_full">
+                    <header><center><h3>Perfil de Usuario</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid id="panel" columns="2" width="50%">
+                        </h:panelGrid>
+                        <p:selectManyMenu id="lista" value="#{dtUserView.userprofilesel}"  converter="javax.faces.Integer" style="width: 500px"
+                                          filterMatchMode="contains" showCheckbox="false">
+                            <f:selectItems value="#{dtUserView.lstUserProfile}" var="perfil" 
+                                           itemLabel=" #{perfil.profile.nombre}" 
+                                           itemValue="#{perfil.usrid}" /> 
+                        </p:selectManyMenu>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Cerrar" oncomplete="PF('veruser').hide()" />
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
+        <!-- Popup para Ver los datos de Perfil -->
+           <h:form id="frmVerProfile">
+            <p:dialog id="verprofile" widgetVar="verprofile" header="Perfil" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Perfil</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid id="panelVerProfile" columns="2">
+                            <h:outputText value="Nombre:" />
+                            <h:inputText value="#{dtProfileView.profilesel.nombre}" disabled="#{dtProfileView.profilesel != 'nombre'}"/>
+                            <h:outputText value="Descripcion:" />
+                            <h:inputText value="#{dtProfileView.profilesel.descripcion}" disabled="#{dtProfileView.profilesel != 'descripcion'}"/>
+                            <h:outputText value="Activo:" />
+                            <p:selectBooleanCheckbox value="#{dtProfileView.profilesel.estado}" disabled="#{dtProfileView.profilesel != 'estado'}"/>
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <article class="module width_full">
+                    <header><center><h3>Rol del Perfil</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid id="panel" columns="2" width="50%">
+                        </h:panelGrid>
+                        <p:selectManyMenu id="listaverprofile" value="#{dtProfileView.selecrol}"  converter="javax.faces.Integer" style="width: 500px"
+                                          filterMatchMode="contains" showCheckbox="false">
+                            <f:selectItems value="#{dtProfileView.lstRoleProfile}" var="rol" 
+                                           itemLabel=" #{rol.rol.name}" 
+                                           itemValue="#{rol.rolid}" /> 
+                        </p:selectManyMenu>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Cerrar" oncomplete="PF('verprofile').hide()"/>
                     </center>
                 </article>
             </p:dialog>
