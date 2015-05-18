@@ -6,9 +6,13 @@ body {
     margin: 10px;
 }
 
+.logo {
+    margin-top: 70px;
+}
+
 .contenedorLogin
 {
-    margin-top: 200px;
+    margin-top: 10px;
     text-align: center;
     width: 100%;
 }

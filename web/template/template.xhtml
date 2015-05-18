@@ -12,30 +12,26 @@
         <h:outputScript name="hideshow.js" library="js" target="body"/>
         <h:outputScript>
             $(document).ready(function () {
-            $(".tablesorter").tablesorter();
+                $(".tablesorter").tablesorter();
             });
-
             $(document).ready(function () {
-            //When page loads...
-            $(".tab_content").hide(); //Hide all content
-            $("ul.tabs li:first").addClass("active").show(); //Activate first tab
-            $(".tab_content:first").show(); //Show first tab content
+                //When page loads...
+                $(".tab_content").hide(); //Hide all content
+                $("ul.tabs li:first").addClass("active").show(); //Activate first tab
+                $(".tab_content:first").show(); //Show first tab content
 
-            //On Click Event
-            $("ul.tabs li").click(function () {
-
-            $("ul.tabs li").removeClass("active"); //Remove any "active" class
-            $(this).addClass("active"); //Add "active" class to selected tab
-            $(".tab_content").hide(); //Hide all tab content
-
-            var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
-            $(activeTab).fadeIn(); //Fade in the active ID content
-            return false;
+                //On Click Event
+                $("ul.tabs li").click(function () {
+                    $("ul.tabs li").removeClass("active"); //Remove any "active" class
+                    $(this).addClass("active"); //Add "active" class to selected tab
+                    $(".tab_content").hide(); //Hide all tab content
+                    var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+                    $(activeTab).fadeIn(); //Fade in the active ID content
+                    return false;
+                });
             });
-            });
-
             $(function () {
-            $('.column').equalHeight();
+                $('.column').equalHeight();
             });
         </h:outputScript>
         <title>Sistema de Gestion de Ventas de Vehiculos</title>
@@ -52,7 +48,6 @@
                     </div>
                 </hgroup>
             </header> <!-- end of header bar <a href="#">Salir</a>-->
-
             <section id="secondary_bar">
                 <div class="user"><p><p:outputLabel value="#{mbsLogin.user.fisrtname} #{mbsLogin.user.lastname}"/></p></div>
                 <div class="breadcrumbs_container"></div>
@@ -61,6 +56,10 @@
             <ui:define name="top"></ui:define>
         </div>
         <aside id="sidebar" class="column">
+            <h3>Inicio</h3>
+            <ul class="toggle">
+                <li class="icn_desktop"><h:link value="Escritorio" outcome="/main"/></li>
+            </ul>
             <h3>Clientes</h3>
             <ul class="toggle">
                 <li class="icn_add_user"><h:link value="Nuevo Cliente" outcome="/clientes/newclient"/></li>
@@ -109,7 +108,6 @@
 
         <section id="main" class="column">
             <!-- Contenido principal del Formulario -->
-            <!-- fin contenido principal  -->
             <ui:insert name="content"></ui:insert>
         </section>
     </h:body>

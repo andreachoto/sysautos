@@ -306,6 +306,9 @@ aside#sidebar {
 #sidebar li.icn_new_article a {
     background: url(../images/icn_new_article.png) no-repeat center left;
 }
+#sidebar li.icn_desktop a {
+    background: url(../images/icn_desktop.png) no-repeat center left;
+}
 #sidebar li.icn_edit_article a {
     background: url(../images/icn_edit_article.png) no-repeat center left;
 }
@@ -379,7 +382,7 @@ aside#sidebar {
 
 section#main {
     width: 77%;
-    min-height: 500px;
+    min-height: 730px;
     background: url(../images/sidebar_shadow.png) repeat-y left top;
     float: left;
     margin-top: -2px;
@@ -474,7 +477,7 @@ section#main {
     background: #F6F6F6;
     border: 1px solid #ccc;
     float: left;
-    width: 30%;
+    width: 25%;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
