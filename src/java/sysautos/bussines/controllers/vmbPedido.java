@@ -5,18 +5,14 @@
  */
 package sysautos.bussines.controllers;
 
-import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import org.primefaces.context.RequestContext;
 import sysautos.bussines.common.Genericas;
 import sysautos.bussines.drivers.dvrDetallepedido;
 import sysautos.bussines.drivers.dvrPedido;
@@ -38,9 +34,6 @@ import sysautos.bussines.session.MbsMessages;
 @ViewScoped
 public final class vmbPedido {
 
-    @ManagedProperty("#{MbsLogin}")
-    private MbsLogin login;
-
     //atributos del bean
     private Date date;
     private Pedido pedido, pedidoselect;
@@ -50,6 +43,9 @@ public final class vmbPedido {
     private List<Producto> productos;
     private List<Detallepedido> pedidoitems;
     private Detallepedido itempedido, itemselect;
+
+    @ManagedProperty("#{MbsLogin}")
+    private MbsLogin login;
 
     /**
      * Creates a new instance of NewJSFManagedBean
@@ -193,7 +189,7 @@ public final class vmbPedido {
     public void loadpedido(Pedido pedido) {
         try {
             if (pedido != null) {
-                this.pedidoselect = dvrPedido.getPedidoById(pedido.getId());
+                this.pedidoselect = pedido;//dvrPedido.getPedidoById(pedido.getId());
                 this.pedidoitems = dvrDetallepedido.getDetallepedidoByForeingID(pedido.getId(), 0);
                 FacesContext.getCurrentInstance().getExternalContext().redirect("pedidoEdit.xhtml");
             } else {
@@ -289,6 +285,22 @@ public final class vmbPedido {
         } catch (Exception ex) {
             MbsMessages.fatal(ex.getMessage());
         }
+    }
+    
+    /// para editar
+    
+    public String outcomeUpdate(Pedido pedido) {
+        String page = "";
+        if (pedido != null) {
+            //this.id = pedido.getId();
+            this.date = Genericas.convertTimeStamptoDate(pedido.getFecha());
+            this.pedidoselect = pedido;
+            page = "pedidoEdit"; // pagina de edicion de pedido
+        } else {
+            MbsMessages.error("Seleccione un registro");
+            page = "pedido";//pagina de llamada (anterior).
+        }
+        return page;
     }
 
 }

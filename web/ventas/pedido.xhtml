@@ -30,9 +30,11 @@
                                     <h:outputText value="#{item.user.fisrtname} #{item.user.lastname}"/>
                                 </p:column>
                                 <f:facet name="footer">
+                                    <!-- Boton Nuevo -->
                                     <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" action="pedidoNew" />
-                                    <p:commandButton value="Editar" icon="ui-icon-pencil" 
-                                                     actionListener="#{dtPedidoView.loadpedido(dtPedidoView.pedidoselect)}" />
+                                    <!-- Boton Editar -->
+                                    <p:commandButton value="Editar" icon="ui-icon-pencil" action="#{dtPedidoView.outcomeUpdate(dtPedidoView.pedidoselect)}"/>
+                                    <!-- Boton Eliminar -->
                                     <p:commandButton id="delRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmPedido" 
                                                      actionListener="#{dtPedidoView.delete(dtPedidoView.pedidoselect)}"> 
                                         <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert"/> 
