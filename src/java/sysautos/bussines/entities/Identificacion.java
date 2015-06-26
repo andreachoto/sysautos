@@ -9,34 +9,26 @@ import java.util.Objects;
 import sysautos.bussines.drivers.dvrCliente;
 import sysautos.bussines.drivers.dvrTipoIdentidad;
 
-
-
 /**
  *
  * @author Carolyn
  */
 public class Identificacion {
+
     private int cltid;
     private int tidid;
     private String numdescripcion;
     private String estado;
-    private Cliente cliente;
     private TipoIdentidad tipoidenti;
-    
 
     public Identificacion() {
     }
 
-    public Identificacion(int cltid, int tidid, String numdescripcion, String estado)throws Exception {
+    public Identificacion(int cltid, int tidid, String numdescripcion, String estado) throws Exception {
         this.cltid = cltid;
         this.tidid = tidid;
         this.numdescripcion = numdescripcion;
         this.estado = estado;
-         if (cltid != 0) {
-            this.cliente = dvrCliente.getClienteById(cltid);
-        } else {
-            this.cliente = null;
-        }
         if (tidid != 0) {
             this.tipoidenti = dvrTipoIdentidad.gettipoIdentidadById(tidid);
         } else {
@@ -76,14 +68,6 @@ public class Identificacion {
         this.estado = estado;
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     public TipoIdentidad getTipoidenti() {
         return tipoidenti;
     }
@@ -121,7 +105,5 @@ public class Identificacion {
         }
         return true;
     }
-    
 
-    
 }
