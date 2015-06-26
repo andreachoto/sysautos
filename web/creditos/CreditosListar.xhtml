@@ -15,8 +15,24 @@
                         <center>
                             <h:panelGrid cellpadding="3" width="90%">
 
+
+                                <h:outputText value="Crédito" />
+                                <p:selectOneMenu value="#{dtCreditoView.intIdCliente}">
+                                    <f:selectItem itemLabel="Cliente" itemValue="0" id="credito"/>
+                                    <f:selectItems value="#{dtCreditoView.lstClients}" var="cliente" itemValue="#{cliente.id}"
+                                                   itemLabel="#{cliente.nombre} #{cliente.apellido}"/>
+                                </p:selectOneMenu>
+                                <h:outputText value="Cliente" />
+                                <p:selectOneMenu value="#{dtCreditoView.intIdCliente}">
+                                    <f:selectItem itemLabel="Cliente" itemValue="0" id="cliente"/>
+                                    <f:selectItems value="#{dtCreditoView.lstClients}" var="cliente" itemValue="#{cliente.id}"
+                                                   itemLabel="#{cliente.nombre} #{cliente.apellido}"/>
+                                </p:selectOneMenu>
+
+
+
                                 <p:dataTable id="tblcredito" value="#{dtCreditoView.lstcreditos}" var="item"
-                                             selection="#{dtCreditoView.creditoSelect}" selectionMode="single" 
+                                             selection="#{dtCreditoView.creditoSeleccion}" selectionMode="single" 
                                              rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
                                              rendered="true">
 
@@ -44,7 +60,7 @@
 
                                         <p:button value="Nuevo Crédito" outcome="/creditos/Credito1"/>
                                         <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtRequisitosView.loadrequisito(dtRequisitosView.objsel)}" />
-                                        <p:commandButton id="delRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmRequisitos" 
+                                        <p:commandButton id="delRegistro" value="Cambiar Estado" icon="ui-icon-trash" update=":frmRequisitos" 
                                                          actionListener="#{dtRequisitosView.delete(dtRequisitosView.objsel)}"> 
                                             <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
                                         </p:commandButton> 
