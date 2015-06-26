@@ -159,7 +159,7 @@ public class dvrIdentificacion {
         return respuesta;
     
     }
-       public static Identificacion getidentificacionByIdCliente(int id1) throws Exception {
+       public static Identificacion getidentByIdCliente(int id1) throws Exception {
         Identificacion var = null;
         List<Parameter> parametros = new ArrayList<>();
         parametros.add(new Parameter(1, id1, Types.INTEGER));
@@ -191,6 +191,23 @@ public class dvrIdentificacion {
         }
         con.cerrarConexion();
         return var;
+    }
+        
+         public static List<Identificacion> getidentificacionByIdCliente(int idcliente) throws Exception {
+        List<Identificacion> lista = new ArrayList<>();
+        List<Parameter> parametros = new ArrayList<>();
+        parametros.add(new Parameter(1, idcliente, Types.INTEGER));
+        String llamadaPA = "SELECT * from autos.\"identificacionByID_paCliente\"(?)";
+        Conexion con = new Conexion(llamadaPA, parametros);
+        while (con.siguiente()) {
+            int cltid = con.getInt("outcltid");
+            int tidid = con.getInt("outtidid");
+            String numdescripcion = con.getString("outidfnumerodescrip");
+            String estado=con.getString("outidfestado");
+            lista.add(new Identificacion(cltid, tidid,numdescripcion,estado));
+        }
+        con.cerrarConexion();
+        return lista;
     }
     
     
