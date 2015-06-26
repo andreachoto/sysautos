@@ -1,7 +1,6 @@
 /**
  * @author SOPORTE01
  */
-
 package sysautos.bussines.controllers;
 
 import java.util.List;
@@ -14,7 +13,6 @@ import sysautos.bussines.session.MbsMessages;
 @ManagedBean(name = "dtPedidosView")
 @ViewScoped
 public final class vmbPedidos {
-
     private List<Pedido> pedidos;
     private Pedido pedidoselect;
 
