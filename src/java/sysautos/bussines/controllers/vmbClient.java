@@ -47,7 +47,7 @@ public class vmbClient implements Serializable {
     /**
      * Creates a new instance of vmbClient
      */
-    private Cliente cliente,clientesel;
+    private Cliente cliente, clientesel;
     private List<TipoIdentidad> lsttipoidentidad;
     private Identificacion identidad;
     private List<Identificacion> lstIdentificacion;
@@ -58,7 +58,7 @@ public class vmbClient implements Serializable {
     private List<Provincia> lstProvincia;
     private List<Ciudad> lstCiudad;
     private List<Telefono> lstTelefono;
-    private Telefono telefono,telefonosel;
+    private Telefono telefono, telefonosel;
     private List<TipoTelefono> lsttipotelefono;
     private List<Cliente> lstCliente;
     private String selectpais;
@@ -323,24 +323,21 @@ public class vmbClient implements Serializable {
         }
     }
 
-//    public void update(Cliente cli) {
-//        try {
-//            if (dvrCliente.clienteUpdate(cli)) {
-//                for (Identificacion identif : lstIdentificacion) {
-////                    identif.setCltid(cliid);
-////                    identif=dvrIdentificacion.getidentificacionByIdCliente(cliid);
-//                    lstIdentificacion.add(identif);
-//                }
-//                this.loadclientes();
-//                MbsMessages.info("Cliente actualizado correctamente!");
-//            } else {
-//                MbsMessages.error("No se pudo Actualizar el registro!");
-//            }
-//        } catch (Exception ex) {
-//            MbsMessages.fatal(ex.getMessage());
-//        }
-//    }
-
+    public void update(Cliente cli) {
+        try {
+            if (dvrCliente.clienteUpdate(cli)) {
+                this.loadclientes();
+                this.updateIdentificacion(identificacionsel);
+                this.updateDireccion(direccionsel);
+                this.updateTelefono(telefonosel);
+                MbsMessages.info("Cliente actualizado correctamente!");
+            } else {
+                MbsMessages.error("No se pudo Actualizar el registro!");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
     public void addIdentificacionToList() {
         try {
             Identificacion ident = new Identificacion(this.identidad.getCltid(), this.identidad.getTidid(),
@@ -453,8 +450,7 @@ public class vmbClient implements Serializable {
 //        }
 //
 //    }
-    
-     public void deleteIdentificacion(int id) {
+    public void deleteIdentificacion(int id) {
         try {
             if (id != 0) {
 
@@ -625,5 +621,29 @@ public class vmbClient implements Serializable {
             MbsMessages.fatal(ex.getMessage());
         }
     }
+
+    public void cargareditcliente(int tipo) {
+        try {
+            if (tipo != 0) {
+                this.clientesel = dvrCliente.getClienteById(tipo);
+                this.identificacionsel = dvrIdentificacion.getidentByIdCliente(tipo);
+                this.direccionsel = dvrDireccion.getDireccionByIdCliente(tipo);
+                this.telefonosel = dvrTelefono.getTelefonoByIdCliente(tipo);
+                this.lstIdentificacion = dvrIdentificacion.getidentificacionByIdCliente(tipo);
+                this.lstDireccion = dvrDireccion.getdireccionListByIdCliente(tipo);
+                this.lstTelefono = dvrTelefono.getTelefonoListByIdCliente(tipo);
+               
+                RequestContext.getCurrentInstance().update("frmEditarCliente");
+                RequestContext.getCurrentInstance().execute("PF('editcliente').show()");
+            } else {
+                MbsMessages.error("Seleccione un registro");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+    
+    
+  
 
 }
