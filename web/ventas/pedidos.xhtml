@@ -1,4 +1,3 @@
-
 <ui:composition template="./../template/template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -12,9 +11,9 @@
                 <header><h3>Gestion de Pedidos</h3></header>
                 <div class="module_content">
                     <h:form id="frmPedido">
-                        <h:panelGrid cellpadding="4">
-                            <p:dataTable id="tblroles" value="#{dtPedidoView.pedidos}" var="item"
-                                         selection="#{dtPedidoView.pedidoselect}" selectionMode="single" 
+                        <h:panelGrid cellpadding="4" style="width: 50%;">
+                            <p:dataTable id="tblroles" value="#{dtPedidosView.pedidos}" var="item"
+                                         selection="#{dtPedidosView.pedidoselect}" selectionMode="single" 
                                          rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
                                          rendered="true">
                                 <p:column headerText="Numero"> 
@@ -31,12 +30,11 @@
                                 </p:column>
                                 <f:facet name="footer">
                                     <!-- Boton Nuevo -->
-                                    <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" action="pedidoNew" />
+                                    <p:commandButton value="Nuevo" icon="ui-icon-circle-plus"/>
                                     <!-- Boton Editar -->
-                                    <p:commandButton value="Editar" icon="ui-icon-pencil" action="#{dtPedidoView.outcomeUpdate(dtPedidoView.pedidoselect)}"/>
+                                    <p:commandButton value="Editar" icon="ui-icon-pencil"/>
                                     <!-- Boton Eliminar -->
-                                    <p:commandButton id="delRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmPedido" 
-                                                     actionListener="#{dtPedidoView.delete(dtPedidoView.pedidoselect)}"> 
+                                    <p:commandButton id="delRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmPedido" > 
                                         <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert"/> 
                                     </p:commandButton> 
                                 </f:facet>
