@@ -47,7 +47,7 @@ public class vmbClient implements Serializable {
     /**
      * Creates a new instance of vmbClient
      */
-    private Cliente cliente;
+    private Cliente cliente, clientesel;
     private List<TipoIdentidad> lsttipoidentidad;
     private Identificacion identidad;
     private List<Identificacion> lstIdentificacion;
@@ -58,13 +58,17 @@ public class vmbClient implements Serializable {
     private List<Provincia> lstProvincia;
     private List<Ciudad> lstCiudad;
     private List<Telefono> lstTelefono;
-    private Telefono telefono;
+    private Telefono telefono, telefonosel;
     private List<TipoTelefono> lsttipotelefono;
     private List<Cliente> lstCliente;
     private String selectpais;
     private String selectprovincia;
     private String selectciudad;
     private Identificacion identificacionsel;
+    private Direccion direccionsel;
+    private ArrayList<Integer> selecidentificacion;
+    private ArrayList<Integer> selecdireccion;
+    private ArrayList<Integer> selectelefono;
 //    private int cliid;
 
     public vmbClient() throws Exception {
@@ -79,7 +83,71 @@ public class vmbClient implements Serializable {
         this.lsttipodireccion = dvrTipoDireccion.getTipoDireccionList();
         this.lstPais = dvrPais.getPaisList();
         this.lsttipotelefono = dvrTipoTelefono.getTipoTelefonoList();
+        this.direccionsel = new Direccion();
+        this.identificacionsel = new Identificacion();
+        this.telefonosel = new Telefono();
+        this.lstCliente = dvrCliente.getClienteList();
+        this.clientesel = new Cliente();
+        this.selecidentificacion = new ArrayList<>();
+        this.selecdireccion = new ArrayList<>();
+        this.selectelefono = new ArrayList<>();
         limpiar();
+    }
+
+    public Cliente getClientesel() {
+        return clientesel;
+    }
+
+    public void setClientesel(Cliente clientesel) {
+        this.clientesel = clientesel;
+    }
+
+    public Telefono getTelefonosel() {
+        return telefonosel;
+    }
+
+    public void setTelefonosel(Telefono telefonosel) {
+        this.telefonosel = telefonosel;
+    }
+
+    public List<Cliente> getLstCliente() {
+        return lstCliente;
+    }
+
+    public void setLstCliente(List<Cliente> lstCliente) {
+        this.lstCliente = lstCliente;
+    }
+
+    public Direccion getDireccionsel() {
+        return direccionsel;
+    }
+
+    public void setDireccionsel(Direccion direccionsel) {
+        this.direccionsel = direccionsel;
+    }
+
+    public ArrayList<Integer> getSelecidentificacion() {
+        return selecidentificacion;
+    }
+
+    public void setSelecidentificacion(ArrayList<Integer> selecidentificacion) {
+        this.selecidentificacion = selecidentificacion;
+    }
+
+    public ArrayList<Integer> getSelecdireccion() {
+        return selecdireccion;
+    }
+
+    public void setSelecdireccion(ArrayList<Integer> selecdireccion) {
+        this.selecdireccion = selecdireccion;
+    }
+
+    public ArrayList<Integer> getSelectelefono() {
+        return selectelefono;
+    }
+
+    public void setSelectelefono(ArrayList<Integer> selectelefono) {
+        this.selectelefono = selectelefono;
     }
 
     public Identificacion getIdentificacionsel() {
@@ -89,7 +157,7 @@ public class vmbClient implements Serializable {
     public void setIdentificacionsel(Identificacion identificacionsel) {
         this.identificacionsel = identificacionsel;
     }
-    
+
     public Cliente getCliente() {
         return cliente;
     }
@@ -258,12 +326,10 @@ public class vmbClient implements Serializable {
     public void update(Cliente cli) {
         try {
             if (dvrCliente.clienteUpdate(cli)) {
-                for (Identificacion identif : lstIdentificacion) {
-//                    identif.setCltid(cliid);
-//                    identif=dvrIdentificacion.getidentificacionByIdCliente(cliid);
-                    lstIdentificacion.add(identif);
-                }
                 this.loadclientes();
+                this.updateIdentificacion(identificacionsel);
+                this.updateDireccion(direccionsel);
+                this.updateTelefono(telefonosel);
                 MbsMessages.info("Cliente actualizado correctamente!");
             } else {
                 MbsMessages.error("No se pudo Actualizar el registro!");
@@ -272,7 +338,6 @@ public class vmbClient implements Serializable {
             MbsMessages.fatal(ex.getMessage());
         }
     }
-
     public void addIdentificacionToList() {
         try {
             Identificacion ident = new Identificacion(this.identidad.getCltid(), this.identidad.getTidid(),
@@ -357,34 +422,228 @@ public class vmbClient implements Serializable {
 //        lstDireccion.clear();
 
     }
-       public void limpiarlistas() {
+
+    public void limpiarlistas() {
         cliente = new Cliente();
         lstIdentificacion.clear();
         lstTelefono.clear();
         lstDireccion.clear();
 
     }
-    
-    
 
-    public void delete(int id) {
+//    public void delete(int id) {
+//        try {
+//            if (id != 0) {
+//                this.identificacionsel = dvrIdentificacion.getidentificacionByIdTipoIdent(id);
+//                for (Identificacion identif : lstIdentificacion) {
+//                    if (identif.getTidid() == identificacionsel.getTidid()) {
+//                        lstIdentificacion.remove(id);
+//                    }
+//                }
+//                MbsMessages.info("Identificación eliminada correctamente!");
+//            } else {
+//                MbsMessages.error("Seleccione un registro");
+//            }
+//
+//        } catch (Exception ex) {
+//            MbsMessages.fatal(ex.getMessage());
+//        }
+//
+//    }
+    public void deleteIdentificacion(int id) {
         try {
             if (id != 0) {
-                this.identificacionsel = dvrIdentificacion.getidentificacionByIdTipoIdent(id);
-                  for (Identificacion identif : lstIdentificacion) {
-                      if(identif.getTidid()== identificacionsel.getTidid() ){
-                          lstIdentificacion.remove(id);
-                      }
-                }
-                    MbsMessages.info("Identificación eliminada correctamente!");
-                } else {
-                    MbsMessages.error("Seleccione un registro");
-                }
 
-            }catch (Exception ex) {
+                for (int x = 0; x < lstIdentificacion.size(); x++) {
+                    identificacionsel.setTidid(id);
+                    lstIdentificacion.remove(identificacionsel);
+                    limpiar();
+                }
+                MbsMessages.info("Identificación eliminada Correctamente!");
+            } else {
+                MbsMessages.error("Seleccione un registro");
+            }
+
+        } catch (Exception ex) {
             MbsMessages.fatal(ex.getMessage());
         }
 
+    }
+
+    public void deletedireccion(int id) {
+        try {
+
+            if (id != 0) {
+                for (int x = 0; x < lstDireccion.size(); x++) {
+                    direccionsel.setTdrid(id);
+                    lstDireccion.remove(direccionsel);
+                    limpiar();
+                }
+                MbsMessages.info("Dirección eliminada Correctamente!");
+            } else {
+                MbsMessages.error("Seleccione un registro");
+            }
+
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
         }
 
     }
+
+    public void deletetelefono(int idi) {
+        try {
+            if (idi != 0) {
+                for (int x = 0; x < lstTelefono.size(); x++) {
+                    telefonosel.setTtfid(idi);
+                    lstTelefono.remove(telefonosel);
+                    limpiar();
+                }
+                MbsMessages.info("Teléfono eliminado Correctamente!");
+            } else {
+                MbsMessages.error("Seleccione un registro");
+            }
+
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+
+    }
+
+    public void verdireccion(int tipo) {
+        try {
+            if (tipo != 0) {
+                this.direccionsel.setTdrid(tipo);
+                RequestContext.getCurrentInstance().update("frmVerDireccion");
+                RequestContext.getCurrentInstance().execute("PF('verdireccion').show()");
+            } else {
+                MbsMessages.error("Seleccione un registro");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+
+    public void cargaeditdireccion(int tipo) {
+        try {
+            if (tipo != 0) {
+                this.direccionsel.setTdrid(tipo);
+                RequestContext.getCurrentInstance().update("frmEditDireccion");
+                RequestContext.getCurrentInstance().execute("PF('editdireccion').show()");
+            } else {
+                MbsMessages.error("Seleccione un registro");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+
+    public void updateDireccion(Direccion direc) {
+        try {
+            if (dvrDireccion.direccionUpdate(direc)) {
+                this.addDireccionToList();
+                MbsMessages.info(" Dirección actualizado correctamente!");
+            } else {
+                MbsMessages.error("No se pudo Actualizar el registro!");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+
+    public void cargaedittelefono(int tipotelf) {
+        try {
+            if (tipotelf != 0) {
+                this.telefonosel.setTtfid(tipotelf);
+                RequestContext.getCurrentInstance().update("frmEditTelefono");
+                RequestContext.getCurrentInstance().execute("PF('edittelefono').show()");
+            } else {
+                MbsMessages.error("Seleccione un registro");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+
+    public void updateTelefono(Telefono telf) {
+        try {
+            if (dvrTelefono.telefonoUpdate(telf)) {
+                MbsMessages.info("Teléfono actualizado correctamente!");
+            } else {
+                MbsMessages.error("No se pudo Actualizar el registro!");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+
+    public void cargaeditidentificacion(int tipoident) {
+        try {
+            if (tipoident != 0) {
+                this.identificacionsel.setTidid(tipoident);
+                RequestContext.getCurrentInstance().update("frmEditIdentificacion");
+                RequestContext.getCurrentInstance().execute("PF('editidentificacion').show()");
+            } else {
+                MbsMessages.error("Seleccione un registro");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+
+    public void updateIdentificacion(Identificacion ident) {
+        try {
+            if (dvrIdentificacion.identificacionUpdate(ident)) {
+                MbsMessages.info("Identificación actualizado correctamente!");
+            } else {
+                MbsMessages.error("No se pudo Actualizar el registro!");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+
+    public void cargarvercliente(int tipo) {
+        try {
+            if (tipo != 0) {
+                this.clientesel = dvrCliente.getClienteById(tipo);
+                this.identificacionsel = dvrIdentificacion.getidentByIdCliente(tipo);
+                this.direccionsel = dvrDireccion.getDireccionByIdCliente(tipo);
+                this.telefonosel = dvrTelefono.getTelefonoByIdCliente(tipo);
+                this.lstIdentificacion = dvrIdentificacion.getidentificacionByIdCliente(tipo);
+                this.lstDireccion = dvrDireccion.getdireccionListByIdCliente(tipo);
+                this.lstTelefono = dvrTelefono.getTelefonoListByIdCliente(tipo);
+                RequestContext.getCurrentInstance().update("frmVerCliente");
+                RequestContext.getCurrentInstance().execute("PF('vercliente').show()");
+            } else {
+                MbsMessages.error("Seleccione un registro");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+
+    public void cargareditcliente(int tipo) {
+        try {
+            if (tipo != 0) {
+                this.clientesel = dvrCliente.getClienteById(tipo);
+                this.identificacionsel = dvrIdentificacion.getidentByIdCliente(tipo);
+                this.direccionsel = dvrDireccion.getDireccionByIdCliente(tipo);
+                this.telefonosel = dvrTelefono.getTelefonoByIdCliente(tipo);
+                this.lstIdentificacion = dvrIdentificacion.getidentificacionByIdCliente(tipo);
+                this.lstDireccion = dvrDireccion.getdireccionListByIdCliente(tipo);
+                this.lstTelefono = dvrTelefono.getTelefonoListByIdCliente(tipo);
+               
+                RequestContext.getCurrentInstance().update("frmEditarCliente");
+                RequestContext.getCurrentInstance().execute("PF('editcliente').show()");
+            } else {
+                MbsMessages.error("Seleccione un registro");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+    
+    
+  
+
+}

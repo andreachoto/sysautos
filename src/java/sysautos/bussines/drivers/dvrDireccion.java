@@ -169,5 +169,27 @@ public class dvrDireccion {
         con.cerrarConexion();
         return var;
     }
+           public static List<Direccion> getdireccionListByIdCliente(int idcliente) throws Exception {
+        List<Direccion> lista = new ArrayList<>();
+        List<Parameter> parametros = new ArrayList<>();
+        parametros.add(new Parameter(1, idcliente, Types.INTEGER));
+        String llamadaPA = "SELECT * from autos.\"direccionByID_paCliente\"(?)";
+        Conexion con = new Conexion(llamadaPA, parametros);
+        while (con.siguiente()) {
+            int cltid=con.getInt("outcltid");
+            int tdrid=con.getInt("outtdrid");            
+            int cidid = con.getInt("outcidid");
+            String calleprincipal = con.getString("outcalleprincipal");
+            String callesecundaria = con.getString("outcallesecundaria");
+            String numcasa = con.getString("outnumcasa");
+            String parroquia = con.getString("outparroquia");
+            String referencia = con.getString("outreferencia");
+            String barrio = con.getString("outbarrio");
+            String sector = con.getString("outsector");
+            lista.add(new Direccion(cltid,tdrid,cidid,calleprincipal,callesecundaria,numcasa,parroquia,referencia,barrio,sector));
+        }
+        con.cerrarConexion();
+        return lista;
+    }
 
 }

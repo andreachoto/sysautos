@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition template="./../template/template.xhtml">
+            <ui:define name="content">
+                <h:form id="frmCliente">
+                    <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+                    <article class="module width_full">
+                        <header><h3> Listado de Clientes</h3></header>
+                        <div class="module_content">
+                            <p:tabView id="tbvcliente">
+                                <p:tab title="Cliente">
+                                    <center>
+                                        <article class="module width_full">
+                                            <header><center><h3>Datos de Cliente</h3></center></header>
+                                            <div class="module_content">
+                                                <h:panelGrid cellpadding="3" width="90%">
+                                                    <p:dataTable id="tblroles" value="#{dtClientView.lstCliente}" var="item"
+                                                                 selection="#{dtClientView.clientesel}" selectionMode="single" 
+                                                                 rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                                                 rendered="true">
+                                                        <p:column headerText="Nombre y Apellido"> 
+                                                            <h:outputText value="#{item.nombre} #{item.apellido}" />
+                                                        </p:column>
+                                                        <p:column headerText="Sexo" width="70">
+                                                            <h:outputText value="#{item.sexo}"/>
+                                                        </p:column>
+                                                        <p:column headerText="Edad" width="50">
+                                                            <h:outputText value="#{item.edad}"/>
+                                                        </p:column>
+                                                        <p:column headerText="Fax" width="90">
+                                                            <h:outputText value="#{item.fax}"/>
+                                                        </p:column>
+                                                        <p:column headerText="Email">
+                                                            <h:outputText value="#{item.email}"/>
+                                                        </p:column>
+                                                        <p:column headerText="Estado Civil" width="90">
+                                                            <h:outputText value="#{item.estadocivil}"/>
+                                                        </p:column>
+
+                                                        <f:facet name="footer">
+                                                            <p:commandButton value="Ver" icon="ui-icon-search" action="#{dtClientView.cargarvercliente(dtClientView.clientesel.id)}"/>
+                                                            <p:commandButton value="Editar" icon="ui-icon-pencil" action="#{dtClientView.cargareditcliente(dtClientView.clientesel.id)}" />
+                                                        </f:facet>
+                                                    </p:dataTable>
+                                                </h:panelGrid>
+                                            </div>
+                                        </article>
+                                        <br/>
+
+                                    </center>
+                                </p:tab>
+
+                            </p:tabView>
+                        </div>
+                        <footer> 
+                        </footer>
+                    </article>
+                </h:form> 
+                <!-- Popup para Ver los datos de Cliente -->
+                <h:form id="frmVerCliente">
+                    <p:dialog id="veruser" widgetVar="vercliente" header="Cliente" modal="true" resizable="false">
+                        <article class="module width_full">
+                            <header><center><h3>Información de Cliente</h3></center></header>
+                            <div class="module_content">
+                                <h:panelGrid id="panelVerCliente" columns="8" width="60%">
+                                    <h:outputText value="Nombre:"/>
+                                    <h:inputText value="#{dtClientView.clientesel.nombre}" disabled="#{dtClientView.clientesel != 'nombre'}"/>
+                                    <h:outputText value="Apellido:"/>
+                                    <h:inputText value="#{dtClientView.clientesel.apellido}" disabled="#{dtClientView.clientesel != 'apellido'}"/>
+                                    <h:outputText value="Sexo:"/>
+                                    <h:inputText value="#{dtClientView.clientesel.sexo}" disabled="#{dtClientView.clientesel != 'sexo'}"/>
+                                    <h:outputText value="Edad:"/>
+                                    <h:inputText value="#{dtClientView.clientesel.edad}" disabled="#{dtClientView.clientesel != 'edad'}"/>
+                                    <h:outputText value="Fax:"/>
+                                    <h:inputText value="#{dtClientView.clientesel.fax}" disabled="#{dtClientView.clientesel != 'fax'}"/>
+                                    <h:outputText value="Email:"/>
+                                    <h:inputText value="#{dtClientView.clientesel.email}" disabled="#{dtClientView.clientesel != 'email'}"/>
+                                    <h:outputText value="Estado Civil:"/>
+                                    <h:inputText value="#{dtClientView.clientesel.estadocivil}" disabled="#{dtClientView.clientesel != 'estadocivil'}"/>
+
+                                </h:panelGrid>
+                            </div>
+                        </article>
+
+                        <article class="module width_full">
+                            <header><center><h3>Identificación de Cliente</h3></center></header>
+                            <div class="module_content">
+
+                                <p:selectManyMenu id="lista" value="#{dtClientView.selecidentificacion}"  converter="javax.faces.Integer" style="width: 500px"
+                                                  filterMatchMode="contains" showCheckbox="false">
+                                    <f:selectItems value="#{dtClientView.lstIdentificacion}" var="client" 
+                                                   itemLabel=" #{client.tipoidenti.nombre}" 
+                                                   itemValue="#{client.cltid}" /> 
+                                </p:selectManyMenu>
+                                <h:panelGrid id="panelVerIdent" columns="8" width="60%">
+                                    <h:outputText value="Tipo de Identificación:"/>
+                                    <h:inputText value="#{dtClientView.identificacionsel.tipoidenti.nombre}" disabled="#{dtClientView.identificacionsel != 'nombre'}"/>
+                                    <h:outputText value="Numero:"/>
+                                    <h:inputText value="#{dtClientView.identificacionsel.numdescripcion}" disabled="#{dtClientView.identificacionsel != 'numdescripcion'}"/>
+                                    <h:outputText value="Estado:"/>
+                                    <h:inputText value="#{dtClientView.identificacionsel.estado}" disabled="#{dtClientView.identificacionsel != 'estado'}"/>
+                                </h:panelGrid>
+                            </div>
+                        </article>
+                        <article class="module width_full">
+                            <header><center><h3>Dirección del Cliente</h3></center></header>
+                            <div class="module_content">
+                                <p:selectManyMenu id="listaDirec" value="#{dtClientView.selecdireccion}"  converter="javax.faces.Integer" style="width: 500px"
+                                                  filterMatchMode="contains" showCheckbox="false">
+                                    <f:selectItems value="#{dtClientView.lstDireccion}" var="direc" 
+                                                   itemLabel=" #{direc.nomdireccion.nombre}" 
+                                                   itemValue="#{direc.cltid}" /> 
+                                </p:selectManyMenu>
+                                <h:panelGrid id="panelVerDirecc" columns="8" width="60%">
+                                    <h:outputText value="Tipo Dirección:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.nomdireccion.nombre}" disabled="#{dtClientView.direccionsel != 'nombre'}"/>
+                                    <h:outputText value="País:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.nomcuidad.nombreprv.nombrepis.nombre}" disabled="#{dtClientView.direccionsel != 'nombre'}"/>
+                                    <h:outputText value="Provincia:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.nomcuidad.nombreprv.nombre}" disabled="#{dtClientView.direccionsel != 'nombre'}"/>
+                                    <h:outputText value="Ciudad:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.nomcuidad.nombre}" disabled="#{dtClientView.direccionsel != 'nombre'}"/>
+                                    <h:outputText value="Calle Principal:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.calleprincipal}" disabled="#{dtClientView.direccionsel != 'calleprincipal'}"/>
+                                    <h:outputText value="Calle Secundaria:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.callesecundaria}" disabled="#{dtClientView.direccionsel != 'callesecundaria'}"/>
+                                    <h:outputText value="Número de Casa:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.numcasa}" disabled="#{dtClientView.direccionsel != 'numcasa'}"/>
+                                    <h:outputText value="Parroquia:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.parroquia}" disabled="#{dtClientView.direccionsel != 'parroquia'}"/>
+                                    <h:outputText value="Referencia:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.referencia}" disabled="#{dtClientView.direccionsel != 'referencia'}"/>
+                                    <h:outputText value="Barrio:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.barrio}" disabled="#{dtClientView.direccionsel != 'barrio'}"/>
+                                    <h:outputText value="Sector:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.sector}" disabled="#{dtClientView.direccionsel != 'sector'}"/>
+                                </h:panelGrid>
+                            </div>
+                        </article>
+                        <article class="module width_full">
+                            <header><center><h3>Teléfono del Cliente</h3></center></header>
+                            <div class="module_content">
+                                <p:selectManyMenu id="listaTelf" value="#{dtClientView.selectelefono}"  converter="javax.faces.Integer" style="width: 500px"
+                                                  filterMatchMode="contains" showCheckbox="false">
+                                    <f:selectItems value="#{dtClientView.lstTelefono}" var="telf" 
+                                                   itemLabel=" #{telf.nombrettf.nombre}" 
+                                                   itemValue="#{telf.cltid}" /> 
+                                </p:selectManyMenu>
+                                <h:panelGrid id="panelVerTelf" columns="8" width="60%">
+                                    <h:outputText value="Tipo Teléfono:"/>
+                                    <h:inputText value="#{dtClientView.telefonosel.nombrettf.nombre}" disabled="#{dtClientView.direccionsel != 'nombre'}"/>
+                                    <h:outputText value="Número:"/>
+                                    <h:inputText value="#{dtClientView.telefonosel.numero}" disabled="#{dtClientView.direccionsel != 'numero'}"/>
+                                    <h:outputText value="Operadora:"/>
+                                    <h:inputText value="#{dtClientView.telefonosel.operadora}" disabled="#{dtClientView.direccionsel != 'operadora'}"/>
+                                    <h:outputText value="Estado:"/>
+                                    <h:inputText value="#{dtClientView.telefonosel.estado}" disabled="#{dtClientView.direccionsel != 'estado'}"/>
+
+                                </h:panelGrid>
+                            </div>
+                        </article>
+                        <br/>
+                        <article>
+                            <center>
+                                <p:commandButton value="Cerrar" oncomplete="PF('vercliente').hide()" />
+                            </center>
+                        </article>
+                    </p:dialog>
+                </h:form>
+                <!-- Popup para Editar los datos de Cliente -->
+                <h:form id="frmEditarCliente">
+                    <p:dialog id="editcliente" widgetVar="editcliente" header="Cliente" modal="true" resizable="false">
+                        <article class="module width_full">
+                            <header><center><h3>Información de Cliente</h3></center></header>
+                            <div class="module_content">
+                                <h:panelGrid id="panelEditCliente" columns="8" width="60%">
+                                    <h:outputText value="Nombre:"/>
+                                    <h:inputText value="#{dtClientView.clientesel.nombre}"/>
+                                    <h:outputText value="Apellido:"/>
+                                    <h:inputText value="#{dtClientView.clientesel.apellido}"/>
+                                    <h:outputText value="Sexo:"/>
+                                    <p:selectOneMenu value="#{dtClientView.clientesel.sexo}">
+                                        <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
+                                        <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+                                    </p:selectOneMenu>
+                                    <h:outputText value="Edad:"/>
+                                    <h:inputText value="#{dtClientView.clientesel.edad}"/>
+                                    <h:outputText value="Fax:"/>
+                                    <h:inputText value="#{dtClientView.clientesel.fax}"/>
+                                    <h:outputText value="Email:"/>
+                                    <h:inputText value="#{dtClientView.clientesel.email}"/>
+                                    <h:outputText value="Estado Civil:"/>
+                                    <h:inputText value="#{dtClientView.clientesel.estadocivil}"/>
+
+                                </h:panelGrid>
+                            </div>
+                        </article>
+
+                        <article class="module width_full">
+                            <header><center><h3>Identificación de Cliente</h3></center></header>
+                            <div class="module_content">
+
+                                <p:selectManyMenu id="lista" value="#{dtClientView.selecidentificacion}"  converter="javax.faces.Integer" style="width: 500px"
+                                                  filterMatchMode="contains" showCheckbox="false">
+                                    <f:selectItems value="#{dtClientView.lstIdentificacion}" var="client" 
+                                                   itemLabel=" #{client.tipoidenti.nombre}" 
+                                                   itemValue="#{client.cltid}" /> 
+                                </p:selectManyMenu>
+                                <h:panelGrid id="panelEditIdent" columns="8" width="60%">
+                                    <h:outputText value="Tipo de Identificación:"/>
+                                    <h:inputText value="#{dtClientView.identificacionsel.tipoidenti.nombre}"/>
+                                    <h:outputText value="Numero:"/>
+                                    <h:inputText value="#{dtClientView.identificacionsel.numdescripcion}"/>
+                                    <h:outputText value="Estado:"/>
+                                    <h:inputText value="#{dtClientView.identificacionsel.estado}"/>
+                                </h:panelGrid>
+                            </div>
+                        </article>
+                        <article class="module width_full">
+                            <header><center><h3>Dirección del Cliente</h3></center></header>
+                            <div class="module_content">
+                                <p:selectManyMenu id="listaDirec" value="#{dtClientView.selecdireccion}"  converter="javax.faces.Integer" style="width: 500px"
+                                                  filterMatchMode="contains" showCheckbox="false">
+                                    <f:selectItems value="#{dtClientView.lstDireccion}" var="direc" 
+                                                   itemLabel=" #{direc.nomdireccion.nombre}" 
+                                                   itemValue="#{direc.cltid}" /> 
+                                </p:selectManyMenu>
+                                <h:panelGrid id="panelEditDirecc" columns="8" width="60%">
+                                    <h:outputText value="Tipo Dirección:"/>
+                                    <p:selectOneMenu value="#{dtClientView.direccionsel.tdrid}">
+                                        <f:selectItems value="#{dtClientView.lsttipodireccion}" var="tipodireccion" itemValue="#{tipodireccion.id}"
+                                                       itemLabel="#{tipodireccion.nombre} "/>
+                                        <p:ajax event="change"/>
+                                    </p:selectOneMenu>
+                                    <h:outputText value="País:"/>
+                                    <p:selectOneMenu value="#{dtClientView.selectpais}">
+                                        <f:selectItems value="#{dtClientView.lstPais}" var="pais" itemValue="#{pais.nombre}"
+                                                       itemLabel="#{pais.nombre} "/>
+                                        <p:ajax event="change" listener="#{dtClientView.cargarprovincias()}" update="provi"/>
+                                    </p:selectOneMenu>
+                                    <h:outputText value="Provincia:"/>
+                                    <p:selectOneMenu id="provi" value="#{dtClientView.selectprovincia}"> 
+                                        <f:selectItems value="#{dtClientView.lstProvincia}" var="provincia" itemValue="#{provincia.nombre}"
+                                                       itemLabel="#{provincia.nombre} "/>
+                                        <p:ajax event="change" listener="#{dtClientView.cargarcuidades()}" update="ciu"/>
+                                    </p:selectOneMenu>
+                                    <h:outputText value="Ciudad:"/>
+                                    <p:selectOneMenu id="ciu" value="#{dtClientView.direccionsel.cidid}">
+                                        <f:selectItems value="#{dtClientView.lstCiudad}" var="ciudad" itemValue="#{ciudad.id}"
+                                                       itemLabel="#{ciudad.nombre} "/>
+                                        <p:ajax event="change"/>
+                                    </p:selectOneMenu>  
+                                    <h:outputText value="Calle Principal:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.calleprincipal}"/>
+                                    <h:outputText value="Calle Secundaria:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.callesecundaria}"/>
+                                    <h:outputText value="Número de Casa:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.numcasa}"/>
+                                    <h:outputText value="Parroquia:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.parroquia}"/>
+                                    <h:outputText value="Referencia:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.referencia}"/>
+                                    <h:outputText value="Barrio:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.barrio}"/>
+                                    <h:outputText value="Sector:"/>
+                                    <h:inputText value="#{dtClientView.direccionsel.sector}"/>
+                                </h:panelGrid>
+                            </div>
+                        </article>
+                        <article class="module width_full">
+                            <header><center><h3>Teléfono del Cliente</h3></center></header>
+                            <div class="module_content">
+                                <p:selectManyMenu id="listaTelf" value="#{dtClientView.selectelefono}"  converter="javax.faces.Integer" style="width: 500px"
+                                                  filterMatchMode="contains" showCheckbox="false">
+                                    <f:selectItems value="#{dtClientView.lstTelefono}" var="telf" 
+                                                   itemLabel=" #{telf.nombrettf.nombre}" 
+                                                   itemValue="#{telf.cltid}" /> 
+                                </p:selectManyMenu>
+                                <h:panelGrid id="panelEditTelf" columns="8" width="60%">
+                                    <h:outputText value="Tipo Teléfono:"/>
+                                    <p:selectOneMenu value="#{dtClientView.telefonosel.ttfid}">
+                                        <f:selectItems value="#{dtClientView.lsttipotelefono}" var="tipotelefono" itemValue="#{tipotelefono.id}"
+                                                       itemLabel="#{tipotelefono.nombre} "/>
+                                    </p:selectOneMenu>
+                                    <h:outputText value="Número:"/>
+                                    <h:inputText value="#{dtClientView.telefonosel.numero}"/>
+                                    <h:outputText value="Operadora:"/>
+                                    <p:selectOneMenu value="#{dtClientView.telefonosel.operadora}">
+                                        <f:selectItem itemLabel="Claro" itemValue="Claro"/>
+                                        <f:selectItem itemLabel="CNT" itemValue="CNT"/>
+                                        <f:selectItem itemLabel="Movistar" itemValue="Movistar"/>
+                                        <p:ajax event="change"/>
+                                    </p:selectOneMenu>
+                                    <h:outputText value="Estado:"/>
+                                    <p:selectOneMenu value="#{dtClientView.telefonosel.estado}">
+                                        <f:selectItem itemLabel="Activo" itemValue="Activo"/>
+                                        <f:selectItem itemLabel="Inactivo" itemValue="Inactivo"/>
+                                        <p:ajax event="change"/>
+                                    </p:selectOneMenu>
+
+                                </h:panelGrid>
+                            </div>
+                        </article>
+                        <br/>
+                        <article>
+                            <center>
+                                <p:commandButton value="Actualizar" icon="ui-icon-circle-plus" update=":frmCliente" actionListener="#{dtClientView.update(dtClientView.clientesel)}" action="#{dtClientView.limpiar()}" oncomplete="PF('editcliente').hide()"/>
+                                <p:commandButton value="Cerrar" oncomplete="PF('editcliente').hide()" />
+                            </center>
+                        </article>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

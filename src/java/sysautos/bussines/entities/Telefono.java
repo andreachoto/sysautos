@@ -5,11 +5,9 @@
  */
 package sysautos.bussines.entities;
 
-
 import java.util.Objects;
 import sysautos.bussines.drivers.dvrCliente;
 import sysautos.bussines.drivers.dvrTipoTelefono;
-
 
 /**
  *
@@ -23,7 +21,6 @@ public class Telefono {
     private String numero;
     private String operadora;
     private String estado;
-    private Cliente nombreclt;
     private TipoTelefono nombrettf;
 
     public Telefono() {
@@ -36,12 +33,7 @@ public class Telefono {
         this.numero = numero;
         this.operadora = operadora;
         this.estado = estado;
-        if (cltid != 0) {
-            this.nombreclt = dvrCliente.getClienteById(cltid);
-        } else {
-            this.nombreclt = null;
-        }
-          if (ttfid != 0) {
+        if (ttfid != 0) {
             this.nombrettf = dvrTipoTelefono.getTipoTelefonoById(ttfid);
         } else {
             this.nombrettf = null;
@@ -96,14 +88,7 @@ public class Telefono {
         this.estado = estado;
     }
 
-    public Cliente getNombreclt() {
-        return nombreclt;
-    }
-
-    public void setNombreclt(Cliente nombreclt) {
-        this.nombreclt = nombreclt;
-    }
-
+  
     public TipoTelefono getNombrettf() {
         return nombrettf;
     }
@@ -145,5 +130,5 @@ public class Telefono {
         }
         return true;
     }
-        
+
 }

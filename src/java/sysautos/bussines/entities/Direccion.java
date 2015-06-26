@@ -26,7 +26,6 @@ public class Direccion {
     private String referencia;
     private String barrio;
     private String sector;
-    private Cliente cliente;
     private TipoDireccion nomdireccion;
     private Ciudad nomcuidad;
 
@@ -44,12 +43,7 @@ public class Direccion {
         this.referencia = referencia;
         this.barrio = barrio;
         this.sector = sector;
-        if (cltid != 0) {
-            this.cliente = dvrCliente.getClienteById(cltid);
-        } else {
-            this.cliente = null;
-        }
-
+     
         if (tdrid != 0) {
             this.nomdireccion = dvrTipoDireccion.getTipoDireccionById(tdrid);
         } else {
@@ -143,14 +137,6 @@ public class Direccion {
         this.sector = sector;
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     public TipoDireccion getNomdireccion() {
         return nomdireccion;
     }
@@ -200,6 +186,7 @@ public class Direccion {
         }
         return true;
     }
+    
     
 
    
