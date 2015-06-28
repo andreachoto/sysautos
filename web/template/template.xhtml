@@ -12,26 +12,26 @@
         <h:outputScript name="hideshow.js" library="js" target="body"/>
         <h:outputScript>
             $(document).ready(function () {
-                $(".tablesorter").tablesorter();
+            $(".tablesorter").tablesorter();
             });
             $(document).ready(function () {
-                //When page loads...
-                $(".tab_content").hide(); //Hide all content
-                $("ul.tabs li:first").addClass("active").show(); //Activate first tab
-                $(".tab_content:first").show(); //Show first tab content
+            //When page loads...
+            $(".tab_content").hide(); //Hide all content
+            $("ul.tabs li:first").addClass("active").show(); //Activate first tab
+            $(".tab_content:first").show(); //Show first tab content
 
-                //On Click Event
-                $("ul.tabs li").click(function () {
-                    $("ul.tabs li").removeClass("active"); //Remove any "active" class
-                    $(this).addClass("active"); //Add "active" class to selected tab
-                    $(".tab_content").hide(); //Hide all tab content
-                    var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
-                    $(activeTab).fadeIn(); //Fade in the active ID content
-                    return false;
-                });
+            //On Click Event
+            $("ul.tabs li").click(function () {
+            $("ul.tabs li").removeClass("active"); //Remove any "active" class
+            $(this).addClass("active"); //Add "active" class to selected tab
+            $(".tab_content").hide(); //Hide all tab content
+            var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+            $(activeTab).fadeIn(); //Fade in the active ID content
+            return false;
+            });
             });
             $(function () {
-                $('.column').equalHeight();
+            $('.column').equalHeight();
             });
         </h:outputScript>
         <title>Sistema de Gestion de Ventas de Vehiculos</title>
@@ -39,19 +39,19 @@
     <h:body>
         <div>
             <h:form>
-            <header id="header">
-                <hgroup>
-                    <h1 class="site_title"><h:graphicImage library="images" name="auto.png" height="54" width="95"/>SYSAUTOS</h1>
-                    <h2 class="section_title">Sistema de Gestión de Autos y Repuestos</h2>
-                    <div class="btn_view_site">
-                        <h:commandLink value="Salir" action="#{mbsLogin.closeSession()}"/>
-                    </div>
-                </hgroup>
-            </header> <!-- end of header bar <a href="#">Salir</a>-->
-            <section id="secondary_bar">
-                <div class="user"><p><p:outputLabel value="#{mbsLogin.user.fisrtname} #{mbsLogin.user.lastname}"/></p></div>
-                <div class="breadcrumbs_container"></div>
-            </section><!-- end of secondary bar -->
+                <header id="header">
+                    <hgroup>
+                        <h1 class="site_title"><h:graphicImage library="images" name="auto.png" height="54" width="95"/>SYSAUTOS</h1>
+                        <h2 class="section_title">Sistema de Gestión de Autos y Repuestos</h2>
+                        <div class="btn_view_site">
+                            <h:commandLink value="Salir" action="#{mbsLogin.closeSession()}"/>
+                        </div>
+                    </hgroup>
+                </header> <!-- end of header bar <a href="#">Salir</a>-->
+                <section id="secondary_bar">
+                    <div class="user"><p><p:outputLabel value="#{mbsLogin.user.fisrtname} #{mbsLogin.user.lastname}"/></p></div>
+                    <div class="breadcrumbs_container"></div>
+                </section><!-- end of secondary bar -->
             </h:form>
             <ui:define name="top"></ui:define>
         </div>
@@ -62,11 +62,8 @@
             </ul>
             <h3>Clientes</h3>
             <ul class="toggle">
+                <li class="icn_view_users"><h:link value="Lista de Clientes" outcome="/clientes/selectcliente"/></li>
                 <li class="icn_add_user"><h:link value="Nuevo Cliente" outcome="/clientes/newcliente"/></li>
-                <li class="icn_add_user"><h:link value="Lista de Clientes" outcome="/clientes/selectcliente"/></li>
-                <li class="icn_photo"><a href="#">Gallery</a></li>
-                <li class="icn_audio"><a href="#">Audio</a></li>
-                <li class="icn_video"><a href="#">Video</a></li>
             </ul>
             <h3>Inventario</h3>
             <ul class="toggle">
@@ -79,25 +76,22 @@
             <ul class="toggle">
                 <li class="icn_venta"><a href="#">Ventas</a></li>
                 <li class="icn_photo"><h:link value="Formas de Pago" outcome="/ventas/formapago"/></li>
-                <li class="icn_audio"><a href="#">Pagos</a></li>
+                <li class="icn_jump_back"><a href="#">Pagos</a></li>
             </ul>
             <h3>Creditos</h3>
             <ul class="toggle">
-                <li class="icn_add_user"><a href="#">Creditos</a></li>
-                <li class="icn_view_users"><h:link value="Modo Pago" outcome="/creditos/Modopago"/></li>
-                <li class="icn_view_users"><h:link value="Tipo Deudor" outcome="/creditos/Tipodeudor"/></li>
-                <li class="icn_view_users"><h:link value="Requisitos" outcome="/creditos/Requisitos"/></li>
-                <li class="icn_view_users"><h:link value="Requisitos Modo Pago" outcome="/creditos/Remopa"/></li>
-                <li class="icn_view_users"><h:link value="Credito" outcome="/creditos/Credito1"/></li>
-                
+                <li class="icn_security"><a href="#">Creditos</a></li>
+                <li class="icn_tags"><h:link value="Modo Pago" outcome="/creditos/Modopago"/></li>
+                <li class="icn_tags"><h:link value="Tipo Deudor" outcome="/creditos/Tipodeudor"/></li>
+                <li class="icn_categories"><h:link value="Requisitos" outcome="/creditos/Requisitos"/></li>
+                <li class="icn_folder"><h:link value="Requisitos Modo Pago" outcome="/creditos/Remopa"/></li>
             </ul>
-
             <h3>Admin</h3>
             <ul class="toggle">
                 <li class="icn_view_users"><h:link value="Usuarios" outcome="/users/users"/></li>
-                <li class="icn_profile"><a href="#">Tu Perfil</a></li>
+              <!--  <li class="icn_profile"><a href="#">Tu Perfil</a></li>
                 <li class="icn_settings"><a href="#">Configuracion</a></li>
-                <li class="icn_security"><a href="#">Opciones</a></li>
+                <li class="icn_security"><a href="#">Opciones</a></li> -->
             </ul>
 
             <footer>

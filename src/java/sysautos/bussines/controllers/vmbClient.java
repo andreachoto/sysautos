@@ -410,7 +410,6 @@ public class vmbClient implements Serializable {
     }
 
     public void limpiar() {
-        cliente = new Cliente();
         direccion = new Direccion();
         identidad = new Identificacion();
         telefono = new Telefono();
@@ -424,7 +423,6 @@ public class vmbClient implements Serializable {
     }
 
     public void limpiarlistas() {
-        cliente = new Cliente();
         lstIdentificacion.clear();
         lstTelefono.clear();
         lstDireccion.clear();

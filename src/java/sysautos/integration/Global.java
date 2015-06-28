@@ -11,6 +11,6 @@ package sysautos.integration;
 public class Global {
     public static final String URL = "jdbc:postgresql://localhost:5432/autosdb";
     public static final String USER = "postgres";
-    public static final String PASSWORD = "sistemas";
+    public static final String PASSWORD = "admin";
     public static final String DRIVER = "org.postgresql.Driver";
 }
