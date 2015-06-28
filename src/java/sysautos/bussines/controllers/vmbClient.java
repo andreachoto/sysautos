@@ -70,6 +70,7 @@ public class vmbClient implements Serializable {
     private ArrayList<Integer> selecdireccion;
     private ArrayList<Integer> selectelefono;
 
+
     public vmbClient() throws Exception {
         this.cliente = new Cliente();
         this.identidad = new Identificacion();

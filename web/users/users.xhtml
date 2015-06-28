@@ -48,10 +48,7 @@
                                                     <f:facet name="footer">
                                                         <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newuser').show()" />
                                                         <p:commandButton value="Editar" icon="ui-icon-pencil" action="#{dtUserView.loaduser(dtUserView.usersel.id)}"/>
-                                                        <p:commandButton id="EliminarRegistro" value="Eliminar" icon="ui-icon-trash" update=":frmUsers" 
-                                                                         actionListener="#{dtUserView.delete(dtUserView.usersel.id)}"> 
-                                                            <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
-                                                        </p:commandButton> 
+                                                        
                                                     </f:facet>
                                                 </p:dataTable>
                                             </h:panelGrid>
