@@ -538,7 +538,6 @@ public class vmbClient implements Serializable {
     public void updateDireccion(Direccion direc) {
         try {
             if (dvrDireccion.direccionUpdate(direc)) {
-                this.addDireccionToList();
                 MbsMessages.info(" Dirección actualizado correctamente!");
             } else {
                 MbsMessages.error("No se pudo Actualizar el registro!");
