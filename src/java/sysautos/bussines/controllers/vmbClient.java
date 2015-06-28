@@ -69,7 +69,6 @@ public class vmbClient implements Serializable {
     private ArrayList<Integer> selecidentificacion;
     private ArrayList<Integer> selecdireccion;
     private ArrayList<Integer> selectelefono;
-//    private int cliid;
 
     public vmbClient() throws Exception {
         this.cliente = new Cliente();
@@ -91,7 +90,7 @@ public class vmbClient implements Serializable {
         this.selecidentificacion = new ArrayList<>();
         this.selecdireccion = new ArrayList<>();
         this.selectelefono = new ArrayList<>();
-        limpiar();
+        this.limpiar();
     }
 
     public Cliente getClientesel() {
@@ -642,8 +641,4 @@ public class vmbClient implements Serializable {
             MbsMessages.fatal(ex.getMessage());
         }
     }
-    
-    
-  
-
 }

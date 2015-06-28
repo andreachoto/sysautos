@@ -6,27 +6,13 @@
 package sysautos.bussines.controllers;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
-import org.primefaces.context.DefaultRequestContext;
-import sysautos.bussines.drivers.dvrAmortizacion;
 import sysautos.bussines.drivers.dvrClienteCredito;
-import sysautos.bussines.drivers.dvrCredit;
-import sysautos.bussines.drivers.dvrTipodeudor;
-import sysautos.bussines.entities.Amortizacion;
 import sysautos.bussines.entities.ClienteCredito;
-import sysautos.bussines.entities.Credit;
-import sysautos.bussines.entities.Tipodeudor;
 import sysautos.bussines.session.MbsMessages;
 
 /**
