@@ -91,7 +91,7 @@ public class vmbClient implements Serializable {
         this.selecidentificacion = new ArrayList<>();
         this.selecdireccion = new ArrayList<>();
         this.selectelefono = new ArrayList<>();
-        this.limpiar();
+        limpiar();
     }
 
     public Cliente getClientesel() {
@@ -642,4 +642,8 @@ public class vmbClient implements Serializable {
             MbsMessages.fatal(ex.getMessage());
         }
     }
+    
+    
+  
+
 }
