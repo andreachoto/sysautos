@@ -28,6 +28,7 @@ import sysautos.bussines.entities.Amortizacion;
 import sysautos.bussines.entities.Cliente;
 import sysautos.bussines.entities.ClienteCredito;
 import sysautos.bussines.entities.Credit;
+import sysautos.bussines.entities.Requisitos;
 import sysautos.bussines.entities.RequisitosCliente;
 import sysautos.bussines.entities.Tipodeudor;
 import sysautos.bussines.session.MbsMessages;
@@ -63,6 +64,15 @@ public class CCredito2 {
     private List<RequisitosCliente> lstRequisitosCliente;
     private List<Cliente> lstClients;
     private int resul;
+    private List<Requisitos> lstRequisitos;
+
+    public List<Requisitos> getLstRequisitos() {
+        return lstRequisitos;
+    }
+
+    public void setLstRequisitos(List<Requisitos> lstRequisitos) {
+        this.lstRequisitos = lstRequisitos;
+    }
 
     public List<RequisitosCliente> getLstRequisitosCliente() {
         return lstRequisitosCliente;
@@ -148,6 +158,7 @@ public class CCredito2 {
         listaMeses = new ArrayList<Integer>();
         lstClienteCredito = new ArrayList<>();
         lstRequisitosCliente = new ArrayList<>();
+        lstRequisitos=new ArrayList<>();
         this.loadClientes();
         this.tipodeudor = new Tipodeudor();
 
@@ -222,7 +233,19 @@ public class CCredito2 {
             if (resul != 0) {
 
                 this.insertarclientecredito();
-                lstRequisitosCliente.add((RequisitosCliente) dvrRequisitosCliente.getClientesListByCrdito(resul));
+                
+             for (ClienteCredito cliente : lstClienteCredito) {
+
+                    lstRequisitos = (dvrRequisitosCliente.getRequisitosListByTipo(cliente.getIdtipo()));
+
+                    for (Requisitos req : lstRequisitos) {
+
+                      RequisitosCliente rq = new RequisitosCliente(req.getRqtid(),cliente.getIdcli(),resul,false);
+                      dvrRequisitosCliente.userReqClienteRegister(rq);
+
+                    }
+                }
+                
                 MbsMessages.info("Se guardo con éxito");
 
                 cargar();

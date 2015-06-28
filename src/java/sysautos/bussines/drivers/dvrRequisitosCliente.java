@@ -20,13 +20,13 @@ import sysautos.integration.Parameter;
  */
 public class dvrRequisitosCliente {
 
-    public static int userReqClienteRegister(int modo, int cliente, int credito, boolean verificacion) throws Exception {
+    public static int userReqClienteRegister(RequisitosCliente obj) throws Exception {
         int codigo = 0;
         List<Parameter> parametros = new ArrayList<>();
-        parametros.add(new Parameter(1, modo, Types.INTEGER));
-        parametros.add(new Parameter(2, cliente, Types.INTEGER));
-        parametros.add(new Parameter(3, credito, Types.INTEGER));
-        parametros.add(new Parameter(4, verificacion, Types.BOOLEAN));
+        parametros.add(new Parameter(1, obj.getRqtid(), Types.INTEGER));
+        parametros.add(new Parameter(2, obj.getCltid(), Types.INTEGER));
+        parametros.add(new Parameter(3, obj.getCrtid(), Types.INTEGER));
+        parametros.add(new Parameter(4, obj.isVerificacion(), Types.BOOLEAN));
 
         String llamadaPA = "SELECT autos.\"reclientesRegister_pa\"(?,?,?,?)";
         Conexion con = new Conexion(llamadaPA, parametros);
@@ -126,13 +126,12 @@ public class dvrRequisitosCliente {
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
             int id = con.getInt("outclid");
-            int cre= con.getInt("outcrtid");
-            int tipo= con.getInt("outtip");
+            int cre = con.getInt("outcrtid");
+            int tipo = con.getInt("outtip");
 
-            lista.add(new ClienteCredito(id,cre,tipo));
+            lista.add(new ClienteCredito(id, cre, tipo));
         }
-      
-  
+
         con.cerrarConexion();
         return lista;
     }
