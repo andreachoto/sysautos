@@ -1,8 +1,6 @@
-/**
- * @author SOPORTE01
- */
 package sysautos.bussines.controllers;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -12,7 +10,7 @@ import sysautos.bussines.session.MbsMessages;
 
 @ManagedBean(name = "dtPedidosView")
 @ViewScoped
-public final class vmbPedidos {
+public final class vmbPedidos implements Serializable{
     private List<Pedido> pedidos;
     private Pedido pedidoselect;
 

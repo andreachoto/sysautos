@@ -10,27 +10,27 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import sysautos.bussines.common.Genericas;
 import sysautos.bussines.drivers.dvrDetallepedido;
-import sysautos.bussines.drivers.dvrPedido;
+import sysautos.bussines.drivers.dvrVenta;
 import sysautos.bussines.drivers.dvrProducto;
 import sysautos.bussines.drivers.dvrProveedor;
 import sysautos.bussines.drivers.dvrTipoproducto;
 import sysautos.bussines.entities.Detallepedido;
-import sysautos.bussines.entities.Pedido;
+import sysautos.bussines.entities.Venta;
 import sysautos.bussines.entities.Producto;
 import sysautos.bussines.entities.Proveedor;
 import sysautos.bussines.entities.Tipoproducto;
 import sysautos.bussines.entities.User;
 import sysautos.bussines.session.MbsMessages;
 
-@ManagedBean(name = "dtPedidoView")
+@ManagedBean(name = "dtVentaView")
 @ViewScoped
 
-public final class vmbPedido implements Serializable {
+public final class vmbVenta implements Serializable {
 
     //atributos del bean
     private String accion;
     private Date date;
-    private Pedido pedido;
+    private Venta pedido;
     private List<Proveedor> proveedores;
     private List<Detallepedido> pedidoitems;
     private Detallepedido itempedido, itemselect;
@@ -38,9 +38,9 @@ public final class vmbPedido implements Serializable {
     private Tipoproducto tipprod_select;
     private List<Producto> productos;
 
-    public vmbPedido() throws Exception {
+    public vmbVenta() throws Exception {
         this.accion = "INS";
-        this.pedido = new Pedido();
+        this.pedido = new Venta();
         this.pedidoitems = new ArrayList<>();
         this.itempedido = new Detallepedido();
         this.itemselect = new Detallepedido();
@@ -66,11 +66,11 @@ public final class vmbPedido implements Serializable {
         this.date = date;
     }
 
-    public Pedido getPedido() {
+    public Venta getVenta() {
         return pedido;
     }
 
-    public void setPedido(Pedido pedido) {
+    public void setVenta(Venta pedido) {
         this.pedido = pedido;
     }
 
@@ -82,11 +82,11 @@ public final class vmbPedido implements Serializable {
         this.proveedores = proveedores;
     }
 
-    public List<Detallepedido> getPedidoitems() {
+    public List<Detallepedido> getVentaitems() {
         return pedidoitems;
     }
 
-    public void setPedidoitems(List<Detallepedido> pedidoitems) {
+    public void setVentaitems(List<Detallepedido> pedidoitems) {
         this.pedidoitems = pedidoitems;
     }
 
@@ -131,14 +131,14 @@ public final class vmbPedido implements Serializable {
     }
     
     //metodo que valida la operacion a realizar.
-    public void operar() {
-        if (this.accion.equals("INS")) {
-            this.register();
-        } else if (this.accion.equals("UDP")) {
-            this.update();
-        }
-
-    }
+//    public void operar() {
+//        if (this.accion.equals("INS")) {
+//            this.register();
+//        } else if (this.accion.equals("UDP")) {
+//            this.update();
+//        }
+//
+//    }
 
     //Metodos de logica
     public void loadProveedores() {
@@ -180,7 +180,7 @@ public final class vmbPedido implements Serializable {
                     Detallepedido item = new Detallepedido(0, 0, this.itempedido.getPdtid(), this.itempedido.getCantidad(), "En pedido", this.itempedido.getObser());
                     this.pedidoitems.add(item);
                 } else {
-                    MbsMessages.error("Ingrese la cantidad de productos al Item de Pedido");
+                    MbsMessages.error("Ingrese la cantidad de productos al Item de Venta");
                 }
             } else {
                 MbsMessages.error("Seleccione un producto para agregar Items al pedido");
@@ -199,35 +199,35 @@ public final class vmbPedido implements Serializable {
         }
     }
 
-    public void register() {
-        try {
-            Date dat = this.date;
-            if (this.pedido.getPvdid() != -1) {
-                Pedido ped = this.pedido;
-                ped.setFecha(Genericas.parsDatetoTimestamp(dat));
-                ped.setEstado("Solicitado");
-                HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-                User user = (User) httpSession.getAttribute("user");
-                ped.setUsrid(user.getId());
-                int ban = dvrPedido.pedidoRegister(ped);
-                if (ban != 0) {
-                    //Guardar items del pedido
-                    for (Detallepedido item : this.pedidoitems) {
-                        item.setPedid(ban);
-                        dvrDetallepedido.detallepedidoRegister(item);
-                    }
-                    //refescamos la lista de pedidos
-                    MbsMessages.info("Pedido creado exitosamente!");
-                } else {
-                    MbsMessages.error("No se pudo insertar el registro!");
-                }
-            } else {
-                MbsMessages.error("Seleccione un proveedor!");
-            }
-        } catch (Exception ex) {
-            MbsMessages.fatal(ex.getMessage());
-        }
-    }
+//    public void register() {
+//        try {
+//            Date dat = this.date;
+//            if (this.pedido.getPvdid() != -1) {
+//                Venta ped = this.pedido;
+//                ped.setFecha(Genericas.parsDatetoTimestamp(dat));
+//                ped.setEstado("Solicitado");
+//                HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+//                User user = (User) httpSession.getAttribute("user");
+//                ped.setUsrid(user.getId());
+//                int ban = dvrVenta.ventaRegister(ped);
+//                if (ban != 0) {
+//                    //Guardar items del pedido
+//                    for (Detallepedido item : this.pedidoitems) {
+//                        item.setPedid(ban);
+//                        dvrDetallepedido.detallepedidoRegister(item);
+//                    }
+//                    //refescamos la lista de pedidos
+//                    MbsMessages.info("Venta creado exitosamente!");
+//                } else {
+//                    MbsMessages.error("No se pudo insertar el registro!");
+//                }
+//            } else {
+//                MbsMessages.error("Seleccione un proveedor!");
+//            }
+//        } catch (Exception ex) {
+//            MbsMessages.fatal(ex.getMessage());
+//        }
+//    }
 
     public void update() {
     }

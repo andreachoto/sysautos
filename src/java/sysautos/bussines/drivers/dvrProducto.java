@@ -148,4 +148,28 @@ public class dvrProducto {
         con.cerrarConexion();
         return lista;
     }
+    
+    //Listar los registros de la tabla dado el nombre 
+    public static List<Producto> getProductoListByTipoID(int value) throws Exception {
+        List<Producto> lista = new ArrayList<>();
+        List<Parameter> parametros = new ArrayList<>();
+        parametros.add(new Parameter(1, value, Types.INTEGER));
+        String llamadaPA = "SELECT * from autos.\"productoByTipo_pa\"(?)";
+        Conexion con = new Conexion(llamadaPA, parametros);
+        while (con.siguiente()) {
+            int id = con.getInt("outid");
+            int tptid = con.getInt("outtptid");
+            String nombre = con.getString("outnombre");
+            String serial = con.getString("outserial");
+            int stock = con.getInt("outstock");
+            BigDecimal valoruni = con.getBigDecimal("outvaloruni");
+            BigDecimal pvp = con.getBigDecimal("outpvp");
+            String marca = con.getString("outmarca");
+            String modelo = con.getString("outmodelo");
+            BigDecimal cilindraje = con.getBigDecimal("outcilindraje");
+            lista.add(new Producto(id, tptid, nombre, serial, stock, valoruni, pvp, marca, modelo, cilindraje));
+        }
+        con.cerrarConexion();
+        return lista;
+    }
 }

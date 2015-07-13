@@ -7,13 +7,13 @@ package sysautos.bussines.entities;
 
 import java.math.BigDecimal;
 import sysautos.bussines.drivers.dvrProducto;
-import sysautos.bussines.drivers.dvrVenta;
 
 /**
  *
  * @author hp
  */
 public class Detalleventa {
+
     private int id;
     private int vtaid;
     private int pdtid;
@@ -22,7 +22,6 @@ public class Detalleventa {
     private BigDecimal subtotal;
     private BigDecimal descuento;
     private BigDecimal valtotal;
-    private Venta venta;
     private Producto producto;
 
     public Detalleventa() {
@@ -38,12 +37,7 @@ public class Detalleventa {
         this.subtotal = subtotal;
         this.descuento = descuento;
         this.valtotal = valtotal;
-        if (vtaid != 0) {
-            this.venta = dvrVenta.getVentaById(vtaid);
-        } else {
-            this.venta = null;
-        }
-          if (pdtid != 0) {
+        if (pdtid != 0) {
             this.producto = dvrProducto.getProductoById(pdtid);
         } else {
             this.producto = null;
@@ -112,14 +106,6 @@ public class Detalleventa {
 
     public void setValtotal(BigDecimal valtotal) {
         this.valtotal = valtotal;
-    }
-
-    public Venta getVenta() {
-        return venta;
-    }
-
-    public void setVenta(Venta venta) {
-        this.venta = venta;
     }
 
     public Producto getProducto() {

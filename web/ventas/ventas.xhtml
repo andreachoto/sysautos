@@ -5,15 +5,15 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
-        <div id="pedidos">
+        <div id="ventas">
             <p:messages id="messages" globalOnly="true" showDetail="true" autoUpdate="true" closable="true"/>
             <article class="module width_full">
-                <h:form id="frmPedidos">
-                    <header><h3>Gestion de Pedidos</h3></header>
+                <h:form id="frmVentas">
+                    <header><h3>Gestion de Ventas</h3></header>
                     <div class="module_content">
-                        <h:panelGrid cellpadding="4" style="width: 60%;">
-                            <p:dataTable id="tblroles" value="#{dtPedidosView.pedidos}" var="item"
-                                         selection="#{dtPedidosView.pedidoselect}" selectionMode="single" 
+                        <h:panelGrid cellpadding="4" style="width: 100%;">
+                            <p:dataTable id="tblroles" value="#{dtVentasView.ventas}" var="item"
+                                         selection="#{dtVentasView.ventaselect}" selectionMode="single" 
                                          rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
                                          rendered="true">
                                 <p:column headerText="Numero"> 
@@ -22,16 +22,19 @@
                                 <p:column headerText="Fecha">
                                     <h:outputText value="#{Common.TimestampFormat(item.fecha)}"/>
                                 </p:column>
-                                <p:column headerText="Estado">
-                                    <h:outputText value="#{item.estado}"/>
+                                <p:column headerText="Nro Factura">
+                                    <h:outputText value="#{item.numfac}"/>
                                 </p:column>
-                                <p:column headerText="Solicitado por:">
-                                    <h:outputText value="#{item.user.fisrtname} #{item.user.lastname}"/>
+                                <p:column headerText="Cliente">
+                                    <h:outputText value="#{item.cliente.apellido} #{item.cliente.nombre}"/>
+                                </p:column>
+                                <p:column headerText="Total">
+                                    <h:outputText value="#{item.total}"/>
                                 </p:column>
                                 <f:facet name="footer">
                                     <!-- Boton Nuevo -->
-                                    <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" action="pedido">
-                                        <f:setPropertyActionListener target="#{dtPedidoView.accion}" value="INS"/>
+                                    <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" action="venta">
+                                        <f:setPropertyActionListener target="#{dtVentaView.accion}" value="INS"/>
                                     </p:commandButton>
                                     <p:commandButton value="Editar" icon="ui-icon-pencil" action="pedido"/><!-- Boton Editar -->
                                 </f:facet>

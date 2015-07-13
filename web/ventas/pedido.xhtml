@@ -8,9 +8,10 @@
         <div id="pedido">
             <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
             <article class="module width_full">
-                <header><h3>Nuevo Pedido</h3></header>
-                <div class="module_content">
-                    <h:form id="frmPedido">
+                <h:form id="frmPedido">
+                    <header><h3>Nuevo Pedido</h3></header>
+                    <h2>AComo dar #{dtPedidoView.accion}</h2>
+                    <div class="module_content">
                         <!--Panel de ingreso-->
                         <h:panelGrid columns="2" cellpadding="4">
                             <p:outputLabel for="button" value="Fecha:" />
@@ -23,12 +24,10 @@
                             </p:selectOneMenu>
                         </h:panelGrid>
                         <!--Tablero de Detalle-->
-                        <div style="font-size: 14px; text-align: center; background-color: #9E9E9E; color: white; border-radius: 10px;  padding: 5px;  position: relative;">
-                            DETALLE DE PEDIDO
-                        </div>
-                        <table style="width: 100%">
-                            <tr>
-                                <td>
+                        <fieldset style="width: 100%">
+                            <p:outputLabel>DETALLE DE PEDIDO</p:outputLabel><br/><br/>
+                            <div style="width: 100%; margin: 5px;">
+                                <div style="float: left; width:90%; ">
                                     <p:dataTable id="tblpedidoitems" value="#{dtPedidoView.pedidoitems}" var="item"
                                                  selection="#{dtPedidoView.itemselect}" selectionMode="single" 
                                                  rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
@@ -42,21 +41,57 @@
                                         <p:column headerText="Observaciones">
                                             <h:outputText value="#{item.obser}"/>
                                         </p:column>
-                                    </p:dataTable>
-                                </td>
-                                <td>
-                                    <p:commandButton value="ADD" icon="ui-icon-circle-plus" oncomplete="PF('additempedido').show()" />
-                                    <p:commandButton value="DEL" icon="ui-icon-cancel" actionListener="#{dtPedidoView.delItemDetalle()}" update=":frmPedido:tblpedidoitems"/>
-                                </td>
-                            </tr>
-                        </table>
+                                    </p:dataTable> 
+                                </div>
+                                <div style="float: left; width: 8%; padding: 5px;">
+                                    <p:commandButton value="ADD" icon="ui-icon-circle-plus" oncomplete="PF('additempedido').show()" /><br/>
+                                    <p:commandButton value="DEL" icon="ui-icon-cancel" actionListener="#{dtPedidoView.delItemDetalle()}"
+                                                     update=":frmPedido:tblpedidoitems"/>
+                                </div>
+                            </div>
+                        </fieldset>
                         <footer style=" background:#fff; text-align: center; border: 0px;">
-                                <p:commandButton value="Registrar" icon="ui-icon-circle-plus" actionListener="#{dtPedidoView.register()}" action="pedido" />
-                                <p:commandButton value="Cancelar" icon="ui-icon-cancel" action="pedidos" />
+                            <p:commandButton value="Registrar" icon="ui-icon-circle-plus" actionListener="#{dtPedidoView.operar()}"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-cancel" action="pedidos" />
                         </footer>
-                    </h:form>
-                </div>
+                    </div>
+                </h:form>
             </article>
         </div>
+        <!-- Dialog para el ingreso de Items de detalle al Pedido -->
+        <p:dialog id="additempedido" widgetVar="additempedido" header="Item de Pedido" modal="true" resizable="false">
+            <h:form>
+                <article class="module width_full">
+                    <header><center><h3>Agregar Items</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="tipo" value="Tipo de Producto:" />
+                            <p:selectOneMenu id="tipo" style="width:150px" value="#{dtPedidoView.tipprod_select.id}">
+                                <f:selectItem itemLabel="Seleccionar" itemValue="-1" noSelectionOption="true" />
+                                <f:selectItems value="#{dtPedidoView.tiposproducto}" var="itemtipo" 
+                                               itemValue="#{itemtipo.id}" itemLabel="#{itemtipo.nombre}" />
+                                <p:ajax event="change" listener="#{dtPedidoView.loadproductosbyTipoID()}" update="producto"/> 
+                            </p:selectOneMenu>
+                            <p:outputLabel for="producto" value="Producto:" />
+                            <p:selectOneMenu id="producto" style="width:150px" value="#{dtPedidoView.itempedido.pdtid}" >
+                                <f:selectItem itemLabel="Seleccionar" itemValue="-1" noSelectionOption="true" />
+                                <f:selectItems value="#{dtPedidoView.productos}" var="item" 
+                                               itemValue="#{item.id}" itemLabel="#{item.nombre}" />
+                                <p:ajax event="change"/> 
+                            </p:selectOneMenu>
+                            <h:outputText value="Cantidad"/>
+                            <h:inputText value="#{dtPedidoView.itempedido.cantidad}" />
+                            <h:outputText value="Notas:" />
+                            <h:inputText value="#{dtPedidoView.itempedido.obser}"/>
+                        </h:panelGrid>
+                    </div>
+                    <div style="text-align: center; margin: 10px;">
+                        <p:commandButton value="Guardar" actionListener="#{dtPedidoView.addItemDetalle()}" 
+                                         update=":frmPedido:tblpedidoitems" oncomplete="PF('additempedido').hide()"/>
+                        <p:commandButton value="Cerrar" oncomplete="PF('additempedido').hide()" />
+                    </div>
+                </article>
+            </h:form>
+        </p:dialog>
     </ui:define>
 </ui:composition>

@@ -1,25 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sysautos.bussines.entities;
 
-import sysautos.bussines.drivers.dvrPedido;
 import sysautos.bussines.drivers.dvrProducto;
 
-/**
- *
- * @author hp
- */
 public class Detallepedido {
+
     private int id;
     private int pedid;
     private int pdtid;
     private int cantidad;
     private String estado;
     private String obser;
-    private Pedido pedido;
     private Producto producto;
 
     public Detallepedido() {
@@ -32,12 +22,7 @@ public class Detallepedido {
         this.cantidad = cantidad;
         this.estado = estado;
         this.obser = obser;
-        if (pedid != 0) {
-            this.pedido = dvrPedido.getPedidoById(pedid);
-        } else {
-            this.pedido = null;
-        }
-          if (pdtid != 0) {
+        if (pdtid != 0) {
             this.producto = dvrProducto.getProductoById(pdtid);
         } else {
             this.producto = null;
@@ -90,14 +75,6 @@ public class Detallepedido {
 
     public void setObser(String obser) {
         this.obser = obser;
-    }
-
-    public Pedido getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
     }
 
     public Producto getProducto() {

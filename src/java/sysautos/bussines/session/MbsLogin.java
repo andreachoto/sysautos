@@ -5,6 +5,7 @@
  */
 package sysautos.bussines.session;
 
+import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -13,14 +14,9 @@ import javax.servlet.http.HttpSession;
 import sysautos.bussines.entities.User;
 import sysautos.bussines.drivers.dvrUser;
 
-
-/**
- *
- * @author hp
- */
 @ManagedBean
 @SessionScoped
-public class MbsLogin {
+public class MbsLogin implements Serializable{
 
     private String login;
     private User user;
@@ -79,5 +75,4 @@ public class MbsLogin {
         httpSession.invalidate();
         return "/login";
     }
-    
 }
