@@ -5,7 +5,6 @@
  */
 package sysautos.bussines.entities;
 
-import sysautos.bussines.drivers.dvrClienteCredito;
 import sysautos.bussines.drivers.dvrRequisitos;
 
 
@@ -19,11 +18,16 @@ public class RequisitosCliente {
     private int rqtid;
     private int cltid;
     private int crtid;
+    private Cliente cli;
     private boolean verificacion;
-    private ClienteCredito clicred;
     private Requisitos requisitos;
+    private Detallereq detareq;
+    
+    
 
-    public RequisitosCliente() {
+ 
+
+    public RequisitosCliente() { 
     }
 
     public RequisitosCliente(int rqtid, int cltid, int crtid, boolean verificacion) throws Exception {
@@ -32,16 +36,41 @@ public class RequisitosCliente {
         this.crtid = crtid;
         this.verificacion = verificacion;
         if (rqtid != 0) {
-            this.requisitos = dvrRequisitos.getRequisitosById(crtid);
+            this.requisitos = sysautos.bussines.drivers.dvrRequisitos.getRequisitosById(rqtid);
         } else {
             this.requisitos = null;
         }
-        if (cltid != 0 && crtid != 0) {
-            this.clicred = dvrClienteCredito.getClientecreditoById(cltid,crtid);
+         if (cltid != 0) {
+            this.cli = sysautos.bussines.drivers.dvrCliente.getClienteById(cltid);
         } else {
-            this.clicred = null;
+            this.cli = null;
         }
+        
+        
+        
     }
+
+    public Detallereq getDetareq() {
+        return detareq;
+    }
+
+    public void setDetareq(Detallereq detareq) {
+        this.detareq = detareq;
+    }
+    
+    
+    
+    
+    public Cliente getCli() {
+        return cli;
+    }
+
+    public void setCli(Cliente cli) {
+        this.cli = cli;
+    }
+    
+    
+    
 
     public int getRqtid() {
         return rqtid;
@@ -75,14 +104,6 @@ public class RequisitosCliente {
         this.verificacion = verificacion;
     }
 
-    public ClienteCredito getClicred() {
-        return clicred;
-    }
-
-    public void setClicred(ClienteCredito clicred) {
-        this.clicred = clicred;
-    }
-
     public Requisitos getRequisitos() {
         return requisitos;
     }
@@ -91,6 +112,7 @@ public class RequisitosCliente {
         this.requisitos = requisitos;
     }
 
+    
     @Override
     public int hashCode() {
         int hash = 5;

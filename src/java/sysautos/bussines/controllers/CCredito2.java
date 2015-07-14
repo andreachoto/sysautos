@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sysautos.bussines.controllers;
 
 import java.math.BigDecimal;
@@ -12,8 +7,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.context.DefaultRequestContext;
@@ -23,7 +16,6 @@ import sysautos.bussines.drivers.dvrClienteCredito;
 import sysautos.bussines.drivers.dvrCredit;
 import sysautos.bussines.drivers.dvrRequisitosCliente;
 import sysautos.bussines.drivers.dvrTipodeudor;
-import sysautos.bussines.drivers.dvrUser;
 import sysautos.bussines.entities.Amortizacion;
 import sysautos.bussines.entities.Cliente;
 import sysautos.bussines.entities.ClienteCredito;
@@ -33,19 +25,13 @@ import sysautos.bussines.entities.RequisitosCliente;
 import sysautos.bussines.entities.Tipodeudor;
 import sysautos.bussines.session.MbsMessages;
 
-/**
- *
- * @author DISMAGIC0985043396
- */
 @ManagedBean(name = "dtCreditoView")
 @ViewScoped
 public class CCredito2 {
 
-    /**
-     * Creates a new instance of CCredito2
-     */
-    private List<Credit> lstcreditos;
+    private static List<Credit> lstcreditos;
     private Credit credito, creditoSeleccion;
+    private ClienteCredito clicredsel;
     private Date fecha, fecha1;
     private ClienteCredito clientecredito;
     private Cliente client;
@@ -57,115 +43,64 @@ public class CCredito2 {
             idCejero, intPlazo, modo;
     private Timestamp fechaActua;
     private ArrayList<Amortizacion> listaAmt;
-    private ArrayList<Tipodeudor> lstTipodeudor;
+    private static ArrayList<Tipodeudor> lstTipodeudor;
     private ArrayList<Integer> listaMeses;
     private boolean verificacion;
     private List<ClienteCredito> lstClienteCredito;
-    private List<RequisitosCliente> lstRequisitosCliente;
-    private List<Cliente> lstClients;
-    private int resul;
+    private List<ClienteCredito> lstRequisitosCliente;
+    private List<RequisitosCliente> lstRequisitosClienteid;
+    private static List<Cliente> lstClients;
     private List<Requisitos> lstRequisitos;
+    private List<Amortizacion> lstAmortizacion;
+    
+    
 
-    public List<Requisitos> getLstRequisitos() {
-        return lstRequisitos;
-    }
-
-    public void setLstRequisitos(List<Requisitos> lstRequisitos) {
-        this.lstRequisitos = lstRequisitos;
-    }
-
-    public List<RequisitosCliente> getLstRequisitosCliente() {
-        return lstRequisitosCliente;
-    }
-
-    public void setLstRequisitosCliente(List<RequisitosCliente> lstRequisitosCliente) {
-        this.lstRequisitosCliente = lstRequisitosCliente;
-    }
-
-    public Cliente getClient() {
-        return client;
-    }
-
-    public void setClient(Cliente client) {
-        this.client = client;
-    }
-
-    public ArrayList<Tipodeudor> getLstTipodeudor() {
-        return lstTipodeudor;
-    }
-
-    public void setLstTipodeudor(ArrayList<Tipodeudor> lstTipodeudor) {
-        this.lstTipodeudor = lstTipodeudor;
-    }
-
-    public Tipodeudor getTipodeudor() {
-        return tipodeudor;
-    }
-
-    public void setTipodeudor(Tipodeudor tipodeudor) {
-        this.tipodeudor = tipodeudor;
-    }
-
-    public List<ClienteCredito> getLstClienteCredito() {
-        return lstClienteCredito;
-    }
-
-    public void setLstClienteCredito(List<ClienteCredito> lstClienteCredito) {
-        this.lstClienteCredito = lstClienteCredito;
-    }
-
-    public List<Cliente> getLstClients() {
-        return lstClients;
-    }
-
-    public void setLstClients(List<Cliente> lstClients) {
-        this.lstClients = lstClients;
-    }
-
-    public List<Credit> getLstcreditos() {
-        return lstcreditos;
-    }
-
-    public void setLstcreditos(List<Credit> lstcreditos) {
-        this.lstcreditos = lstcreditos;
-    }
-
-    public Credit getCreditoSeleccion() {
-        return creditoSeleccion;
-    }
-
-    public void setCreditoSeleccion(Credit creditoSeleccion) {
-        this.creditoSeleccion = creditoSeleccion;
-    }
-
-    public boolean isVerificacion() {
-        return verificacion;
-    }
-
-    public void setVerificacion(boolean verificacion) {
-        this.verificacion = verificacion;
-    }
+    private int resul;
 
     public CCredito2() {
         credito = new Credit();
         client = new Cliente();
         clientecredito = new ClienteCredito();
-
         lstcreditos = new ArrayList<>();
         listaAmt = new ArrayList<>();
         objAmortizacion = new Amortizacion();
         lstTipodeudor = new ArrayList<>();
-        listaMeses = new ArrayList<Integer>();
+        listaMeses = new ArrayList<>();
         lstClienteCredito = new ArrayList<>();
         lstRequisitosCliente = new ArrayList<>();
-        lstRequisitos=new ArrayList<>();
-        this.loadClientes();
+        lstAmortizacion=new ArrayList<>();
+        lstRequisitosClienteid = new ArrayList<>();
+        loadClientes();
+        loadTipodeudor();
         this.tipodeudor = new Tipodeudor();
-
         cargar();
     }
 
-    public void cargar() {
+    public CCredito2(ArrayList<Credit>listacredito, Credit objCredito, Credit creditoSeleccion, Date fecha, Date fecha1, ClienteCredito objcli, String strFormaPago, int intIdCliente, int intTipoDeudor, int intFormaPago, int intConyuge, int intGarante1, int intConyugeGarante1, int intgarante2, int intConyugeGarante2, int idCejero, ArrayList<Amortizacion> listaAmt, Amortizacion objAmortizacion, int resul, int modo) {
+        this.lstcreditos = listacredito;
+        this.credito = objCredito;
+        this.creditoSeleccion = creditoSeleccion;
+        this.fecha = fecha;
+        this.fecha1 = fecha1;
+        this.clientecredito = objcli;
+        this.strFormaPago = strFormaPago;
+        this.intIdCliente = intIdCliente;
+        this.intTipoDeudor = intTipoDeudor;
+        this.intFormaPago = intFormaPago;
+        this.intConyuge = intConyuge;
+        this.intGarante1 = intGarante1;
+        this.intConyugeGarante1 = intConyugeGarante1;
+        this.intgarante2 = intgarante2;
+        this.intConyugeGarante2 = intConyugeGarante2;
+        this.idCejero = idCejero;
+        this.listaAmt = listaAmt;
+        this.objAmortizacion = objAmortizacion;
+        this.resul = resul;
+        this.modo = modo;
+    }
+   
+    //FUNCIONES
+    public static void cargar() {
         try {
             lstcreditos = dvrCredit.getuserCreditoList();
             lstTipodeudor = dvrTipodeudor.getTipodeudorList();
@@ -176,9 +111,9 @@ public class CCredito2 {
 
     }
 
-    public void loadClientes() {
+    public static void loadClientes() {
         try {
-            this.lstClients = dvrCliente.getClienteList();
+            lstClients = dvrCliente.getClienteList();
         } catch (Exception ex) {
             MbsMessages.fatal("Error: " + ex.getMessage());
         }
@@ -214,12 +149,11 @@ public class CCredito2 {
             MbsMessages.fatal("Error: " + ex.getMessage());
         }
     }
-//FUNCIONES
 
     public void ingresar() {
         try {
 
-            // Util.addSuccessMessage("Entran Datos.");
+            System.err.println("Ingresa Datos Amortizacion");
             long fechasAc = obtieneFecha(fecha1) - obtieneFecha(fecha);
             fechaActua = obtieneFechaTimeStamp(fechasAc);
             credito.setFecha(obtieneFechaTimeStamp(fecha.getTime()));
@@ -231,10 +165,11 @@ public class CCredito2 {
 
             resul = dvrCredit.userCreditoRegister(credito);
             if (resul != 0) {
-
                 this.insertarclientecredito();
-                
-             for (ClienteCredito cliente : lstClienteCredito) {
+
+                //lstRequisitosCliente = dvrRequisitosCliente.getClientesListByCrdito(resul);
+
+                for (ClienteCredito cliente : lstClienteCredito) {
 
                     lstRequisitos = (dvrRequisitosCliente.getRequisitosListByTipo(cliente.getIdtipo()));
 
@@ -245,21 +180,49 @@ public class CCredito2 {
 
                     }
                 }
-                
-                MbsMessages.info("Se guardo con éxito");
-
+                generarAmortizacion();
+                lstAmortizacion = (dvrAmortizacion.getAmortizacionListByCred(resul) );
                 cargar();
 
             } else {
                 //Util.addErrorMessage("Error en la Insercion.");
             }
         } catch (Exception ex) {
-            // Logger.getLogger(CProfile.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
 
     }
+    
+    public void buscar(){
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
 
     public void insertarclientecredito() {
+
+        try {
+            for (ClienteCredito clientecred : lstClienteCredito) {
+                dvrClienteCredito.ClienteCreditoRegister(clientecred, resul);
+            }
+
+            DefaultRequestContext.getCurrentInstance().execute("wdlgAmortizacion.hide()");
+            MbsMessages.info("Generado Correctamente");
+        } catch (Exception ex) {
+
+        }
+    }
+
+    public void insertarrequisitosgarante() {
 
         try {
             for (ClienteCredito clientecred : lstClienteCredito) {
@@ -336,7 +299,7 @@ public class CCredito2 {
 
     public void generarAmortizacion() {
         try {
-            DefaultRequestContext.getCurrentInstance().execute("wdlgAmortizacion.show()");
+           // DefaultRequestContext.getCurrentInstance().execute("wdlgAmortizacion.show()");
             double tasap;
             double valorcuota;
             int ncuotas = 0;
@@ -369,7 +332,7 @@ public class CCredito2 {
 
                     objAmortizacion.setAmzcuota(i);
                     objAmortizacion.setAmzvalorc(BigDecimal.valueOf(getRedondear(valorcuota)));
-                    pagointeres = saldo * tasap;
+                    pagointeres = saldo * (tasap);
                     objAmortizacion.setAmzinteres(BigDecimal.valueOf(getRedondear(pagointeres)));
 
                     amortizacion = valorcuota - pagointeres;
@@ -386,7 +349,7 @@ public class CCredito2 {
                 this.objAmortizacion = new Amortizacion();
             }
             insertar();
-            DefaultRequestContext.getCurrentInstance().execute("wdlgAmortizacion.show()");
+            //DefaultRequestContext.getCurrentInstance().execute("wdlgAmortizacion.show()");
         } catch (Exception e) {
         }
     }
@@ -397,7 +360,24 @@ public class CCredito2 {
         this.lstClienteCredito.add(crecli);
     }
 
-//<editor-fold defaultstate="collapsed" desc="Set y Get">
+    public void buscartabla() throws Exception{
+        
+        
+        lstAmortizacion=dvrAmortizacion.getAmortizacionListByCred(resul);
+        
+    }
+    
+    
+    public void delItemDetalle() {
+        try {
+            ClienteCredito item = this.clicredsel;
+            this.lstClienteCredito.remove(item);
+            MbsMessages.info("Garante eliminado correctamente!");
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+
     private static double getRedondear(double numero) {
         return Math.rint(numero * 10000) / 10000;
     }
@@ -447,8 +427,47 @@ public class CCredito2 {
         return fecha;
     }
 
-    public ArrayList<Tipodeudor> getListaTipodeudor() {
-        return lstTipodeudor;
+//Methods getter and setter of app.
+    public List<Credit> getLstcreditos() {
+        return lstcreditos;
+    }
+
+    public List<Amortizacion> getLstAmortizacion() {
+        return lstAmortizacion;
+    }
+
+    public void setLstAmortizacion(List<Amortizacion> lstAmortizacion) {
+        this.lstAmortizacion = lstAmortizacion;
+    }
+    
+    
+
+    public void setLstcreditos(List<Credit> lstcreditos) {
+        this.lstcreditos = lstcreditos;
+    }
+
+    public Credit getCredito() {
+        return credito;
+    }
+
+    public void setCredito(Credit credito) {
+        this.credito = credito;
+    }
+
+    public Credit getCreditoSeleccion() {
+        return creditoSeleccion;
+    }
+
+    public void setCreditoSeleccion(Credit creditoSeleccion) {
+        this.creditoSeleccion = creditoSeleccion;
+    }
+
+    public ClienteCredito getClicredsel() {
+        return clicredsel;
+    }
+
+    public void setClicredsel(ClienteCredito clicredsel) {
+        this.clicredsel = clicredsel;
     }
 
     public Date getFecha() {
@@ -475,12 +494,44 @@ public class CCredito2 {
         this.clientecredito = clientecredito;
     }
 
+    public Cliente getClient() {
+        return client;
+    }
+
+    public void setClient(Cliente client) {
+        this.client = client;
+    }
+
+    public Amortizacion getObjAmortizacion() {
+        return objAmortizacion;
+    }
+
+    public void setObjAmortizacion(Amortizacion objAmortizacion) {
+        this.objAmortizacion = objAmortizacion;
+    }
+
+    public Tipodeudor getTipodeudor() {
+        return tipodeudor;
+    }
+
+    public void setTipodeudor(Tipodeudor tipodeudor) {
+        this.tipodeudor = tipodeudor;
+    }
+
     public String getStrFormaPago() {
         return strFormaPago;
     }
 
     public void setStrFormaPago(String strFormaPago) {
         this.strFormaPago = strFormaPago;
+    }
+
+    public String getStrFechaPlazo() {
+        return strFechaPlazo;
+    }
+
+    public void setStrFechaPlazo(String strFechaPlazo) {
+        this.strFechaPlazo = strFechaPlazo;
     }
 
     public int getIntIdCliente() {
@@ -555,60 +606,12 @@ public class CCredito2 {
         this.idCejero = idCejero;
     }
 
-    public ArrayList<Amortizacion> getListaAmt() {
-        return listaAmt;
-    }
-
-    public void setListaAmt(ArrayList<Amortizacion> listaAmt) {
-        this.listaAmt = listaAmt;
-    }
-
-    public Amortizacion getObjAmortizacion() {
-        return objAmortizacion;
-    }
-
-    public void setObjAmortizacion(Amortizacion objAmortizacion) {
-        this.objAmortizacion = objAmortizacion;
-    }
-
-    public int getResul() {
-        return resul;
-    }
-
-    public void setResul(int resul) {
-        this.resul = resul;
-    }
-
     public int getIntPlazo() {
         return intPlazo;
     }
 
     public void setIntPlazo(int intPlazo) {
         this.intPlazo = intPlazo;
-    }
-
-    public ArrayList<Integer> getListaMeses() {
-        return listaMeses;
-    }
-
-    public void setListaMeses(ArrayList<Integer> listaMeses) {
-        this.listaMeses = listaMeses;
-    }
-
-    public String getStrFechaPlazo() {
-        return strFechaPlazo;
-    }
-
-    public void setStrFechaPlazo(String strFechaPlazo) {
-        this.strFechaPlazo = strFechaPlazo;
-    }
-
-    public Timestamp getFechaActua() {
-        return fechaActua;
-    }
-
-    public void setFechaActua(Timestamp fechaActua) {
-        this.fechaActua = fechaActua;
     }
 
     public int getModo() {
@@ -619,36 +622,106 @@ public class CCredito2 {
         this.modo = modo;
     }
 
-    public Credit getCredito() {
-        return credito;
+    public Timestamp getFechaActua() {
+        return fechaActua;
     }
 
-    public void setCredito(Credit credito) {
-        this.credito = credito;
+    public void setFechaActua(Timestamp fechaActua) {
+        this.fechaActua = fechaActua;
     }
 
-    public CCredito2(ArrayList<Credit> listacredito, Credit objCredito, Credit creditoSeleccion, Date fecha, Date fecha1, ClienteCredito objcli, String strFormaPago, int intIdCliente, int intTipoDeudor, int intFormaPago, int intConyuge, int intGarante1, int intConyugeGarante1, int intgarante2, int intConyugeGarante2, int idCejero, ArrayList<Amortizacion> listaAmt, Amortizacion objAmortizacion, int resul, int modo) {
-        this.lstcreditos = listacredito;
-        this.credito = objCredito;
-        this.creditoSeleccion = creditoSeleccion;
-        this.fecha = fecha;
-        this.fecha1 = fecha1;
-        this.clientecredito = objcli;
-        this.strFormaPago = strFormaPago;
-        this.intIdCliente = intIdCliente;
-        this.intTipoDeudor = intTipoDeudor;
-        this.intFormaPago = intFormaPago;
-        this.intConyuge = intConyuge;
-        this.intGarante1 = intGarante1;
-        this.intConyugeGarante1 = intConyugeGarante1;
-        this.intgarante2 = intgarante2;
-        this.intConyugeGarante2 = intConyugeGarante2;
-        this.idCejero = idCejero;
+    public ArrayList<Amortizacion> getListaAmt() {
+        return listaAmt;
+    }
+
+    public void setListaAmt(ArrayList<Amortizacion> listaAmt) {
         this.listaAmt = listaAmt;
-        this.objAmortizacion = objAmortizacion;
-        this.resul = resul;
-        this.modo = modo;
     }
-//</editor-fold>
 
+    public ArrayList<Tipodeudor> getLstTipodeudor() {
+        return lstTipodeudor;
+    }
+
+    public void setLstTipodeudor(ArrayList<Tipodeudor> lstTipodeudor) {
+        this.lstTipodeudor = lstTipodeudor;
+    }
+
+    public ArrayList<Integer> getListaMeses() {
+        return listaMeses;
+    }
+
+    public void setListaMeses(ArrayList<Integer> listaMeses) {
+        this.listaMeses = listaMeses;
+    }
+
+    public boolean isVerificacion() {
+        return verificacion;
+    }
+
+    public void setVerificacion(boolean verificacion) {
+        this.verificacion = verificacion;
+    }
+
+    public List<ClienteCredito> getLstClienteCredito() {
+        return lstClienteCredito;
+    }
+
+    public void setLstClienteCredito(List<ClienteCredito> lstClienteCredito) {
+        this.lstClienteCredito = lstClienteCredito;
+    }
+
+    public List<ClienteCredito> getLstRequisitosCliente() {
+        return lstRequisitosCliente;
+    }
+
+    public void setLstRequisitosCliente(List<ClienteCredito> lstRequisitosCliente) {
+        this.lstRequisitosCliente = lstRequisitosCliente;
+    }
+
+    public List<RequisitosCliente> getLstRequisitosClienteid() {
+        return lstRequisitosClienteid;
+    }
+
+    public void setLstRequisitosClienteid(List<RequisitosCliente> lstRequisitosClienteid) {
+        this.lstRequisitosClienteid = lstRequisitosClienteid;
+    }
+
+    public List<Cliente> getLstClients() {
+        return lstClients;
+    }
+
+    public void setLstClients(List<Cliente> lstClients) {
+        CCredito2.lstClients = lstClients;
+    }
+
+    public int getResul() {
+        return resul;
+    }
+
+    public void setResul(int resul) {
+        this.resul = resul;
+    }
+   
+    
+  
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+
+    
+    
+    
 }

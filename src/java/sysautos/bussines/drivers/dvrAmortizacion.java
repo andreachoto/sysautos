@@ -100,6 +100,37 @@ public class dvrAmortizacion {
         con.cerrarConexion();
         return lista;
     }
+    
+    
+     public static List<Amortizacion> getAmortizacionListByCred(int cred) throws Exception {
+        List<Amortizacion> lista = new ArrayList<>();
+        List<Parameter> parametros = new ArrayList<>();
+        parametros.add(new Parameter(1, cred, Types.INTEGER));
+        String llamadaPA = "SELECT * from autos.\"amortizacionByCred\"(?)";
+        Conexion con = new Conexion(llamadaPA, parametros);
+        while (con.siguiente()) {
+            int id = con.getInt("outid");
+            int credito = con.getInt("outcrt");
+            int cuota = con.getInt("outcuota");
+            Timestamp  fecha = con.getTimestamp("outfecha");
+            BigDecimal capital = con.getBigDecimal("outcapital");
+            BigDecimal interes = con.getBigDecimal("outinteres");
+            BigDecimal valorc = con.getBigDecimal("outvalorc");
+            BigDecimal amort = con.getBigDecimal("outamort");
+            lista.add(new Amortizacion(id,credito,cuota,fecha,capital,interes,valorc,amort));
+        }
+        con.cerrarConexion();
+        return lista;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     //Listar los registros de la tabla dado el nombre 
 

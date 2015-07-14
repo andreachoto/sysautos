@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <div id="requisitos">
+            <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+            <article class="module width_full">
+
+                <header><h3>Requisitos Clientes</h3></header>
+                <div class="module_content">
+                    
+                    <h:form id="frmRequisitosClientes">
+
+                        <h:outputText value="Número Crédito   :" />
+                        <h:inputText value="#{dtClicreView.objclientecred.idcred}" />
+                        <p:commandButton value="Buscar Clientes" icon="ui-icon-search"  action="#{dtClicreView.buscar()}" update=":frmRequisitosClientes:tblClientes" />
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <p:dataTable id="tblClientes" value="#{dtClicreView.lstCredito}" var="item"
+                                     selection="#{dtClicreView.objsel}" selectionMode="single" 
+                                     rowKey="#{item.idcli}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                     rendered="true">
+                            
+                            <p:column headerText="Credito Número">
+                                <h:outputText value="#{item.idcred}"/>
+                            </p:column>
+                            <p:column headerText="Código Cliente">
+                                <h:outputText value="#{item.cli.id}"/>
+                            </p:column>
+                            <p:column headerText="Cliente">
+                                <h:outputText value="#{item.cli.apellido}"/>
+                            </p:column>
+                            <p:column headerText="Tipo Deudor">
+                                <h:outputText value="#{item.tpd.descrip}"/>
+                            </p:column>
+
+                        </p:dataTable> 
+                        
+                       <p:commandButton value="Editar Requisitos" icon="ui-icon-pencil" actionListener="#{dtClicreView.loadclicreditos(dtClicreView.objsel)}" />
+                
+                         
+                    </h:form>
+                </div>
+              
+                
+                <br></br>
+                <br></br>
+                <br></br>
+                
+                
+                <h:form id="frmRequisitos">
+
+                        <h:outputText value="Cliente   :" />
+                        <h:inputText value="#{dtReqView.objclientecred.idcli}" />
+                        <h:outputText value="Número Crédito   :" />
+                        <h:inputText value="#{dtReqView.objclientecred.idcred}" />
+                       
+                        
+                        <p:commandButton value="Buscar Clientes" icon="ui-icon-search"  action="#{dtReqView.buscarreq()}" update=":frmRequisitos:tblClientes" />
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <p:dataTable id="tblClientes" value="#{dtReqView.lstReqCli}" var="item"
+                                     selection="#{dtReqView.reqcliSel}" selectionMode="single" 
+                                     rowKey="#{item.cltid}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                     rendered="true">
+                            
+                            <p:column headerText="Código">
+                                <h:outputText value="#{item.cltid}"/>
+                            </p:column>
+                            <p:column headerText="Nombre Cliente">
+                                <h:outputText value="#{item.cli.apellido} #{item.cli.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Crédito">
+                                <h:outputText value="#{item.crtid}"/>
+                            </p:column>
+                            <p:column headerText="Requisitos">
+                                <h:outputText value="#{item.requisitos.detallereq.nombre}"/>
+                            </p:column>
+                             <p:column headerText="Estado">
+                                 <h:selectBooleanCheckbox value="#{item.verificacion}"/>
+                            </p:column>
+
+                        </p:dataTable> 
+                     </h:form>
+                <br></br>
+                        <br></br>
+             </article>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        </div>
+        
+        
+        
+         
+    </ui:define>
+</ui:composition>
+
+
+
+

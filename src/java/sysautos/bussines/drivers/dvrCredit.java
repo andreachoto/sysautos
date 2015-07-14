@@ -41,13 +41,6 @@ public class dvrCredit {
         while (con.siguiente()) {
             codigo = con.getInt("creditosregister_pa");
         }
-        
-     
-        
-        
-        
-        
-        
         return codigo;
     }
 

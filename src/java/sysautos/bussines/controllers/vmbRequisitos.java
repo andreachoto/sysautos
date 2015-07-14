@@ -42,16 +42,27 @@ public final class vmbRequisitos implements Serializable{
     private List<Tipodeudor> listaplicar;
     private List<Modopago> listmodo;
     private List<Detallereq> listreq;
+    private Detallereq detallereq;
     
     
     
     public vmbRequisitos() throws Exception{
         
         this.rmpNuevo= new Requisitos();
+        this.detallereq=new Detallereq();
         this.loadremopas();
         
     }
 
+    public Detallereq getDetallereq() {
+        return detallereq;
+    }
+
+    public void setDetallereq(Detallereq detallereq) {
+        this.detallereq = detallereq;
+    }
+
+    
     public List<Requisitos> getListaReModoPago() {
         return listaReModoPago;
     }
@@ -186,3 +197,4 @@ public final class vmbRequisitos implements Serializable{
     
     
 }
+

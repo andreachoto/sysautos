@@ -8,8 +8,10 @@ package sysautos.bussines.controllers;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.context.RequestContext;
+import sysautos.bussines.drivers.dvrCliente;
 import sysautos.bussines.drivers.dvrModopago;
 import sysautos.bussines.entities.Modopago;
 import sysautos.bussines.session.MbsMessages;
@@ -140,3 +142,4 @@ public final class vmbModoPago implements Serializable {
 
     
 }
+

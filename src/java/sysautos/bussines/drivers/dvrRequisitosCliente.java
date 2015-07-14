@@ -71,22 +71,52 @@ public class dvrRequisitosCliente {
     }
 
     //Listar los registros de la tabla dado su ID 
-//    public static RequisitosCliente getRequisitosClienteById(int val) throws Exception {
-//        RequisitosCliente var = null;
-//        List<Parameter> parametros = new ArrayList<>();
-//        parametros.add(new Parameter(1, val, Types.INTEGER));
-//        String llamadaPA = "SELECT * from upkeep.\"userTypeByID_pa\"(?)";
-//        Conexion con = new Conexion(llamadaPA, parametros);
-//        if (con.siguiente()) {
-//            int id = con.getInt("outid");
-//            int drqid = con.getInt("outdrqid");
-//            int mdpid = con.getInt("outmdpid");
-//            int aplid = con.getInt("outaplid");
-//            var = new RequisitosCliente(id, drqid, mdpid, aplid);
-//        }
-//        con.cerrarConexion();
-//        return var;
-//    }
+    public static List getRequisitosClienteById(int codigo) throws Exception {
+     
+        List<RequisitosCliente> lista = new ArrayList<>();
+        List<Parameter> parametros = new ArrayList<>();
+        parametros.add(new Parameter(1, codigo, Types.INTEGER));
+        String llamadaPA = "SELECT * from autos.\"requisitosclienteByID_pa\"(?)";
+        Conexion con = new Conexion(llamadaPA, parametros);
+        
+        if (con.siguiente()) {
+            int id = con.getInt("outrqtid");
+            int drqid = con.getInt("outcltid");
+            int mdpid = con.getInt("outcrtid");
+            boolean aplid = con.getBoolean("outrqcverificacion");
+            lista.add(new RequisitosCliente(id, drqid, mdpid,aplid)) ;
+        }
+        con.cerrarConexion();
+        return lista;
+    }
+    
+    
+    public static List getRequisitosClienteByClCr(int cli, int cre) throws Exception {
+     
+        List<RequisitosCliente> lista = new ArrayList<>();
+        List<Parameter> parametros = new ArrayList<>();
+        parametros.add(new Parameter(1, cli, Types.INTEGER));
+        parametros.add(new Parameter(2, cre, Types.INTEGER));
+        String llamadaPA = "SELECT * from autos.\"requisitosclienteByIClCr_pa\"(?,?)";
+        Conexion con = new Conexion(llamadaPA, parametros);
+        
+        while (con.siguiente()) {
+            int id = con.getInt("outrqtid");
+            int drqid = con.getInt("outcltid");
+            int mdpid = con.getInt("outcrtid");
+            boolean aplid = con.getBoolean("outrqcverificacion");
+            lista.add(new RequisitosCliente(id, drqid, mdpid,aplid)) ;
+        }
+        con.cerrarConexion();
+        return lista;
+    }
+    
+    
+    
+    
+    
+    
+    
 //     public static List<RequisitosCliente> getRequisitosClienteListByTipo(int tipo) throws Exception {
 //        List<RequisitosCliente> lista = new ArrayList<>();
 //        List<Parameter> parametros = new ArrayList<>();
@@ -107,11 +137,10 @@ public class dvrRequisitosCliente {
         List<Requisitos> lista = new ArrayList<>();
         List<Parameter> parametros = new ArrayList<>();
         parametros.add(new Parameter(1, tipo, Types.INTEGER));
-        String llamadaPA = "SELECT * from autos.\"clientecreditoByID_pa\"(?)";
+        String llamadaPA = "SELECT * from autos.\"retipde_ByID_pa\"(?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
             int id = con.getInt("outid");
-
             lista.add(new Requisitos(id));
         }
         con.cerrarConexion();
@@ -125,13 +154,14 @@ public class dvrRequisitosCliente {
         String llamadaPA = "SELECT * from autos.\"clientecreditoByID_pa\"(?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
-            int id = con.getInt("outclid");
-            int cre = con.getInt("outcrtid");
-            int tipo = con.getInt("outtip");
-
-            lista.add(new ClienteCredito(id, cre, tipo));
+            int id = con.getInt("outcltid");
+            int cre= con.getInt("outcrtid");
+            int tipo= con.getInt("outtip");
+           
+            lista.add(new ClienteCredito(id,cre,tipo));
         }
-
+      
+  
         con.cerrarConexion();
         return lista;
     }
