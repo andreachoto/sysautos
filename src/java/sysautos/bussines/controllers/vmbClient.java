@@ -630,8 +630,8 @@ public class vmbClient implements Serializable {
                 this.lstDireccion = dvrDireccion.getdireccionListByIdCliente(tipo);
                 this.lstTelefono = dvrTelefono.getTelefonoListByIdCliente(tipo);
                
-                RequestContext.getCurrentInstance().update("frmEditarCliente");
-                RequestContext.getCurrentInstance().execute("PF('editcliente').show()");
+                RequestContext.getCurrentInstance().update("tbvcliente");
+                RequestContext.getCurrentInstance().execute("tbvcliente");
             } else {
                 MbsMessages.error("Seleccione un registro");
             }
