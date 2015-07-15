@@ -9,43 +9,64 @@
         <div id="cliente">
             <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
             <article class="module width_full">
-                <header><h3>Tipo Deudor</h3></header>
+
+                <header><h3>Amortizaciones Créditos</h3></header>
                 <div class="module_content">
                     <h:form id="frmRequisitos">
+
+                        <h:outputText value="Número Crédito   :" />
+                        <h:inputText value="#{dtAmortView.credito.id}" />
+                        <p:commandButton value="Buscar Amortización" icon="ui-icon-search"  action="#{dtAmortView.buscar()}" update=":frmRequisitos:tblCredito" />
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <p:dataTable id="tblCredito" value="#{dtAmortView.lstAmortizacion}" var="item"
+                                     selection="#{dtAmortView.amtSel}" selectionMode="single" 
+                                     rowKey="#{item.amztid}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                     rendered="true">
+
+                            <p:column headerText="Credito Número">
+                                <h:outputText value="#{item.creditoid}"/>
+                            </p:column>
+                            <p:column headerText="Cuota">
+                                <h:outputText value="#{item.amzcuota}"/>
+                            </p:column>
+                            <p:column headerText="Fecha">
+                                <h:outputText value="#{item.amzfecha}"/>
+                            </p:column>
+
+                            <p:column headerText="Capital">
+                                <h:outputText value="#{item.amzcapital}"/>
+                            </p:column>
+                            <p:column headerText="Interes">
+                                <h:outputText value="#{item.amzinteres}"/>
+                            </p:column>
+                            <p:column headerText="Valor Cuota">
+                                <h:outputText value="#{item.amzvalorc}"/>
+                            </p:column>
+                            <p:column headerText="Amortización">
+                                <h:outputText value="#{item.amortizacion}"/>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </h:form>
+
+                    <br>   </br>
+                    <br> </br>
+
+                    <h:outputLabel value="Lista Créditos"  class="module_content"/>
+                    <h:form id="frmCreditos">
                         <center>
                             <h:panelGrid cellpadding="3" width="90%">
-
-
-                                <h:outputText value="Crédito" />
-                                <p:selectOneMenu value="#{dtCreditoView.intIdCliente}">
-                                    <f:selectItem itemLabel="Cliente" itemValue="0" id="credito"/>
-                                    <f:selectItems value="#{dtCreditoView.lstClients}" var="cliente" itemValue="#{cliente.id}"
-                                                   itemLabel="#{cliente.nombre} #{cliente.apellido}"/>
-                                </p:selectOneMenu>
-                                <h:outputText value="Cliente" />
-                                <p:selectOneMenu value="#{dtCreditoView.intIdCliente}">
-                                    <f:selectItem itemLabel="Cliente" itemValue="0" id="cliente"/>
-                                    <f:selectItems value="#{dtCreditoView.lstClients}" var="cliente" itemValue="#{cliente.id}"
-                                                   itemLabel="#{cliente.nombre} #{cliente.apellido}"/>
-                                </p:selectOneMenu>
-
-
-
                                 <p:dataTable id="tblcredito" value="#{dtCreditoView.lstcreditos}" var="item"
                                              selection="#{dtCreditoView.creditoSeleccion}" selectionMode="single" 
                                              rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
                                              rendered="true">
-
-
                                     <p:column headerText="Credito Número">
                                         <h:outputText value="#{item.id}"/>
                                     </p:column>
-                                    <p:column headerText="Nombre Cliente">
-                                        <h:outputText value="#{item.user.fisrtname}"/>
-                                    </p:column>
-                                    <p:column headerText="ApellidoCliente">
-                                        <h:outputText value="#{item.user.lastname}"/>
-                                    </p:column>
+
                                     <p:column headerText="Fecha Crédito">
                                         <h:outputText value="#{item.fecha}"/>
                                     </p:column>
@@ -61,7 +82,7 @@
                                         <p:button value="Nuevo Crédito" outcome="/creditos/Credito1"/>
                                         <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtRequisitosView.loadrequisito(dtRequisitosView.objsel)}" />
                                         <p:commandButton id="delRegistro" value="Cambiar Estado" icon="ui-icon-trash" update=":frmRequisitos" 
-                                                         actionListener="#{dtRequisitosView.delete(dtRequisitosView.objsel)}"> 
+                                                         action="#{dtCreditoView.ingresar()}"> 
                                             <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
                                         </p:commandButton> 
                                         <p:commandButton value="Ver tabla Amortizacion" icon="ui-icon-circle-plus" oncomplete="PF('wdlgAmortizacion').show()"  />

@@ -24,7 +24,7 @@
                             <h:outputText value="Tipo Deudor" />
                             <p:selectOneMenu value="#{dtCreditoView.intTipoDeudor}">
                                 <f:selectItem itemLabel="Tipo" itemValue="0" id="tpd"/>
-                                <f:selectItems value="#{dtCreditoView.listaTipodeudor}" var="garante" itemValue="#{garante.id}"
+                                <f:selectItems value="#{dtCreditoView.lstTipodeudor}" var="garante" itemValue="#{garante.id}"
                                                itemLabel="#{garante.nombre}"/>
                             </p:selectOneMenu>
                             <h:outputText value="Fecha" />
@@ -78,34 +78,36 @@
                             <br />
                             <table>
                                 <tr>
-                                    <td>
-                                        <p:dataTable id="tblCredito" value="#{dtCreditoView.lstClienteCredito}"
-                                                     var="clicre" paginator="true" rows="10" >
+                                    <td> 
+
+                                        <p:dataTable id="tblCredito" value="#{dtCreditoView.lstClienteCredito}" var="clicre"
+                                                     selection="#{dtCreditoView.clicredsel}" selectionMode="single" 
+                                                     rowKey="#{clicre.idcred}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                                     rendered="true">
+
                                             <p:column headerText="Nombre Cliente">
                                                 <h:outputText value="#{clicre.cli.nombre} #{clicre.cli.apellido}"/>
                                             </p:column>
                                             <p:column headerText="Tipo Deudor">
                                                 <h:outputText value="#{clicre.tpd.descrip}"/>
                                             </p:column>
-
                                         </p:dataTable>
                                     </td>
-                                    <td> 
+                                    <td>
                                         <p:commandButton value="Add" icon="ui-icon-circle-plus" oncomplete="PF('newgarante').show()" />
-                                        <p:commandButton value="Del" icon="ui-icon-circle"  oncomplete="PF('wdlgAmortizacion').show()"  />
-                                    </td>
+                                        <p:commandButton value="DEL" icon="ui-icon-cancel" actionListener="#{dtCreditoView.delItemDetalle()}" update=":nuevo:tblCredito"/>
 
+                                    </td>
                                 </tr>
+
                             </table>
                         </article>
-                        <f:facet name="footer" ><p:commandButton value="Guardar" 
-                                                                 action="#{dtCreditoView.ingresar()}" /></f:facet>
                         <div  style="text-align:center">
                             <p:commandButton value="Guardar" 
                                              action="#{dtCreditoView.ingresar()}" />
-                            <p:commandButton value="Generar Tabla" icon="ui-icon-circle-plus" oncomplete="PF('wdlgAmortizacion').show()" action="#{dtCreditoView.generarAmortizacion()}" />
-                        </div>
+                            <p:commandButton value="Ver Tabla Amortzación"  oncomplete="PF('amortizacion').show()" />
 
+                        </div>
                     </div>
                 </article>
             </h:form>
@@ -144,6 +146,71 @@
                     </article>
                 </p:dialog>
             </h:form>
+            <h:form id="amortizacion">
+                <p:dialog id="amortizacion" widgetVar="amortizacion" header="Lista Amortización" modal="true" resizable="false">
+                    <article class="module width_full">
+                        <header><center><h3>Amortización</h3></center></header>
+                        <div class="module_content">
+                            <h:panelGrid columns="1">
+
+
+
+
+                                <p:dataTable id="tblCredito" value="#{dtAmortView.lstAmortizacion}" var="item"
+                                             selection="#{dtAmortView.amtSel}" selectionMode="single" 
+                                             rowKey="#{item.amztid}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                             rendered="true">
+
+                                    <p:column headerText="Credito Número">
+                                        <h:outputText value="#{item.creditoid}"/>
+                                    </p:column>
+                                    <p:column headerText="Cuota">
+                                        <h:outputText value="#{item.amzcuota}"/>
+                                    </p:column>
+                                    <p:column headerText="Fecha">
+                                        <h:outputText value="#{item.amzfecha}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Capital">
+                                        <h:outputText value="#{item.amzcapital}"/>
+                                    </p:column>
+                                    <p:column headerText="Interes">
+                                        <h:outputText value="#{item.amzinteres}"/>
+                                    </p:column>
+                                    <p:column headerText="Valor Cuota">
+                                        <h:outputText value="#{item.amzvalorc}"/>
+                                    </p:column>
+                                    <p:column headerText="Amortización">
+                                        <h:outputText value="#{item.amortizacion}"/>
+                                    </p:column>
+
+                                </p:dataTable>
+
+
+                            </h:panelGrid>
+
+
+                        </div>
+                    </article>
+                    <br/>
+                    <article>
+                        <center>
+                            <p:commandButton value="Cancelar" actionListener="#{dtCreditoView.addgarante()}"  oncomplete="PF('amortizacion').hide()"  />
+                        </center>
+                    </article>
+                </p:dialog>
+            </h:form>
+
+
+
+
+
+
+
+
+
+
+
         </div>
     </ui:define>
 </ui:composition>
