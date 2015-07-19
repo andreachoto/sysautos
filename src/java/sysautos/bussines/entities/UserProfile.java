@@ -5,9 +5,7 @@
  */
 package sysautos.bussines.entities;
 
-import sysautos.bussines.drivers.dvrCliente;
 import sysautos.bussines.drivers.dvrProfile;
-import sysautos.bussines.drivers.dvrUser;
 
 /**
  *
@@ -17,7 +15,7 @@ public class UserProfile {
 
     private int usrid;
     private int idprofile;
-    private User usuario;
+    //private User usuario;
     private Profile profile;
 
     public UserProfile() {
@@ -26,11 +24,11 @@ public class UserProfile {
     public UserProfile(int usrid, int idprofile) throws Exception {
         this.usrid = usrid;
         this.idprofile = idprofile;
-        if (usrid != 0) {
-            this.usuario = dvrUser.getUserById(usrid);
-        } else {
-            this.usuario = null;
-        }
+//        if (usrid != 0) {
+//            this.usuario = dvrUser.getUserById(usrid);
+//        } else {
+//            this.usuario = null;
+//        }
         if (idprofile != 0) {
             this.profile = dvrProfile.getProfileById(idprofile);
         } else {
@@ -54,13 +52,13 @@ public class UserProfile {
         this.idprofile = idprofile;
     }
 
-    public User getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(User usuario) {
-        this.usuario = usuario;
-    }
+//    public User getUsuario() {
+//        return usuario;
+//    }
+//
+//    public void setUsuario(User usuario) {
+//        this.usuario = usuario;
+//    }
 
     public Profile getProfile() {
         return profile;

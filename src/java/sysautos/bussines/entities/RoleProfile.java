@@ -5,7 +5,6 @@
  */
 package sysautos.bussines.entities;
 
-import sysautos.bussines.drivers.dvrProfile;
 import sysautos.bussines.drivers.dvrRole;
 
 /**
@@ -16,7 +15,7 @@ public class RoleProfile {
 
     private int pflid;
     private int rolid;
-    private Profile profile;
+    //private Profile profile;
     private Role rol;
 
     public RoleProfile() {
@@ -25,11 +24,11 @@ public class RoleProfile {
     public RoleProfile(int pflid, int rolid) throws Exception {
         this.pflid = pflid;
         this.rolid = rolid;
-        if (pflid != 0) {
-            this.profile = dvrProfile.getProfileById(pflid);
-        } else {
-            this.profile = null;
-        }
+//        if (pflid != 0) {
+//            this.profile = dvrProfile.getProfileById(pflid);
+//        } else {
+//            this.profile = null;
+//        }
         if (rolid != 0) {
             this.rol = dvrRole.getRoleById(rolid);
         } else {
@@ -53,13 +52,13 @@ public class RoleProfile {
         this.rolid = rolid;
     }
 
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
+//    public Profile getProfile() {
+//        return profile;
+//    }
+//
+//    public void setProfile(Profile profile) {
+//        this.profile = profile;
+//    }
 
     public Role getRol() {
         return rol;
