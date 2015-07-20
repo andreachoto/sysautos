@@ -140,9 +140,6 @@ public final class vmbclicre implements Serializable {
                  
     }
     
-    
-    
-    
        public void loadclicreditos(ClienteCredito tipo) {
         try {
             if (tipo != null){
