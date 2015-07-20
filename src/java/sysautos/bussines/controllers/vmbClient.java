@@ -609,6 +609,7 @@ public class vmbClient implements Serializable {
                 this.lstIdentificacion = dvrIdentificacion.getidentificacionByIdCliente(tipo);
                 this.lstDireccion = dvrDireccion.getdireccionListByIdCliente(tipo);
                 this.lstTelefono = dvrTelefono.getTelefonoListByIdCliente(tipo);
+               
                 RequestContext.getCurrentInstance().update("frmVerCliente");
                 RequestContext.getCurrentInstance().execute("PF('vercliente').show()");
             } else {
@@ -629,9 +630,9 @@ public class vmbClient implements Serializable {
                 this.lstIdentificacion = dvrIdentificacion.getidentificacionByIdCliente(tipo);
                 this.lstDireccion = dvrDireccion.getdireccionListByIdCliente(tipo);
                 this.lstTelefono = dvrTelefono.getTelefonoListByIdCliente(tipo);
-               
-                RequestContext.getCurrentInstance().update("tbvcliente");
-                RequestContext.getCurrentInstance().execute("tbvcliente");
+                RequestContext.getCurrentInstance().update("frmCliente:tbvcliente");
+                RequestContext.getCurrentInstance().update("frmEditarCliente");
+                RequestContext.getCurrentInstance().execute("PF('editcliente').show()");
             } else {
                 MbsMessages.error("Seleccione un registro");
             }
