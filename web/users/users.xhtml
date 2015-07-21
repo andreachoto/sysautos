@@ -48,7 +48,7 @@
                                                     <f:facet name="footer">
                                                         <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newuser').show()" />
                                                         <p:commandButton value="Editar" icon="ui-icon-pencil" action="#{dtUserView.loaduser(dtUserView.usersel.id)}"/>
-
+                                                        
                                                     </f:facet>
                                                 </p:dataTable>
                                             </h:panelGrid>
@@ -246,7 +246,7 @@
                                 <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
                             </p:selectOneMenu>
                             <h:outputText value="Titulo:"/>
-                            <p:inputText value="#{dtUserView.user.tittle}"/>
+                            <h:inputText value="#{dtUserView.user.tittle}"/>
                             <h:outputText value="Dirección:"/>
                             <h:inputText value="#{dtUserView.user.direction}"/>
                             <h:outputText value="Teléfono:"/>
@@ -372,12 +372,12 @@
                         </h:panelGrid>
                     </div>
                 </article>
-                <article class="module width_full">
-                    <header><center><h3>Perfil de Usuario</h3></center></header>
+                     <article class="module width_full">
+                    <header><center><h3>Editar Perfil de Usuario</h3></center></header>
                     <div class="module_content">
                         <h:panelGrid columns="4">
-                            <p:selectManyMenu id="lista" value="#{dtUserView.lstUserProfile}"  style="width: 500px"
-                                              showCheckbox="true">           
+                            <p:selectManyMenu id="lista" value="#{dtUserView.userprofilesel}"  style="width: 500px"
+                                       filterMatchMode="contains" showCheckbox="true">           
                                 <f:selectItems value="#{dtUserView.lstProfile}" var="perfil" 
                                                itemLabel=" #{perfil.nombre}" 
                                                itemValue="#{perfil.nombre}"/> 
@@ -436,7 +436,7 @@
                         <h:panelGrid id="panel" columns="2" width="50%">
                         </h:panelGrid>
                         <p:selectManyMenu id="lista" value="#{dtUserView.userprofilesel}"  converter="javax.faces.Integer" style="width: 500px"
-                                          filterMatchMode="contains" showCheckbox="false">
+                                          filterMatchMode="contains" >
                             <f:selectItems value="#{dtUserView.lstUserProfile}" var="perfil" 
                                            itemLabel=" #{perfil.profile.nombre}" 
                                            itemValue="#{perfil.usrid}" /> 
@@ -452,7 +452,7 @@
             </p:dialog>
         </h:form>
         <!-- Popup para Ver los datos de Perfil -->
-        <h:form id="frmVerProfile">
+           <h:form id="frmVerProfile">
             <p:dialog id="verprofile" widgetVar="verprofile" header="Perfil" modal="true" resizable="false">
                 <article class="module width_full">
                     <header><center><h3>Perfil</h3></center></header>

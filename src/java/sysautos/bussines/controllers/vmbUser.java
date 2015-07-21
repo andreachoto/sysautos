@@ -133,7 +133,8 @@ public final class vmbUser implements Serializable {
         try {
             if (tipo != 0) {
                 this.usersel = dvrUser.getUserById(tipo);
-                 this.lstUserProfile = dvrUserProfile.getuserprofileByIdCliente(tipo);
+                this.lstUserProfile = dvrUserProfile.getuserprofileByIdCliente(tipo);
+                 
                 RequestContext.getCurrentInstance().update("frmEditUser");
                 RequestContext.getCurrentInstance().execute("PF('edituser').show()");
             } else {
@@ -152,8 +153,7 @@ public final class vmbUser implements Serializable {
                        for(UserProfile valor : lstUserProfile){
                
                  System.out.println("dato ingresado:" +valor.getProfile().getNombre());
-                 
-               
+             
            }
            
                 RequestContext.getCurrentInstance().update("frmVerUser");
