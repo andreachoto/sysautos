@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="template/templateEjecutivo.xhtml" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="content">
+        <article class="module width_full">
+            <header><h3>Administracion del Sistema</h3></header>
+            <div class="module_content">
+                <article class="stats_overview">
+                    <h:link outcome="/clientes/selectcliente">
+                        <div class="overview_today">
+                            <img src="resources/images/clientes.png" width="160" height="150"/>
+                            <p class="overview_day">CLIENTES</p>
+                        </div>
+                    </h:link>
+                </article>
+                <article class="stats_overview">
+                    <h:link outcome="/ventas/producto">
+                        <div class="overview_today">
+                            <img src="resources/images/inventario.png" width="182" height="150"/>
+                            <p class="overview_day">INVENTARIO</p>
+                        </div>
+                    </h:link>
+                </article>
+                <article class="stats_overview">
+                    <h:link outcome="/ventas/pedidos">
+                        <div class="overview_today">
+                            <img src="resources/images/ventas.png" width="156" height="150"/>
+                            <p class="overview_day">VENTAS</p>
+                        </div>
+                    </h:link>
+                </article>
+                <div class="clear"></div>
+                <article class="stats_overview">
+                    <h:link outcome="/creditos/Credito1">
+                        <div class="overview_today">
+                            <img src="resources/images/credito.png" width="132" height="150"/>
+                            <p class="overview_day">CREDITOS</p>
+                        </div>
+                    </h:link>
+                </article>
+             
+                <div class="clear"></div>
+            </div>
+        </article><!-- end of stats article -->
+    </ui:define>
+</ui:composition>

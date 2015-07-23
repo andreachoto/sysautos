@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.ws.rs.core.Response;
 import org.primefaces.context.RequestContext;
 import sysautos.bussines.drivers.dvrCiudad;
 import sysautos.bussines.drivers.dvrCliente;
@@ -69,7 +70,7 @@ public class vmbClient implements Serializable {
     private ArrayList<Integer> selecidentificacion;
     private ArrayList<Integer> selecdireccion;
     private ArrayList<Integer> selectelefono;
-
+    private Pais pais;
 
     public vmbClient() throws Exception {
         this.cliente = new Cliente();
@@ -91,7 +92,17 @@ public class vmbClient implements Serializable {
         this.selecidentificacion = new ArrayList<>();
         this.selecdireccion = new ArrayList<>();
         this.selectelefono = new ArrayList<>();
+        this.pais = new Pais();
+        this.loadlstPais();
         limpiar();
+    }
+
+    public Pais getPais() {
+        return pais;
+    }
+
+    public void setPais(Pais pais) {
+        this.pais = pais;
     }
 
     public Cliente getClientesel() {
@@ -338,6 +349,7 @@ public class vmbClient implements Serializable {
             MbsMessages.fatal(ex.getMessage());
         }
     }
+
     public void addIdentificacionToList() {
         try {
             Identificacion ident = new Identificacion(this.identidad.getCltid(), this.identidad.getTidid(),
@@ -609,7 +621,7 @@ public class vmbClient implements Serializable {
                 this.lstIdentificacion = dvrIdentificacion.getidentificacionByIdCliente(tipo);
                 this.lstDireccion = dvrDireccion.getdireccionListByIdCliente(tipo);
                 this.lstTelefono = dvrTelefono.getTelefonoListByIdCliente(tipo);
-               
+
                 RequestContext.getCurrentInstance().update("frmVerCliente");
                 RequestContext.getCurrentInstance().execute("PF('vercliente').show()");
             } else {
@@ -640,8 +652,33 @@ public class vmbClient implements Serializable {
             MbsMessages.fatal(ex.getMessage());
         }
     }
-    
-    
-  
+
+    public void loadlstPais() {
+        try {
+            this.lstPais = dvrPais.getPaisList();
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+
+    public void registerPais() {
+        try {
+            int ban = dvrPais.paisRegister(this.pais);
+            if (ban != 0) {
+                this.loadlstPais();
+                MbsMessages.info("Pais creado correctamente!");
+                RequestContext.getCurrentInstance().update("frmCliente:tbvcliente:additemdireccion");
+                lstPais.hashCode();
+                lstPais.add(this.pais);
+//                this.pais.setNombre(selectpais);
+                this.lstPais = dvrPais.getPaisList();
+
+            }
+            this.pais = new Pais();
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+
+    }
 
 }

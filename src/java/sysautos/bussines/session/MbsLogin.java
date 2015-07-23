@@ -6,6 +6,7 @@
 package sysautos.bussines.session;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -13,14 +14,25 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import sysautos.bussines.entities.User;
 import sysautos.bussines.drivers.dvrUser;
+import sysautos.bussines.drivers.dvrUserProfile;
+import sysautos.bussines.entities.UserProfile;
 
 @ManagedBean
 @SessionScoped
-public class MbsLogin implements Serializable{
+public class MbsLogin implements Serializable {
 
     private String login;
     private User user;
     private String pwd;
+    private List<UserProfile> lstUserProfile;
+
+    public List<UserProfile> getLstUserProfile() {
+        return lstUserProfile;
+    }
+
+    public void setLstUserProfile(List<UserProfile> lstUserProfile) {
+        this.lstUserProfile = lstUserProfile;
+    }
 
     public String getLogin() {
         return login;
@@ -55,7 +67,25 @@ public class MbsLogin implements Serializable{
                     HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                     httpSession.setAttribute("login", this.login);
                     httpSession.setAttribute("user", usuario);
-                    return "/main";
+//                 
+                    this.lstUserProfile = dvrUserProfile.getuserprofileList();
+                    for (UserProfile userprof : lstUserProfile) {
+                        if (userprof.getUsrid() == usuario.getId()) {
+                            if (userprof.getProfile().getNombre().equals("Admin")) {
+                                return "/main";
+                            }
+                            if (userprof.getProfile().getNombre().equals("Ventas")) {
+                                return "/mainVentas";
+                            }
+                            if (userprof.getProfile().getNombre().equals("Ejecutivo")) {
+                                return "/mainEjecutivo";
+                            }
+                            if (userprof.getProfile().getNombre().equals("Operativos")) {
+                                return "/mainOperativos";
+                            }
+                        }
+                    }
+
                 }
             }
             this.login = null;
