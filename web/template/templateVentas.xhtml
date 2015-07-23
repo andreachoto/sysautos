@@ -58,18 +58,12 @@
         <aside id="sidebar" class="column">
             <h3>Inicio</h3>
             <ul class="toggle">
-                <li class="icn_desktop"><h:link value="Escritorio" outcome="/main"/></li>
+                <li class="icn_desktop"><h:link value="Escritorio" outcome="/mainVentas"/></li>
             </ul>
             <h3>Clientes</h3>
             <ul class="toggle">
                 <li class="icn_view_users"><h:link value="Lista de Clientes" outcome="/clientes/selectcliente"/></li>
                 <li class="icn_add_user"><h:link value="Nuevo Cliente" outcome="/clientes/newcliente"/></li>
-            </ul>
-            <h3>Inventario</h3>
-            <ul class="toggle">
-                <li class="icn_new_article"><h:link value="Proveedores" outcome="/ventas/proveedor"/></li>
-                <li class="icn_producto"><h:link value="Productos" outcome="/ventas/producto"/></li>
-                <li class="icn_pedido"><h:link value="Pedidos" outcome="/ventas/pedidos"/></li>
             </ul>
             <h3>Ventas</h3>
             <ul class="toggle">
@@ -81,20 +75,7 @@
                 <li class="icn_security"><h:link value="Créditos" outcome="/creditos/CreditosListar"/></li>
                 <li class="icn_folder"><h:link value="Check Clientes Requisitos" outcome="/creditos/CreditosClientes"/></li>
             </ul>
-            <h3>Admin</h3>
-            <ul class="toggle">
-                <li class="icn_view_users"><h:link value="Usuarios" outcome="/users/users"/></li>
-                <li class="icn_categories"><h:link value="Categorias de Producto" outcome="/ventas/tipoproducto"/></li>
-                <li class="icn_photo"><h:link value="Formas de Pago" outcome="/ventas/formapago"/></li>
-                <li class="icn_tags"><h:link value="Modo Pago" outcome="/creditos/Modopago"/></li>
-                <li class="icn_tags"><h:link value="Tipo Deudor" outcome="/creditos/Tipodeudor"/></li>
-                <li class="icn_categories"><h:link value="Requisitos" outcome="/creditos/Requisitos"/></li>
-                <li class="icn_folder"><h:link value="Requisitos Modo Pago" outcome="/creditos/Remopa"/></li>
-                <!--  <li class="icn_profile"><a href="#">Tu Perfil</a></li>
-                  <li class="icn_settings"><a href="#">Configuracion</a></li>
-                  <li class="icn_security"><a href="#">Opciones</a></li> -->
-            </ul>
-
+        
             <footer>
                 <hr />
                 <p><strong>Copyright &copy; 2015 Webmin</strong></p>

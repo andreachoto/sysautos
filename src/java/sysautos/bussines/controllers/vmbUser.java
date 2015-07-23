@@ -56,7 +56,6 @@ public final class vmbUser implements Serializable {
         this.userprofilesel = userprofilesel;
     }
 
-    
     public UserProfile getUserprofile() {
         return userprofile;
     }
@@ -134,7 +133,7 @@ public final class vmbUser implements Serializable {
             if (tipo != 0) {
                 this.usersel = dvrUser.getUserById(tipo);
                 this.lstUserProfile = dvrUserProfile.getuserprofileByIdCliente(tipo);
-                 
+
                 RequestContext.getCurrentInstance().update("frmEditUser");
                 RequestContext.getCurrentInstance().execute("PF('edituser').show()");
             } else {
@@ -150,12 +149,12 @@ public final class vmbUser implements Serializable {
             if (tipo != 0) {
                 this.usersel = dvrUser.getUserById(tipo);
                 this.lstUserProfile = dvrUserProfile.getuserprofileByIdCliente(tipo);
-                       for(UserProfile valor : lstUserProfile){
-               
-                 System.out.println("dato ingresado:" +valor.getProfile().getNombre());
-             
-           }
-           
+                for (UserProfile valor : lstUserProfile) {
+
+                    System.out.println("dato ingresado:" + valor.getProfile().getNombre());
+
+                }
+
                 RequestContext.getCurrentInstance().update("frmVerUser");
                 RequestContext.getCurrentInstance().execute("PF('veruser').show()");
             } else {
@@ -169,20 +168,25 @@ public final class vmbUser implements Serializable {
     public void register() {
         try {
             int ban = dvrUser.usersRegister(this.user);
+            int pro = profile.getId();
             if (ban != 0) {
-                //             
-                for (int x = 0; x < selecprofile.size(); x++) {
-                    userprofile.setUsrid(ban);
-                    userprofile.setIdprofile(selecprofile.get(x));
-                    lstUserProfile.add(userprofile);
-                    for (UserProfile usp : lstUserProfile) {
-                        dvrUserProfile.userprofileRegister(usp);
-                    }
-                }
-//           
+                //ingreso de las tablas usuario y userprofile (el usuario tiene un solo perfil)
+                UserProfile usp = new UserProfile();
+                usp.setUsrid(ban);
+                usp.setIdprofile(pro);
+                dvrUserProfile.userprofileRegister(usp);
+           
+//                for (int x = 0; x < selecprofile.size(); x++) {
+//                    userprofile.setUsrid(ban);
+//                    userprofile.setIdprofile(selecprofile.get(x));
+//                    lstUserProfile.add(userprofile);
+//                    for (UserProfile usp : lstUserProfile) {
+//                        dvrUserProfile.userprofileRegister(usp);
+//                    }
+//                }
                 this.loadusers();
                 this.user = new User();
-                this.userprofile = new UserProfile();
+                this.profile = new Profile();
                 MbsMessages.info("User creado exitosamente!");
             } else {
                 MbsMessages.error("No se pudo insertar el registro!");
@@ -222,14 +226,14 @@ public final class vmbUser implements Serializable {
             MbsMessages.fatal(ex.getMessage());
         }
     }
-    
-     public void actualizar(int tipo) {
+
+    public void actualizar(int tipo) {
         try {
             if (tipo != 0) {
                 this.lstUserProfile = dvrUserProfile.getuserprofileByIdCliente(tipo);
-               
-                    MbsMessages.info("Usuario eliminado exitosamente!");
-               
+
+                MbsMessages.info("Usuario eliminado exitosamente!");
+
             } else {
                 MbsMessages.error("Seleccione un registro");
             }
@@ -237,5 +241,6 @@ public final class vmbUser implements Serializable {
             MbsMessages.fatal(ex.getMessage());
         }
     }
+    
 
 }

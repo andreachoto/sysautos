@@ -25,6 +25,7 @@ public final class vmbRole implements Serializable {
     private Role role;
     private Role rolselection;
     private List<Role> roles;
+  
 
     /**
      * Creates a new instance of VmbRole
@@ -36,8 +37,8 @@ public final class vmbRole implements Serializable {
         this.role = new Role();
         this.loadroles();
     }
-
-    //getter an setter methods
+    
+   
     public Role getRole() {
         return role;
     }
@@ -92,7 +93,9 @@ public final class vmbRole implements Serializable {
             if (ban != 0) {
                 this.loadroles();
                 MbsMessages.info("Perfil creado correctamente!");
+                
             }
+            this.role = new Role();
         } catch (Exception ex) {
              MbsMessages.fatal(ex.getMessage());
         }
