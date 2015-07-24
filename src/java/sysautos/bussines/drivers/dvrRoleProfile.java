@@ -66,7 +66,7 @@ public class dvrRoleProfile {
         List<Parameter> parametros = new ArrayList<>();
         parametros.add(new Parameter(1, objeto.getPflid(), Types.INTEGER));
         //parametros.add(new Parameter(2, objeto.getTidid(), Types.INTEGER));
-        String llamadaPA = "SELECT autos.\"roleprofileDeleteById_pa\"(?)";
+        String llamadaPA = "SELECT autos.\"roleprofileDeleteByProfileId_pa\"(?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
             respuesta = true;

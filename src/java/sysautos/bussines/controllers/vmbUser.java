@@ -148,13 +148,13 @@ public final class vmbUser implements Serializable {
         try {
             if (tipo != 0) {
                 this.usersel = dvrUser.getUserById(tipo);
-                this.lstUserProfile = dvrUserProfile.getuserprofileByIdCliente(tipo);
-                for (UserProfile valor : lstUserProfile) {
-
-                    System.out.println("dato ingresado:" + valor.getProfile().getNombre());
-
+                this.lstUserProfile = dvrUserProfile.getuserprofileList();
+                for (UserProfile userprof : lstUserProfile) {
+                    if (userprof.getUsrid() == tipo) {
+                        int usp = userprof.getIdprofile();
+                        this.profile = dvrProfile.getProfileById(usp);
+                    }
                 }
-
                 RequestContext.getCurrentInstance().update("frmVerUser");
                 RequestContext.getCurrentInstance().execute("PF('veruser').show()");
             } else {
@@ -175,7 +175,7 @@ public final class vmbUser implements Serializable {
                 usp.setUsrid(ban);
                 usp.setIdprofile(pro);
                 dvrUserProfile.userprofileRegister(usp);
-           
+
 //                for (int x = 0; x < selecprofile.size(); x++) {
 //                    userprofile.setUsrid(ban);
 //                    userprofile.setIdprofile(selecprofile.get(x));
@@ -199,7 +199,20 @@ public final class vmbUser implements Serializable {
     public void update(User cli) {
         try {
             if (dvrUser.usersUpdate(cli)) {
+                int usuario = cli.getId();
+                int pro = profile.getId();
                 this.loadusers();
+                this.lstUserProfile = dvrUserProfile.getuserprofileList();
+                for (UserProfile userprof : lstUserProfile) {
+                    if (userprof.getUsrid() == usuario) {
+                        dvrUserProfile.userprofileDelete(userprof);
+                        UserProfile usp = new UserProfile();
+                        usp.setUsrid(usuario);
+                        usp.setIdprofile(pro);
+                        dvrUserProfile.userprofileRegister(usp);
+                    }
+                }
+
                 MbsMessages.info("User actualizado correctamente!");
             } else {
                 MbsMessages.error("No se pudo Actualizar el registro!");
@@ -241,6 +254,5 @@ public final class vmbUser implements Serializable {
             MbsMessages.fatal(ex.getMessage());
         }
     }
-    
 
 }
