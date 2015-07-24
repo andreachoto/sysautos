@@ -8,7 +8,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
         <h:form id="frmUsers">
-            
+
             <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
             <article class="module width_full">
                 <header><h3>Personal</h3></header>
@@ -203,6 +203,7 @@
                 </article>
             </p:dialog>
         </h:form>
+          <!-- Popup para Editar Perfil -->
         <h:form id="frmEditProfile">
             <p:dialog id="editprofile" widgetVar="editprofile" header="Perfil" modal="true" resizable="false">
                 <article class="module width_full">
@@ -215,6 +216,28 @@
                             <h:inputText value="#{dtProfileView.profilesel.descripcion}" />
                             <h:outputText value="Activo:" />
                             <p:selectBooleanCheckbox value="#{dtProfileView.profilesel.estado}" />
+                        </h:panelGrid>
+                    </div>
+                </article>
+                
+                <article class="module width_full">
+                    <header><center><h3>Editar Rol del Perfil</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid id="panel" columns="2" width="50%">
+                        </h:panelGrid>
+                        <p:selectManyMenu id="listaeditprofile" value="#{dtProfileView.selecrol}"  converter="javax.faces.Integer" style="width: 300px"
+                                          filterMatchMode="contains" showCheckbox="false">
+                            <f:selectItems value="#{dtProfileView.lstRoleProfile}" var="rol" 
+                                           itemLabel=" #{rol.rol.name}" 
+                                           itemValue="#{rol.rolid}" /> 
+                        </p:selectManyMenu>
+                        <h:panelGrid columns="4">
+                            <p:selectManyMenu id="nuevalistarol" value="#{dtProfileView.selecrol}"  converter="javax.faces.Integer" style="width: 300px"
+                                              filterMatchMode="contains" showCheckbox="true">
+                                <f:selectItems value="#{dtProfileView.lstRol}" var="rol" 
+                                               itemLabel=" #{rol.name}" 
+                                               itemValue="#{rol.rolid}" /> 
+                            </p:selectManyMenu>
                         </h:panelGrid>
                     </div>
                 </article>
@@ -288,7 +311,7 @@
 
             </p:dialog>
         </h:form>
-         <!-- Popup para Ingresar Nuevo Perfil -->
+        <!-- Popup para Ingresar Nuevo Perfil -->
         <h:form>
             <p:dialog id="newprofile" widgetVar="newprofile" header="Usuario" modal="true" resizable="false">
                 <article class="module width_full">
@@ -366,23 +389,17 @@
                                 <f:selectItem itemLabel="Activo" itemValue="Activo"/>
                                 <f:selectItem itemLabel="Inactivo" itemValue="Inactivo"/>
                             </p:selectOneMenu>
+                            <h:outputText value="Perfil"/>
+                            <p:selectOneMenu value="#{dtUserView.profile.id}">
+                                <f:selectItem itemLabel="Elija una opcion" itemValue="#{-1}"/>
+                                <f:selectItems value="#{dtUserView.lstProfile}" var="perfil" itemValue="#{perfil.id}"
+                                               itemLabel="#{perfil.nombre} "/>
+                                <p:ajax event="change"/>
+                            </p:selectOneMenu>
                         </h:panelGrid>
                     </div>
                 </article>
-                <article class="module width_full">
-                    <header><center><h3>Editar Perfil de Usuario</h3></center></header>
-                    <div class="module_content">
-                        <h:panelGrid columns="4">
-                            <p:selectManyMenu id="lista" value="#{dtUserView.userprofilesel}"  style="width: 500px"
-                                              filterMatchMode="contains" showCheckbox="true">           
-                                <f:selectItems value="#{dtUserView.lstProfile}" var="perfil" 
-                                               itemLabel=" #{perfil.nombre}" 
-                                               itemValue="#{perfil.nombre}"/> 
-                            </p:selectManyMenu>
-                        </h:panelGrid>
-                    </div>
-                </article>
-                <br/>
+
                 <article>
                     <center>
                         <p:commandButton value="Actualizar" update=":frmUsers" actionListener="#{dtUserView.update(dtUserView.usersel)}" oncomplete="PF('edituser').hide()"/>
@@ -423,21 +440,10 @@
                             <h:inputText value="#{dtUserView.usersel.position}" disabled="#{dtUserView.usersel != 'position'}"/>
                             <h:outputText value="Estado:"/>
                             <h:inputText value="#{dtUserView.usersel.disability}" disabled="#{dtUserView.usersel != 'disability'}"/>
+                            <h:outputText value="Perfil:"/>
+                            <h:inputText value="#{dtUserView.profile.nombre}" disabled="#{dtUserView.profile != 'disability'}"/>
 
                         </h:panelGrid>
-                    </div>
-                </article>
-                <article class="module width_full">
-                    <header><center><h3>Perfil de Usuario</h3></center></header>
-                    <div class="module_content">
-                        <h:panelGrid id="panel" columns="2" width="50%">
-                        </h:panelGrid>
-                        <p:selectManyMenu id="lista" value="#{dtUserView.userprofilesel}"  converter="javax.faces.Integer" style="width: 500px"
-                                          filterMatchMode="contains" >
-                            <f:selectItems value="#{dtUserView.lstUserProfile}" var="perfil" 
-                                           itemLabel=" #{perfil.profile.nombre}" 
-                                           itemValue="#{perfil.usrid}" /> 
-                        </p:selectManyMenu>
                     </div>
                 </article>
                 <br/>
@@ -469,7 +475,7 @@
                     <div class="module_content">
                         <h:panelGrid id="panel" columns="2" width="50%">
                         </h:panelGrid>
-                        <p:selectManyMenu id="listaverprofile" value="#{dtProfileView.selecrol}"  converter="javax.faces.Integer" style="width: 500px"
+                        <p:selectManyMenu id="listaverprofile" value="#{dtProfileView.selecrol}"  converter="javax.faces.Integer" style="width: 300px"
                                           filterMatchMode="contains" showCheckbox="false">
                             <f:selectItems value="#{dtProfileView.lstRoleProfile}" var="rol" 
                                            itemLabel=" #{rol.rol.name}" 

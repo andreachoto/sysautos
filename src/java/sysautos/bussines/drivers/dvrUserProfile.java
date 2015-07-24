@@ -63,7 +63,7 @@ public class dvrUserProfile {
         List<Parameter> parametros = new ArrayList<>();
         parametros.add(new Parameter(1, objeto.getUsrid(), Types.INTEGER));
         //parametros.add(new Parameter(2, objeto.getTidid(), Types.INTEGER));
-        String llamadaPA = "SELECT autos.\"userprofileDeleteById_pa\"(?)";
+        String llamadaPA = "SELECT autos.\"userprofileDeleteByUserId_pa\"(?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
             respuesta = true;
@@ -166,6 +166,20 @@ public class dvrUserProfile {
         }
         con.cerrarConexion();
         return lista;
+    }
+     public static UserProfile getuserprofileByIdUser(int iduser) throws Exception {
+        UserProfile var = null;
+        List<Parameter> parametros = new ArrayList<>();
+        parametros.add(new Parameter(1, iduser, Types.INTEGER));
+        String llamadaPA = "SELECT * from autos.\"userprofileById_paCliente\"(?)";
+        Conexion con = new Conexion(llamadaPA, parametros);
+        if (con.siguiente()) {
+            int usrid = con.getInt("outusrid");
+            int pflid = con.getInt("outpflid");
+            var = new UserProfile(usrid, pflid);
+        }
+        con.cerrarConexion();
+        return var;
     }
 
 }
