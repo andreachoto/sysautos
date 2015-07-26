@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.context.RequestContext;
 import sysautos.bussines.drivers.dvrRequisitosCliente;
 import sysautos.bussines.entities.ClienteCredito;
 import sysautos.bussines.entities.RequisitosCliente;
@@ -47,6 +48,42 @@ public final class vmbRecli implements Serializable {
             MbsMessages.fatal(ex.getMessage());
         }
     }
+     
+     
+        public void update(RequisitosCliente mp) {
+        try {
+            if (dvrRequisitosCliente.requisitosclienteUpdate(mp)) {
+                this.loadrequisitocliente(mp);
+                MbsMessages.info("Requisitos  actualizado correctamente!");
+            } else {
+                MbsMessages.error("No se pudo Actualizar el registro!");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+     
+     
+     
+     
+       public void loadrequisitocliente( RequisitosCliente tipo) {
+        try {
+            if (tipo != null) {
+               
+                this.reqcliSel = dvrRequisitosCliente.getRequisitosClienteByID(tipo.getCltid(), tipo.getCrtid());
+                RequestContext.getCurrentInstance().update("frmEditRequisitos");
+                RequestContext.getCurrentInstance().execute("PF('editrequisitos').show()");
+            } else {
+                MbsMessages.error("Seleccione un registro");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+     
+     
+     
+     
 
     public List<RequisitosCliente> getLstReqCli() {
         return lstReqCli;

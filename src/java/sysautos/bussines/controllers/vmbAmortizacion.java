@@ -60,13 +60,6 @@ public final class vmbAmortizacion implements Serializable {
         }
     
     
-   
-    
-    
-    
-    
-    
-    
     public void buscar() throws Exception{
         
         Integer numero = credito.getId();

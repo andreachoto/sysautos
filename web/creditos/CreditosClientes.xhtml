@@ -6,26 +6,28 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
-        <div id="requisitos">
+        <div id="cliente">
             <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
             <article class="module width_full">
 
-                <header><h3>Requisitos Clientes</h3></header>
+                <header><h3>Requisitos Clientes Créditos</h3></header>
                 <div class="module_content">
-                    
-                    <h:form id="frmRequisitosClientes">
-
+                    <br> </br>
+                    <h:outputLabel value="Lista Créditos"  class="module_content"/>
+                    <br> </br>
+                    <br> </br>
+                    <h:form id="frmRequisitos" >
                         <h:outputText value="Número Crédito   :" />
                         <h:inputText value="#{dtClicreView.objclientecred.idcred}" />
-                        <p:commandButton value="Buscar Clientes" icon="ui-icon-search"  action="#{dtClicreView.buscar()}" update=":frmRequisitosClientes:tblClientes" />
+                        <p:commandButton value="Buscar Clientes" icon="ui-icon-search"  action="#{dtClicreView.buscar()}" update=":frmRequisitos:tblClientes1" />
                         <br></br>
                         <br></br>
                         <br></br>
-                        <p:dataTable id="tblClientes" value="#{dtClicreView.lstCredito}" var="item"
+                        <p:dataTable id="tblClientes1" value="#{dtClicreView.lstCredito}" var="item"
                                      selection="#{dtClicreView.objsel}" selectionMode="single" 
                                      rowKey="#{item.idcli}" paginator="true" paginatorPosition="bottom" rows="10" 
                                      rendered="true">
-                            
+
                             <p:column headerText="Credito Número">
                                 <h:outputText value="#{item.idcred}"/>
                             </p:column>
@@ -40,36 +42,24 @@
                             </p:column>
 
                         </p:dataTable> 
-                        
-                       <p:commandButton value="Editar Requisitos" icon="ui-icon-pencil" actionListener="#{dtClicreView.loadclicreditos(dtClicreView.objsel)}" />
-                
-                         
-                    </h:form>
-                </div>
-              
-                
-                <br></br>
-                <br></br>
-                <br></br>
-                
-                
-                <h:form id="frmRequisitos">
 
-                        <h:outputText value="Cliente   :" />
-                        <h:inputText value="#{dtReqView.objclientecred.idcli}" />
-                        <h:outputText value="Número Crédito   :" />
-                        <h:inputText value="#{dtReqView.objclientecred.idcred}" />
-                       
-                        
-                        <p:commandButton value="Buscar Clientes" icon="ui-icon-search"  action="#{dtReqView.buscarreq()}" update=":frmRequisitos:tblClientes" />
                         <br></br>
+                        <br></br>
+                        <br></br>
+
+                        <h:outputText value="Código Cliente:" /> 
+                        <h:inputText value="#{dtReqView.objclientecred.idcli}"/>
+                        <h:outputText value="&emsp; &emsp;Número Crédito:" />
+                        <h:inputText value="#{dtReqView.objclientecred.idcred}" />
+                        <p:commandButton value="Buscar" icon="ui-icon-search"  action="#{dtReqView.buscarreq()}" update=":frmRequisitos:tblClientes" />
+
                         <br></br>
                         <br></br>
                         <p:dataTable id="tblClientes" value="#{dtReqView.lstReqCli}" var="item"
                                      selection="#{dtReqView.reqcliSel}" selectionMode="single" 
                                      rowKey="#{item.cltid}" paginator="true" paginatorPosition="bottom" rows="10" 
                                      rendered="true">
-                            
+
                             <p:column headerText="Código">
                                 <h:outputText value="#{item.cltid}"/>
                             </p:column>
@@ -82,41 +72,47 @@
                             <p:column headerText="Requisitos">
                                 <h:outputText value="#{item.requisitos.detallereq.nombre}"/>
                             </p:column>
-                             <p:column headerText="Estado">
-                                 <h:selectBooleanCheckbox value="#{item.verificacion}"/>
+                            <p:column headerText="Estado">
+                                <h:selectBooleanCheckbox value="#{item.verificacion}"/>
                             </p:column>
-
                         </p:dataTable> 
-                     </h:form>
-                <br></br>
-                        <br></br>
-             </article>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+                        <br> </br>
+                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtReqView.loadrequisitocliente(dtReqView.reqcliSel) }" />
+
+                    </h:form>
+
+                    <h:form id="frmEditRequisitos">
+                        <p:dialog id="editrequisitos" widgetVar="editrequisitos" header="Requisitos" modal="true" resizable="false">
+                            <article class="module width_full">
+                                <header><center><h3>Editar  Requisitos</h3></center></header>
+                                <div class="module_content">
+                                    <h:panelGrid id="panelEditRequisitos" columns="2">
+                                        <h:outputText value="Verificacion:" />
+                                        <h:inputText value="#{dtReqView.reqcliSel.verificacion}" />
+                                        <h:selectBooleanCheckbox value="#{dtReqView.reqcliSel.verificacion}"/>
+
+                                    </h:panelGrid>
+                                </div>
+                            </article>
+                            <br/>
+                            <article>
+                                <center>
+                                    <p:commandButton value="Guardar" 
+                                                     action="#{dtReqView.update(dtReqView.reqcliSel)}"  update=":frmRequisitos:tblClientes"
+                                                     />
+                                    <p:commandButton value="Actualizar" icon="ui-icon-search"  action="#{dtReqView.buscarreq()}" update=":frmRequisitos:tblClientes"  oncomplete="PF('editrequisitos').hide()"/>
+
+                                </center>
+                            </article>
+                        </p:dialog>
+                    </h:form>
+
+
+
+                </div>
+                <footer> 
+                </footer>
+            </article>
         </div>
-        
-        
-        
-         
     </ui:define>
 </ui:composition>
-
-
-
-
