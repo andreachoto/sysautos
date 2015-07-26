@@ -12,48 +12,7 @@
 
                 <header><h3>Amortizaciones Créditos</h3></header>
                 <div class="module_content">
-                    <h:form id="frmRequisitos">
-
-                        <h:outputText value="Número Crédito   :" />
-                        <h:inputText value="#{dtAmortView.credito.id}" />
-                        <p:commandButton value="Buscar Amortización" icon="ui-icon-search"  action="#{dtAmortView.buscar()}" update=":frmRequisitos:tblCredito" />
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <p:dataTable id="tblCredito" value="#{dtAmortView.lstAmortizacion}" var="item"
-                                     selection="#{dtAmortView.amtSel}" selectionMode="single" 
-                                     rowKey="#{item.amztid}" paginator="true" paginatorPosition="bottom" rows="10" 
-                                     rendered="true">
-
-                            <p:column headerText="Credito Número">
-                                <h:outputText value="#{item.creditoid}"/>
-                            </p:column>
-                            <p:column headerText="Cuota">
-                                <h:outputText value="#{item.amzcuota}"/>
-                            </p:column>
-                            <p:column headerText="Fecha">
-                                <h:outputText value="#{item.amzfecha}"/>
-                            </p:column>
-
-                            <p:column headerText="Capital">
-                                <h:outputText value="#{item.amzcapital}"/>
-                            </p:column>
-                            <p:column headerText="Interes">
-                                <h:outputText value="#{item.amzinteres}"/>
-                            </p:column>
-                            <p:column headerText="Valor Cuota">
-                                <h:outputText value="#{item.amzvalorc}"/>
-                            </p:column>
-                            <p:column headerText="Amortización">
-                                <h:outputText value="#{item.amortizacion}"/>
-                            </p:column>
-
-                        </p:dataTable>
-
-                    </h:form>
-
-                    <br>   </br>
-                    <br> </br>
+                 <br> </br>
 
                     <h:outputLabel value="Lista Créditos"  class="module_content"/>
                     <h:form id="frmCreditos">
@@ -99,6 +58,47 @@
                             </center>
                         </p:confirmDialog>
                     </h:form>
+                      <br> </br>
+                      <br> </br>
+                    <h:form id="frmRequisitos" >
+
+                        <h:outputText value="Número Crédito   :" />
+                        <h:inputText value="#{dtAmortView.credito.id}" />
+                        <p:commandButton value="Buscar Amortización" icon="ui-icon-search"  action="#{dtAmortView.buscar()}" update=":frmRequisitos:tblCredito" />
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <p:dataTable id="tblCredito" value="#{dtAmortView.lstAmortizacion}" var="item"
+                                     selection="#{dtAmortView.amtSel}" selectionMode="single" 
+                                     rowKey="#{item.amztid}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                     rendered="true">
+
+                            <p:column headerText="Credito Número">
+                                <h:outputText value="#{item.creditoid}"/>
+                            </p:column>
+                            <p:column headerText="Cuota">
+                                <h:outputText value="#{item.amzcuota}"/>
+                            </p:column>
+                            <p:column headerText="Fecha">
+                                <h:outputText value="#{item.amzfecha}"/>
+                            </p:column>
+
+                            <p:column headerText="Capital">
+                                <h:outputText value="#{item.amzcapital}"/>
+                            </p:column>
+                            <p:column headerText="Interes">
+                                <h:outputText value="#{item.amzinteres}"/>
+                            </p:column>
+                            <p:column headerText="Valor Cuota">
+                                <h:outputText value="#{item.amzvalorc}"/>
+                            </p:column>
+                            <p:column headerText="Amortización">
+                                <h:outputText value="#{item.amortizacion}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        </h:form>
+      
                 </div>
                 <footer> 
                 </footer>

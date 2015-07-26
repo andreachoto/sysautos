@@ -112,6 +112,25 @@ public class dvrRequisitosCliente {
     }
     
     
+      public static RequisitosCliente getRequisitosClienteByID(int cli, int cre) throws Exception {
+      RequisitosCliente var = null;
+        List<RequisitosCliente> lista = new ArrayList<>();
+        List<Parameter> parametros = new ArrayList<>();
+        parametros.add(new Parameter(1, cli, Types.INTEGER));
+        parametros.add(new Parameter(2, cre, Types.INTEGER));
+        String llamadaPA = "SELECT * from autos.\"requisitosclienteByIClCr_pa\"(?,?)";
+        Conexion con = new Conexion(llamadaPA, parametros);
+        
+        while (con.siguiente()) {
+            int id = con.getInt("outrqtid");
+            int drqid = con.getInt("outcltid");
+            int mdpid = con.getInt("outcrtid");
+            boolean aplid = con.getBoolean("outrqcverificacion");
+            var= new RequisitosCliente(id, drqid, mdpid,aplid) ;
+        }
+        con.cerrarConexion();
+        return  var;
+    }
     
     
     
@@ -164,6 +183,26 @@ public class dvrRequisitosCliente {
   
         con.cerrarConexion();
         return lista;
+    }
+    
+    
+    
+    
+        public static boolean requisitosclienteUpdate(RequisitosCliente objeto) throws Exception {
+        boolean respuesta = false;
+        List<Parameter> parametros = new ArrayList<>();
+        parametros.add(new Parameter(1, objeto.getRqtid(), Types.INTEGER));
+        parametros.add(new Parameter(2, objeto.getCltid(), Types.INTEGER));
+        parametros.add(new Parameter(3, objeto.getCrtid(), Types.INTEGER));
+        parametros.add(new Parameter(4, objeto.isVerificacion(), Types.BOOLEAN));
+
+        String llamadaPA = "SELECT autos.\"requisitosclienteUpdate_pa\"(?,?,?,?)";
+        Conexion con = new Conexion(llamadaPA, parametros);
+        while (con.siguiente()) {
+            respuesta = true;
+        }
+        con.cerrarConexion();
+        return respuesta;
     }
 
 }
