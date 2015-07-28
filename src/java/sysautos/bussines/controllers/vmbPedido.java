@@ -130,6 +130,7 @@ public final class vmbPedido implements Serializable {
         this.tipprod_select = tipprod_select;
     }
     
+    //Metodos de logica
     //metodo que valida la operacion a realizar.
     public void operar() {
         if (this.accion.equals("INS")) {
@@ -140,7 +141,6 @@ public final class vmbPedido implements Serializable {
 
     }
 
-    //Metodos de logica
     public void loadProveedores() {
         try {
             this.proveedores = dvrProveedor.getProveedorList();

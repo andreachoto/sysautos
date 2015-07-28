@@ -17,13 +17,13 @@ public class Modopago {
     private String nombre;
     private String descrip;
 
-    public Modopago() {
-    }
-
     public Modopago(int id, String nombre, String descrip) {
         this.id = id;
         this.nombre = nombre;
         this.descrip = descrip;
+    }
+
+    public Modopago() {
     }
 
     public int getId() {

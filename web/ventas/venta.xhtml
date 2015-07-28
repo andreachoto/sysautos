@@ -9,25 +9,102 @@
             <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
             <article class="module width_full">
                 <h:form id="frmVenta">
-                    <header><h3>Nuevo Venta</h3></header>
+                    <header><h3>Nueva Venta</h3></header>
                     <div class="module_content">
                         <!--Panel de ingreso-->
                         <h:panelGrid columns="4" cellpadding="4">
-                            <p:outputLabel for="button" value="Fecha:" />
-                            <p:calendar id="button" value="#{dtVentaView.date}" showOn="button" />
-                            <p:outputLabel for="tipo" value="Cliente:" />
-                            <p:selectOneMenu id="tipo" style="width:200px" >
-                                <f:selectItem itemLabel="Seleccionar proveedor" itemValue="-1" noSelectionOption="true" />
-                                <f:selectItems value="#{dtVentaView.proveedores}" var="item" itemValue="#{item.id}" 
-                                               itemLabel="#{item.nombre}" />
+                            <p:outputLabel for="cal" value="Fecha:" />
+                            <p:calendar id="cal" value="#{dtVentaView.date}" showOn="button" />
+                            <h:outputText value="Factura" />
+                            <p:selectBooleanCheckbox value="#{dtVentaView.factura}" />
+                            <p:outputLabel for="client" value="Cliente:" />
+                            <p:selectOneMenu id="client" style="width:200px" value="#{dtVentaView.venta.clitid}" >
+                                <f:selectItem itemLabel="Seleccione..." itemValue="-1" noSelectionOption="true" />
+                                <f:selectItems value="#{dtVentaView.clientes}" var="item" 
+                                               itemValue="#{item.id}" itemLabel="#{item.nombre} #{item.apellido}" />
+                            </p:selectOneMenu>
+                            <h:outputText value="Nro Factura" />
+                            <p:inputText value="#{dtVentaView.venta.numfac}" />
+                            <p:outputLabel for="mdopago" value="Forma de pago" />
+                            <p:selectOneMenu id="mdopago" style="width:200px" value="#{dtVentaView.venta.mpgid}" >
+                                <f:selectItem itemLabel="Seleccione..." itemValue="-1" noSelectionOption="true" />
+                                <f:selectItems value="#{dtVentaView.modopagos}" var="item" 
+                                               itemValue="#{item.id}" itemLabel="#{item.nombre}" />
                             </p:selectOneMenu>
                         </h:panelGrid>
                         <!--Tablero de Detalle-->
+                        <fieldset style="width: 100%">
+                            <p:outputLabel  value="DETALLE DE VENTA" /><br/><br/>
+                            <div style="width: 100%; margin: 5px;">
+                                <div style="float: left; width:90%; ">
+                                    <p:dataTable id="tblventaitems" value="#{dtVentaView.ventaitems}" var="item"
+                                                 selection="#{dtVentaView.itemselect}" selectionMode="single" 
+                                                 rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                                 rendered="true">
+                                        <p:column headerText="Producto"> 
+                                            <h:outputText value="#{item.producto.nombre}"/>
+                                        </p:column>
+                                        <p:column headerText="Cantidad">
+                                            <h:outputText value="#{item.cantidad}"/>
+                                        </p:column>
+                                        <p:column headerText="Valor U.">
+                                            <h:outputText value="#{item.valoruni}"/>
+                                        </p:column>
+                                        <p:column headerText="Subtotal">
+                                            <h:outputText value="#{item.valtotal}"/>
+                                        </p:column>
+                                    </p:dataTable> 
+                                </div>
+                                <div style="float: left; width: 8%; padding: 5px;">
+                                    <p:commandButton value="ADD" icon="ui-icon-circle-plus" oncomplete="PF('additemventa').show()" /><br/>
+                                    <p:commandButton value="DEL" icon="ui-icon-cancel" actionListener="#{dtVentaView.delItemDetalle()}"
+                                                     update=":frmVenta:tblventaitems"/>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <footer style=" background:#fff; text-align: center; border: 0px;">
+                            <p:commandButton value="Registrar" icon="ui-icon-circle-plus" actionListener="#{dtVentaView.register()}"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-cancel" action="ventas" />
+                        </footer>
+
                     </div>
                 </h:form>
             </article>
         </div>
         <!-- Dialog para el ingreso de Items de detalle al Venta -->
-  
+        <p:dialog id="additemventa" widgetVar="additemventa" header="Item de Venta" modal="true" resizable="false">
+            <h:form>
+                <article class="module width_full">
+                    <header><center><h3>Agregar Productos</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="tipo" value="Tipo de Producto:" />
+                            <p:selectOneMenu id="tipo" style="width:150px" value="#{dtVentaView.tipprod_select.id}">
+                                <f:selectItem itemLabel="Seleccionar" itemValue="-1" noSelectionOption="true" />
+                                <f:selectItems value="#{dtVentaView.tiposproducto}" var="itemtipo" 
+                                               itemValue="#{itemtipo.id}" itemLabel="#{itemtipo.nombre}" />
+                                <p:ajax event="change" listener="#{dtVentaView.loadproductosbyTipoID()}" update="producto"/> 
+                            </p:selectOneMenu>
+                            <p:outputLabel for="producto" value="Producto:" />
+                            <p:selectOneMenu id="producto" style="width:150px" value="#{dtVentaView.itemventa.pdtid}" >
+                                <f:selectItem itemLabel="Seleccionar" itemValue="-1" noSelectionOption="true" />
+                                <f:selectItems value="#{dtVentaView.productos}" var="item" 
+                                               itemValue="#{item.id}" itemLabel="#{item.nombre}" />
+                                <p:ajax event="change" listener="#{dtVentaView.loadpriceProducto(dtVentaView.itemventa.pdtid)}" update="value"/> 
+                            </p:selectOneMenu>
+                            <h:outputText value="Valor" />
+                            <h:inputText id="value" value="#{dtVentaView.itemventa.valoruni}"/>
+                            <h:outputText value="Cantidad"/>
+                            <h:inputText value="#{dtVentaView.itemventa.cantidad}" />
+                        </h:panelGrid>
+                    </div>
+                    <div style="text-align: center; margin: 10px;">
+                        <p:commandButton value="Guardar" actionListener="#{dtVentaView.addItemDetalle()}" 
+                                         update=":frmVenta:tblventaitems" oncomplete="PF('additemventa').hide()"/>
+                        <p:commandButton value="Cerrar" oncomplete="PF('additemventa').hide()" />
+                    </div>
+                </article>
+            </h:form>
+        </p:dialog>
     </ui:define>
 </ui:composition>

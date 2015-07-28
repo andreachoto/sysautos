@@ -68,7 +68,7 @@ public class MbsLogin implements Serializable {
                     httpSession.setAttribute("login", this.login);
                     httpSession.setAttribute("user", usuario);
 //                 
-                    this.lstUserProfile = dvrUserProfile.getuserprofileList();
+                    this.lstUserProfile = dvrUserProfile.getUserprofilesByUserID(this.user.getId());
                     for (UserProfile userprof : lstUserProfile) {
                         if (userprof.getUsrid() == usuario.getId()) {
                             if (userprof.getProfile().getNombre().equals("Admin")) {
