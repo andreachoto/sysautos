@@ -87,18 +87,16 @@ public class dvrVenta {
         return respuesta;
     }
 
-    //OUT  numeric, OUT  numeric, OUT  numeric, OUT  numeric, 
-    //OUT  numeric, OUT  character varying, OUT  boolean
-    //Listar todos los registros de la tabla
+   //Listar todos los registros de la tabla
     public static List<Venta> getVentaList() throws Exception {
         List<Venta> lista = new ArrayList<>();
         String llamadaPA = "SELECT * from autos.\"ventaSelectAll_pa\"()";
         Conexion con = new Conexion(llamadaPA);
         while (con.siguiente()) {
             int id = con.getInt("outid");
-            int clitid = con.getInt("outvtaid");
-            int mpgid = con.getInt("outpdtid");
-            int usrid = con.getInt("outcantidad");
+            int clitid = con.getInt("outclitid");
+            int mpgid = con.getInt("outmpgid");
+            int usrid = con.getInt("outusrid");
             Timestamp fecha = con.getTimestamp("outfecha");
             String numfac = con.getString("outnumfac");
             Timestamp fechafac = con.getTimestamp("outfechafac");
@@ -125,9 +123,9 @@ public class dvrVenta {
         Conexion con = new Conexion(llamadaPA, parametros);
         if (con.siguiente()) {
             int id = con.getInt("outid");
-            int clitid = con.getInt("outvtaid");
-            int mpgid = con.getInt("outpdtid");
-            int usrid = con.getInt("outcantidad");
+            int clitid = con.getInt("outclitid");
+            int mpgid = con.getInt("outmpgid");
+            int usrid = con.getInt("outusrid");
             Timestamp fecha = con.getTimestamp("outfecha");
             String numfac = con.getString("outnumfac");
             Timestamp fechafac = con.getTimestamp("outfechafac");
@@ -154,9 +152,9 @@ public class dvrVenta {
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
             int id = con.getInt("outid");
-            int clitid = con.getInt("outvtaid");
-            int mpgid = con.getInt("outpdtid");
-            int usrid = con.getInt("outcantidad");
+            int clitid = con.getInt("outclitid");
+            int mpgid = con.getInt("outmpgid");
+            int usrid = con.getInt("outusrid");
             Timestamp fecha = con.getTimestamp("outfecha");
             String numfac = con.getString("outnumfac");
             Timestamp fechafac = con.getTimestamp("outfechafac");
