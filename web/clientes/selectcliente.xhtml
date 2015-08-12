@@ -23,8 +23,14 @@
                                                     <p:dataTable id="tblroles" value="#{dtClientView.lstCliente}" var="item"
                                                                  selection="#{dtClientView.clientesel}" selectionMode="single" 
                                                                  rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
-                                                                 rendered="true">
-                                                        <p:column headerText="Nombre y Apellido" filterBy="#{item.nombre}  #{item.apellido}"> 
+                                                                 rendered="true" widgetVar="carsTable">
+                                                        <f:facet name="header">
+                                                            <p:outputPanel>
+                                                                <h:outputText value="Buscar:" />
+                                                                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Ingrese el Dato"/>
+                                                            </p:outputPanel>
+                                                        </f:facet>
+                                                        <p:column headerText="Nombre y Apellido"  filterBy="#{item.nombre} #{item.apellido} #{item.edad}"> 
                                                             <h:outputText value="#{item.nombre} #{item.apellido}" />
                                                         </p:column>
                                                         <p:column headerText="Sexo" width="70">
