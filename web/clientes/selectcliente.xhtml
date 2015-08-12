@@ -24,7 +24,7 @@
                                                                  selection="#{dtClientView.clientesel}" selectionMode="single" 
                                                                  rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
                                                                  rendered="true">
-                                                        <p:column headerText="Nombre y Apellido"> 
+                                                        <p:column headerText="Nombre y Apellido" filterBy="#{item.nombre}  #{item.apellido}"> 
                                                             <h:outputText value="#{item.nombre} #{item.apellido}" />
                                                         </p:column>
                                                         <p:column headerText="Sexo" width="70">
