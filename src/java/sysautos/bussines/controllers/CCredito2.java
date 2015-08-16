@@ -153,7 +153,7 @@ public class CCredito2 {
     public void ingresar() {
         try {
 
-            System.err.println("Ingresa Datos Amortizacion");
+            
             long fechasAc = obtieneFecha(fecha1) - obtieneFecha(fecha);
             fechaActua = obtieneFechaTimeStamp(fechasAc);
             credito.setFecha(obtieneFechaTimeStamp(fecha.getTime()));
@@ -162,6 +162,7 @@ public class CCredito2 {
             credito.setIduser(1);
             ClienteCredito crecli = new ClienteCredito(this.intIdCliente, 0, this.intTipoDeudor);
             this.lstClienteCredito.add(crecli);
+            MbsMessages.info("Generado Correctamente");
 
             resul = dvrCredit.userCreditoRegister(credito);
             if (resul != 0) {
@@ -180,9 +181,11 @@ public class CCredito2 {
 
                     }
                 }
-                generarAmortizacion();
+                
+                //generarAmortizacion();
                 lstAmortizacion = (dvrAmortizacion.getAmortizacionListByCred(resul) );
                 cargar();
+                MbsMessages.info("Generado Correctamente");
 
             } else {
                 //Util.addErrorMessage("Error en la Insercion.");
@@ -242,9 +245,11 @@ public class CCredito2 {
             for (Amortizacion amortizacion : listaAmt) {
                 dvrAmortizacion.userAmtRegister(amortizacion);
             }
-            //Util.addSuccessMessage("Datos insertados Exitosamente.");
-            DefaultRequestContext.getCurrentInstance().execute("wdlgAmortizacion.hide()");
-            MbsMessages.error("Generado Correctamente");
+           
+            
+            MbsMessages.info("Amortización Generado Correctamente");
+            DefaultRequestContext.getCurrentInstance().execute("CreditosListar");
+            
         } catch (Exception ex) {
             //Logger.getLogger(CCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -348,8 +353,9 @@ public class CCredito2 {
                 this.listaAmt.add(objAmortizacion);
                 this.objAmortizacion = new Amortizacion();
             }
+            
             insertar();
-            //DefaultRequestContext.getCurrentInstance().execute("wdlgAmortizacion.show()");
+            
         } catch (Exception e) {
         }
     }
