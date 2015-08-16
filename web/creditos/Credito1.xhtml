@@ -52,9 +52,9 @@
                             <p:inputText  
                                 value="#{dtCreditoView.credito.interes}"/> 
 
-                            <h:outputText value="Vence Hasta." />
+                            <!--<h:outputText value="Vence Hasta." />
                             <p:inputText disabled="true" id="impVence"
-                                         value="#{dtCreditoView.fechaActua}" />
+                                         value="#{dtCreditoView.fechaActua}" />-->
 
                             <h:outputText value="Plazo" />
                             <p:selectOneMenu value="#{dtCreditoView.credito.plazo}">
@@ -105,7 +105,9 @@
                         <div  style="text-align:center">
                             <p:commandButton value="Guardar" 
                                              action="#{dtCreditoView.ingresar()}" />
-                            <p:commandButton value="Ver Tabla Amortzación"  oncomplete="PF('amortizacion').show()" />
+                            <p:commandButton value="Amortización" 
+                                             action="#{dtCreditoView.generarAmortizacion()}" />
+                           <!-- <p:commandButton value="Ver Tabla Amortzación"  oncomplete="PF('amortizacion').show()" />-->
 
                         </div>
                     </div>
