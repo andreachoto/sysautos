@@ -95,10 +95,7 @@ public class dvrAmortizacion {
             BigDecimal amort = con.getBigDecimal("outamort");
             lista.add(new Amortizacion(id,credito,cuota,fecha,capital,interes,valorc,amort));
         }
-   
-        
-        con.cerrarConexion();
-        return lista;
+     return lista;
     }
     
     

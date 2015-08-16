@@ -39,13 +39,6 @@
                                     <f:facet name="footer">
 
                                         <p:button value="Nuevo Crédito" outcome="/creditos/Credito1"/>
-                                        <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtRequisitosView.loadrequisito(dtRequisitosView.objsel)}" />
-                                        <p:commandButton id="delRegistro" value="Cambiar Estado" icon="ui-icon-trash" update=":frmRequisitos" 
-                                                         action="#{dtCreditoView.ingresar()}"> 
-                                            <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
-                                        </p:commandButton> 
-                                        <p:commandButton value="Ver tabla Amortizacion" icon="ui-icon-circle-plus" oncomplete="PF('wdlgAmortizacion').show()"  />
-
                                     </f:facet>
                                 </p:dataTable>
 
