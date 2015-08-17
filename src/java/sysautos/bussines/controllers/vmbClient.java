@@ -71,6 +71,8 @@ public class vmbClient implements Serializable {
     private ArrayList<Integer> selecdireccion;
     private ArrayList<Integer> selectelefono;
     private Pais pais;
+    private Provincia provincia;
+    private Ciudad ciudad;
 
     public vmbClient() throws Exception {
         this.cliente = new Cliente();
@@ -83,6 +85,7 @@ public class vmbClient implements Serializable {
         this.lsttipoidentidad = dvrTipoIdentidad.gettipoIdentidadList();
         this.lsttipodireccion = dvrTipoDireccion.getTipoDireccionList();
         this.lstPais = dvrPais.getPaisList();
+        this.lstProvincia=dvrProvincia.getProvinciaList();
         this.lsttipotelefono = dvrTipoTelefono.getTipoTelefonoList();
         this.direccionsel = new Direccion();
         this.identificacionsel = new Identificacion();
@@ -93,8 +96,26 @@ public class vmbClient implements Serializable {
         this.selecdireccion = new ArrayList<>();
         this.selectelefono = new ArrayList<>();
         this.pais = new Pais();
+        this.provincia = new Provincia();
+        this.ciudad = new Ciudad();
         this.loadlstPais();
         limpiar();
+    }
+
+    public Ciudad getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(Ciudad ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public Provincia getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(Provincia provincia) {
+        this.provincia = provincia;
     }
 
     public Pais getPais() {
@@ -338,9 +359,9 @@ public class vmbClient implements Serializable {
         try {
             if (dvrCliente.clienteUpdate(cli)) {
                 this.loadclientes();
-                this.updateIdentificacion(identificacionsel);
-                this.updateDireccion(direccionsel);
-                this.updateTelefono(telefonosel);
+//                this.updateIdentificacion(identificacionsel);
+//                this.updateDireccion(direccionsel);
+//                this.updateTelefono(telefonosel);
                 MbsMessages.info("Cliente actualizado correctamente!");
             } else {
                 MbsMessages.error("No se pudo Actualizar el registro!");
@@ -661,20 +682,72 @@ public class vmbClient implements Serializable {
         }
     }
 
+    public void loadlstProvincia() {
+        try {
+            this.lstProvincia = dvrProvincia.getProvinciaList();
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+     public void loadlstCiudad() {
+        try {
+            this.lstCiudad = dvrCiudad.getCiudadList();
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+
     public void registerPais() {
         try {
             int ban = dvrPais.paisRegister(this.pais);
             if (ban != 0) {
                 this.loadlstPais();
-                MbsMessages.info("Pais creado correctamente!");
                 RequestContext.getCurrentInstance().update("frmCliente:tbvcliente:additemdireccion");
                 lstPais.hashCode();
                 lstPais.add(this.pais);
-//                this.pais.setNombre(selectpais);
                 this.lstPais = dvrPais.getPaisList();
 
             }
             this.pais = new Pais();
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+
+    }
+
+    public void registerProvincia() {
+        try {
+            int ban = dvrProvincia.provinciaRegister(this.provincia);
+            if (ban != 0) {
+                this.loadlstProvincia();
+                MbsMessages.info("Provincia ingresada correctamente");
+                RequestContext.getCurrentInstance().update("frmCliente:tbvcliente:additemdireccion");
+                lstProvincia.hashCode();
+                lstProvincia.add(this.provincia);
+//                this.pais.setNombre(selectpais);
+                this.lstProvincia = dvrProvincia.getProvinciaList();
+
+            }
+            this.provincia = new Provincia();
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+
+    }
+    public void registerCiudad() {
+        try {
+            int ban = dvrCiudad.ciudadRegister(this.ciudad);
+            if (ban != 0) {
+                this.loadlstCiudad();
+                MbsMessages.info("Ciudad ingresada correctamente");
+                RequestContext.getCurrentInstance().update("frmCliente:tbvcliente:additemdireccion");
+                lstCiudad.hashCode();
+                lstCiudad.add(this.ciudad);
+//                this.pais.setNombre(selectpais);
+                this.lstCiudad= dvrCiudad.getCiudadList();
+
+            }
+            this.ciudad = new Ciudad();
         } catch (Exception ex) {
             MbsMessages.fatal(ex.getMessage());
         }
