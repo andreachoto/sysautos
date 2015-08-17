@@ -5,6 +5,9 @@
  */
 package sysautos.bussines.entities;
 
+import java.util.List;
+import sysautos.bussines.drivers.dvrIdentificacion;
+
 /**
  *
  * @author Carolyn
@@ -18,11 +21,13 @@ public class Cliente {
     private String fax;
     private String email;
     private String estadocivil;
+    private List<Identificacion> listaidentidad;
+    private String identificacion;
 
     public Cliente() {
     }
 
-    public Cliente(int id, String nombre, String apellido, String sexo, int edad, String fax, String email, String estadocivil) {
+    public Cliente(int id, String nombre, String apellido, String sexo, int edad, String fax, String email, String estadocivil) throws Exception {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -31,8 +36,30 @@ public class Cliente {
         this.fax = fax;
         this.email = email;
         this.estadocivil = estadocivil;
+        this.listaidentidad= dvrIdentificacion.getidentificacionByIdCliente(id);
+        if(!listaidentidad.isEmpty()){
+        this.identificacion=this.listaidentidad.get(0).getNumdescripcion();
+        }
+            
     }
 
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
+    }
+    
+    public List<Identificacion> getListaidentidad() {
+        return listaidentidad;
+    }
+
+    public void setListaidentidad(List<Identificacion> listaidentidad) {
+        this.listaidentidad = listaidentidad;
+    }
+    
+    
     public int getId() {
         return id;
     }
