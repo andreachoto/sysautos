@@ -155,7 +155,6 @@
                                     <table>
                                         <tr>
                                             <td>
-
                                                 <p:dataTable id="tblpedidoitems" value="#{dtClientView.lstTelefono}" var="item"
                                                              selection="#{dtClientView.telefonosel}" selectionMode="single" 
                                                              rowKey="#{item.ttfid}" paginator="true" paginatorPosition="bottom" rows="10" 
@@ -268,7 +267,7 @@
                                                itemLabel="#{provincia.nombre} "/>
                                 <p:ajax event="change" listener="#{dtClientView.cargarcuidades()}" update="ciu"/>
                             </p:selectOneMenu>
-                            <p:commandButton value="..." icon="ui-icon-circle-plus" action="#{dtUserView.cargaruser(dtUserView.usersel.id)}" style="width: 60px; height:17px; font-size:11px"/>
+                            <p:commandButton value="..." icon="ui-icon-circle-plus" oncomplete="PF('addprovincia').show()" style="width: 60px; height:17px; font-size:11px"/>
                             <h:outputText value="Ciudad" />
                             <p:selectOneMenu id="ciu" value="#{dtClientView.direccion.cidid}">
                                 <f:selectItem itemLabel="Elija una opcion" itemValue="#{-1}" />
@@ -276,39 +275,39 @@
                                                itemLabel="#{ciudad.nombre} "/>
                                 <p:ajax event="change"/>
                             </p:selectOneMenu> 
-                            <p:commandButton value="..." icon="ui-icon-circle-plus" action="#{dtUserView.cargaruser(dtUserView.usersel.id)}" style="width: 60px; height:17px; font-size:11px"/>
+                            <p:commandButton value="..." icon="ui-icon-circle-plus" oncomplete="PF('addciudad').show()" style="width: 60px; height:17px; font-size:11px"/>
                             <h:outputText value="Calle Principal:" />
-                            <h:inputText value="#{dtClientView.direccion.calleprincipal}" required="true">
+                            <h:inputText value="#{dtClientView.direccion.calleprincipal}">
                                 <p:ajax event="change"/>
                             </h:inputText>
                             <br/>
                             <h:outputText value="Calle Secundaria:" />
-                            <h:inputText value="#{dtClientView.direccion.callesecundaria}" required="true">
+                            <h:inputText value="#{dtClientView.direccion.callesecundaria}">
                                 <p:ajax event="change"/>
                             </h:inputText>
                             <br/>
                             <h:outputText value="Número de Casa:" />
-                            <h:inputText value="#{dtClientView.direccion.numcasa}" required="true">
+                            <h:inputText value="#{dtClientView.direccion.numcasa}">
                                 <p:ajax event="change"/>
                             </h:inputText>
                             <br/>
                             <h:outputText value="Parroquia:" />
-                            <h:inputText value="#{dtClientView.direccion.parroquia}" required="true">
+                            <h:inputText value="#{dtClientView.direccion.parroquia}">
                                 <p:ajax event="change"/>
                             </h:inputText>
                             <br/>
                             <h:outputText value="Referencia:" />
-                            <h:inputText value="#{dtClientView.direccion.referencia}" required="true">
+                            <h:inputText value="#{dtClientView.direccion.referencia}">
                                 <p:ajax event="change"/>
                             </h:inputText>
                             <br/>
                             <h:outputText value="Barrio:" />
-                            <h:inputText value="#{dtClientView.direccion.barrio}" required="true">
+                            <h:inputText value="#{dtClientView.direccion.barrio}">
                                 <p:ajax event="change"/>
                             </h:inputText>
                             <br/>
                             <h:outputText value="Sector:" />
-                            <h:inputText value="#{dtClientView.direccion.sector}" required="true">
+                            <h:inputText value="#{dtClientView.direccion.sector}">
                                 <p:ajax event="change"/>
                             </h:inputText>
 
@@ -510,12 +509,73 @@
                                          requiredMessage="Es necesario un Número">
                                 <p:ajax event="change"/>
                             </h:inputText>
-                            
+
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>
                                 <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerPais()}" oncomplete="PF('addpais').hide()" update="@form"/>
                                 <p:commandButton value="Cancelar" icon="ui-icon-circle-plus" onclick="PF('addpais').hide()" type="reset"/>
+                            </center>
+                        </f:facet> 
+                    </div>
+                </article>
+            </p:dialog>
+        </h:form>
+        <!-- Agregar un Nueva Provincia-->
+        <h:form id = "addprovincia">
+            <p:dialog id="addprovincia" widgetVar="addprovincia" header="Items de Provincia" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Nueva Provincia</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="País"/>
+                            <p:selectOneMenu value="#{dtClientView.provincia.pisid}" >
+                                <f:selectItem itemLabel="Elija una Pais" itemValue="#{-1}"/>
+                                <f:selectItems value="#{dtClientView.lstPais}" var="pais" itemValue="#{pais.id}"
+                                               itemLabel="#{pais.nombre} "/>
+                            </p:selectOneMenu>
+                            <h:outputText value="Provincia:" />
+                            <h:inputText value="#{dtClientView.provincia.nombre}"
+                                         requiredMessage="Es necesario un Número">
+                                <p:ajax event="change"/>
+                            </h:inputText>
+
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerProvincia()}" oncomplete="PF('addprovincia').hide()" update="@form"/>
+                                <p:commandButton value="Cancelar" icon="ui-icon-circle-plus" onclick="PF('addprovincia').hide()" type="reset"/>
+                            </center>
+                        </f:facet> 
+                    </div>
+                </article>
+            </p:dialog>
+        </h:form>
+        <!-- Agregar un Nueva Ciudad-->
+        <h:form id = "addciudad">
+            <p:dialog id="addciudad" widgetVar="addciudad" header="Items de Ciudad" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Nueva Ciudad</h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid columns="2">
+                            <h:outputText id="selecprov" value="Provincia"/>
+                            <p:selectOneMenu value="#{dtClientView.ciudad.prvid}" >
+                                <f:selectItem itemLabel="Elija una Provincia" itemValue="#{-1}"/>
+                                <f:selectItems value="#{dtClientView.lstProvincia}" var="provincia" itemValue="#{provincia.nombre}"
+                                               itemLabel="#{provincia.nombre} "/>
+                                <p:ajax event="change"/>
+                            </p:selectOneMenu>
+                            <h:outputText value="Ciudad:" />
+                            <h:inputText value="#{dtClientView.ciudad.nombre}"
+                                         requiredMessage="Es necesario un Número">
+                                <p:ajax event="change"/>
+                            </h:inputText>
+
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerCiudad()}" oncomplete="PF('addciudad').hide()" update="@form"/>
+                                <p:commandButton value="Cancelar" icon="ui-icon-circle-plus" onclick="PF('addciudad').hide()" type="reset"/>
                             </center>
                         </f:facet> 
                     </div>

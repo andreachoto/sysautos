@@ -53,7 +53,6 @@
                                                             <p:commandButton value="Nuevo" icon="ui-icon-search"  action="/clientes/newcliente" />
                                                             <p:commandButton value="Ver" icon="ui-icon-search" action="#{dtClientView.cargarvercliente(dtClientView.clientesel.id)}"/>
                                                             <p:commandButton value="Editar" icon="ui-icon-pencil" action="#{dtClientView.cargareditcliente(dtClientView.clientesel.id)}" />
-                                                            <p:commandButton value="Editar1" icon="ui-icon-pencil" actionListener="#{dtClientView.cargareditcliente(dtClientView.clientesel.id)}" action="/clientes/editcliente"/>
                                                         </f:facet>
                                                     </p:dataTable>
                                                 </h:panelGrid>
@@ -243,7 +242,7 @@
                         <br/>
                         <article>
                             <center>
-                                <p:commandButton value="Actualizar" icon="ui-icon-circle-plus" update=":frmCliente" actionListener="#{dtClientView.update(dtClientView.clientesel)}" action="#{dtClientView.limpiar()}" oncomplete="PF('editcliente').hide()"/>
+                                <p:commandButton value="Aceptar" icon="ui-icon-circle-plus" update=":frmCliente" actionListener="#{dtClientView.update(dtClientView.clientesel)}" action="#{dtClientView.limpiar()}" oncomplete="PF('editcliente').hide()"/>
                                 <p:commandButton value="Cerrar" oncomplete="PF('editcliente').hide()" />
                             </center>
                         </article>
@@ -286,7 +285,7 @@
                         <br/>
                         <article>
                             <center>
-                                <p:commandButton value="Actualizar" icon="ui-icon-pencil" actionListener="#{dtClientView.updateDireccion(dtClientView.direccionsel)}" action="#{dtClientView.limpiar()}"  oncomplete="PF('editdireccion').hide()" update=":frmCliente"/>
+                                <p:commandButton value="Aceptar" icon="ui-icon-pencil" actionListener="#{dtClientView.updateDireccion(dtClientView.direccionsel)}" action="#{dtClientView.limpiar()}"  oncomplete="PF('editdireccion').hide()" update=":frmCliente"/>
                                 <p:commandButton value="Cerrar" oncomplete="PF('editdireccion').hide()" />
                             </center>
                         </article>
@@ -313,7 +312,7 @@
                         <br/>
                         <article>
                             <center>
-                                <p:commandButton value="Actualizar" icon="ui-icon-pencil" actionListener="#{dtClientView.updateTelefono(dtClientView.telefonosel)}" action="#{dtClientView.limpiar()}"  oncomplete="PF('edittelefono').hide()" update=":frmCliente"/>
+                                <p:commandButton value="Aceptar" icon="ui-icon-pencil" actionListener="#{dtClientView.updateTelefono(dtClientView.telefonosel)}" action="#{dtClientView.limpiar()}"  oncomplete="PF('edittelefono').hide()" update=":frmCliente"/>
                                 <p:commandButton value="Cerrar" oncomplete="PF('edittelefono').hide()" />
                             </center>
                         </article>
@@ -338,7 +337,7 @@
                         <br/>
                         <article>
                             <center>
-                                <p:commandButton value="Actualizar" icon="ui-icon-pencil" actionListener="#{dtClientView.updateIdentificacion(dtClientView.identificacionsel)}" action="#{dtClientView.limpiar()}"  oncomplete="PF('editidentificacion').hide()" update=":frmCliente"/>
+                                <p:commandButton value="Aceptar" icon="ui-icon-pencil" actionListener="#{dtClientView.updateIdentificacion(dtClientView.identificacionsel)}" action="#{dtClientView.limpiar()}"  oncomplete="PF('editidentificacion').hide()" update=":frmCliente"/>
                                 <p:commandButton value="Cerrar" oncomplete="PF('editidentificacion').hide()" />
                             </center>
                         </article>
