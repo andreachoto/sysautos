@@ -666,11 +666,6 @@ public class vmbClient implements Serializable {
                 RequestContext.getCurrentInstance().update("frmCliente:tbvcliente");
                 RequestContext.getCurrentInstance().update("frmEditarCliente");
                 RequestContext.getCurrentInstance().execute("PF('editcliente').show()");
-//                RequestContext.getCurrentInstance().update("frmClienteEditar:tbclientes");
-//                RequestContext.getCurrentInstance().update("/clientes/editcliente");
-//                RequestContext.getCurrentInstance().update("frmClienteEditar");
-//                 RequestContext.getCurrentInstance().update("frmClienteEditar:tbclientes");
-//                RequestContext.getCurrentInstance().execute("PF('editcliente').show()");
             } else {
                 MbsMessages.error("Seleccione un registro");
             }
@@ -710,7 +705,6 @@ public class vmbClient implements Serializable {
                 RequestContext.getCurrentInstance().update("frmCliente:tbvcliente:additemdireccion");
                 lstPais.hashCode();
                 lstPais.add(this.pais);
-//                this.pais.setNombre(selectpais);
                 this.lstPais = dvrPais.getPaisList();
 
             }
