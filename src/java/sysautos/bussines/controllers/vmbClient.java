@@ -338,9 +338,9 @@ public class vmbClient implements Serializable {
         try {
             if (dvrCliente.clienteUpdate(cli)) {
                 this.loadclientes();
-                this.updateIdentificacion(identificacionsel);
-                this.updateDireccion(direccionsel);
-                this.updateTelefono(telefonosel);
+//                this.updateIdentificacion(identificacionsel);
+//                this.updateDireccion(direccionsel);
+//                this.updateTelefono(telefonosel);
                 MbsMessages.info("Cliente actualizado correctamente!");
             } else {
                 MbsMessages.error("No se pudo Actualizar el registro!");
@@ -645,6 +645,11 @@ public class vmbClient implements Serializable {
                 RequestContext.getCurrentInstance().update("frmCliente:tbvcliente");
                 RequestContext.getCurrentInstance().update("frmEditarCliente");
                 RequestContext.getCurrentInstance().execute("PF('editcliente').show()");
+//                RequestContext.getCurrentInstance().update("frmClienteEditar:tbclientes");
+//                RequestContext.getCurrentInstance().update("/clientes/editcliente");
+//                RequestContext.getCurrentInstance().update("frmClienteEditar");
+//                 RequestContext.getCurrentInstance().update("frmClienteEditar:tbclientes");
+//                RequestContext.getCurrentInstance().execute("PF('editcliente').show()");
             } else {
                 MbsMessages.error("Seleccione un registro");
             }
