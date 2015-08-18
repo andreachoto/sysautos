@@ -11,21 +11,24 @@
                 <h:form id="frmPedidos">
                     <header><h3>Gestion de Pedidos</h3></header>
                     <div class="module_content">
-                        <h:panelGrid cellpadding="4" style="width: 60%;">
+                        <h:panelGrid cellpadding="4" style="width: 70%;">
                             <p:dataTable id="tblroles" value="#{dtPedidosView.pedidos}" var="item"
                                          selection="#{dtPedidosView.pedidoselect}" selectionMode="single" 
                                          rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
                                          rendered="true">
-                                <p:column headerText="Numero"> 
+                                <p:column headerText="Codigo"> 
                                     <h:outputText value="#{item.id}" />
                                 </p:column>
                                 <p:column headerText="Fecha">
                                     <h:outputText value="#{Common.TimestampFormat(item.fecha)}"/>
                                 </p:column>
+                                <p:column headerText="Proveedor">
+                                    <h:outputText value="#{item.proveedor.nombre}"/>
+                                </p:column>
                                 <p:column headerText="Estado">
                                     <h:outputText value="#{item.estado}"/>
                                 </p:column>
-                                <p:column headerText="Solicitado por:">
+                                <p:column headerText="Solicitado por">
                                     <h:outputText value="#{item.user.fisrtname} #{item.user.lastname}"/>
                                 </p:column>
                                 <f:facet name="footer">
