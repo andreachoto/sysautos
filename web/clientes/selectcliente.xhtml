@@ -50,23 +50,28 @@
                                                         </p:column>
 
                                                         <f:facet name="footer">
-                                                            <p:commandButton value="Nuevo" icon="ui-icon-search"  action="/clientes/newcliente" />
+                                                            <p:button value="Nuevo" icon="ui-icon-search"  outcome="/clientes/newcliente" />
                                                             <p:commandButton value="Ver" icon="ui-icon-search" action="#{dtClientView.cargarvercliente(dtClientView.clientesel.id)}"/>
                                                             <p:commandButton value="Editar" icon="ui-icon-pencil" action="#{dtClientView.cargareditcliente(dtClientView.clientesel.id)}" />
+                                                            <p:button value="Cerrar" icon="ui-icon-close" outcome="/main"/>
+                                                            
+                                                           
+                                                          
                                                         </f:facet>
+
                                                     </p:dataTable>
+
                                                 </h:panelGrid>
                                             </div>
-                                        </article>
-                                        <br/>
 
+                                        </article>
                                     </center>
                                 </p:tab>
-
                             </p:tabView>
                         </div>
                         <footer> 
                         </footer>
+
                     </article>
                 </h:form> 
                 <!-- Popup para Ver los datos de Cliente -->

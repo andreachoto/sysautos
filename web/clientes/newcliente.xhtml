@@ -513,7 +513,7 @@
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>
-                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerPais()}" oncomplete="PF('addpais').hide()" update="@form"/>
+                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerPais()}" oncomplete="PF('addpais').hide()" update=":additemdireccion :addpais" process="@this"/>
                                 <p:commandButton value="Cancelar" icon="ui-icon-circle-plus" onclick="PF('addpais').hide()" type="reset"/>
                             </center>
                         </f:facet> 
@@ -543,7 +543,7 @@
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>
-                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerProvincia()}" oncomplete="PF('addprovincia').hide()" update="@form"/>
+                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerProvincia()}" oncomplete="PF('addprovincia').hide()" update=":additemdireccion :addpais"/>
                                 <p:commandButton value="Cancelar" icon="ui-icon-circle-plus" onclick="PF('addprovincia').hide()" type="reset"/>
                             </center>
                         </f:facet> 
@@ -574,7 +574,7 @@
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>
-                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerCiudad()}" oncomplete="PF('addciudad').hide()" update="@form"/>
+                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerCiudad()}" oncomplete="PF('addciudad').hide()" update=":additemdireccion :addpais"/>
                                 <p:commandButton value="Cancelar" icon="ui-icon-circle-plus" onclick="PF('addciudad').hide()" type="reset"/>
                             </center>
                         </f:facet> 
