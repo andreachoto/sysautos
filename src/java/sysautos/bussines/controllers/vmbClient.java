@@ -85,7 +85,7 @@ public class vmbClient implements Serializable {
         this.lsttipoidentidad = dvrTipoIdentidad.gettipoIdentidadList();
         this.lsttipodireccion = dvrTipoDireccion.getTipoDireccionList();
         this.lstPais = dvrPais.getPaisList();
-        this.lstProvincia=dvrProvincia.getProvinciaList();
+        this.lstProvincia = dvrProvincia.getProvinciaList();
         this.lsttipotelefono = dvrTipoTelefono.getTipoTelefonoList();
         this.direccionsel = new Direccion();
         this.identificacionsel = new Identificacion();
@@ -329,26 +329,31 @@ public class vmbClient implements Serializable {
     //Metodos complementa la logica del negocio
     public void register() {
         try {
-            //if (this.cliente != null) {
-            //}
-            //llamada a validacion llamada a insertar
+            if (!(this.cliente.getNombre().isEmpty() && this.cliente.getApellido().isEmpty())) {
+                if (!lstIdentificacion.isEmpty()) {
 
-            int cliid = dvrCliente.clienteRegister(this.cliente);
-            if (cliid != 0) {
-                // llamadas a inserta de la tablas hijas
-                for (Identificacion identif : lstIdentificacion) {
-                    identif.setCltid(cliid);
-                    dvrIdentificacion.identificacionRegister(identif);
+                    int cliid = dvrCliente.clienteRegister(this.cliente);
+                    if (cliid != 0) {
+                        // llamadas a inserta de la tablas hijas
+                        for (Identificacion identif : lstIdentificacion) {
+                            identif.setCltid(cliid);
+                            dvrIdentificacion.identificacionRegister(identif);
+                        }
+                        for (Direccion direcc : lstDireccion) {
+                            direcc.setCltid(cliid);
+                            dvrDireccion.direccionRegister(direcc);
+                        }
+                        for (Telefono telf : lstTelefono) {
+                            telf.setCltid(cliid);
+                            dvrTelefono.telefonoRegister(telf);
+                        }
+                        MbsMessages.info("Registro existosamente");
+                    }
+                } else {
+                    MbsMessages.error("Ingrese al menos una identificacion!");
                 }
-                for (Direccion direcc : lstDireccion) {
-                    direcc.setCltid(cliid);
-                    dvrDireccion.direccionRegister(direcc);
-                }
-                for (Telefono telf : lstTelefono) {
-                    telf.setCltid(cliid);
-                    dvrTelefono.telefonoRegister(telf);
-                }
-                MbsMessages.info("Registro existosamente");
+            } else {
+                MbsMessages.error("Existe campos vacios");
             }
         } catch (Exception ex) {
             MbsMessages.error("Error:" + ex.getMessage());
@@ -689,7 +694,8 @@ public class vmbClient implements Serializable {
             MbsMessages.fatal(ex.getMessage());
         }
     }
-     public void loadlstCiudad() {
+
+    public void loadlstCiudad() {
         try {
             this.lstCiudad = dvrCiudad.getCiudadList();
         } catch (Exception ex) {
@@ -734,6 +740,7 @@ public class vmbClient implements Serializable {
         }
 
     }
+
     public void registerCiudad() {
         try {
             int ban = dvrCiudad.ciudadRegister(this.ciudad);
@@ -744,7 +751,7 @@ public class vmbClient implements Serializable {
                 lstCiudad.hashCode();
                 lstCiudad.add(this.ciudad);
 //                this.pais.setNombre(selectpais);
-                this.lstCiudad= dvrCiudad.getCiudadList();
+                this.lstCiudad = dvrCiudad.getCiudadList();
 
             }
             this.ciudad = new Ciudad();
