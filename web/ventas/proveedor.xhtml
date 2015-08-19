@@ -13,7 +13,7 @@
                 <div class="module_content">
                     <h:form id="frmProveedor">
                         <center>
-                            <h:panelGrid cellpadding="3" width="80%">
+                            <h:panelGrid cellpadding="3" width="90%">
                                 <p:dataTable id="tblroles" value="#{dtProveedorView.proveedores}" var="item"
                                              selection="#{dtProveedorView.proveedorsel}" selectionMode="single" 
                                              rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
@@ -27,8 +27,8 @@
                                     <p:column headerText="Teléfono">
                                         <h:outputText value="#{item.telefono}"/>
                                     </p:column>
-                                     <p:column headerText="Email">
-                                         <h:outputText value="#{item.email}"/>
+                                    <p:column headerText="Email">
+                                        <h:outputText value="#{item.email}"/>
                                     </p:column>
                                     <f:facet name="footer">
                                         <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newproveedor').show()" />
@@ -37,6 +37,7 @@
                                                          actionListener="#{dtProveedorView.delete(dtProveedorView.proveedorsel)}"> 
                                             <p:confirm header="Confirmación" message="¿Seguro desea eliminar el registro?" icon="ui-icon-alert" /> 
                                         </p:commandButton> 
+                                        <p:button value="Escritorio" outcome="/main"/>
                                     </f:facet>
                                 </p:dataTable>
                             </h:panelGrid>
