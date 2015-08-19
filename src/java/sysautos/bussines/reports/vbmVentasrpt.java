@@ -6,14 +6,19 @@
 package sysautos.bussines.reports;
 
 import java.io.File;
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -96,16 +101,16 @@ public class vbmVentasrpt {
                     });
 
                     String path = "/reports/rptclientes.jasper";
+                    FacesContext fcontext = FacesContext.getCurrentInstance();
                     File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath(path));
                     JasperPrint jp = JasperFillManager.fillReport(jasper.getPath(), null, rptCli);
-
                     HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
                     response.addHeader("ContentType", "attachment; application/pdf");
                     ServletOutputStream stream = response.getOutputStream();
                     JasperExportManager.exportReportToPdfStream(jp, stream);
                     stream.flush();
-                    //stream.close();
-                    FacesContext.getCurrentInstance().responseComplete();
+                    stream.close();
+                    fcontext.responseComplete();
                 } else {
                     MbsMessages.error("Este tipo de reporte no puede generarse con los parametros selecionados");
                 }
@@ -138,5 +143,4 @@ public class vbmVentasrpt {
                 break;
         }
     }
-
 }
