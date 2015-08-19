@@ -9,41 +9,42 @@
         <h:form id="frmReporte">
             <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
             <article class="module width_full">
-                <header><h3>Reportes</h3></header>
+                <header><h3>Reportes de Ventas</h3></header>
                 <div align="center">
-                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                        <p:outputLabel for="tipo" value="Tipo de reporte:" />
-                        <p:selectOneMenu id="tipo"  style="width:125px" value="#{dtReporteView.tipo}">
-                            <f:selectItem itemLabel="Seleccione..." itemValue="0" />
-                            <f:selectItem itemLabel="Clientes" itemValue="1" />
-                            <f:selectItem itemLabel="Inventario" itemValue="2" />
-                            <f:selectItem itemLabel="Ventas" itemValue="3" />
+                    <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel for="tipo" value="Agente:" />
+                        <p:selectOneMenu id="tipo"  style="width:125px" value="#{dtReporteView.agente.id}">
+                            <f:selectItem itemLabel="Todos" itemValue="0" />
                         </p:selectOneMenu>
-                        <p:outputLabel  value="Rango de fechas:" />
-                        <p:selectOneRadio id="customRadio" layout="custom" value="#{dtReporteView.parameter}">
-                            <f:selectItem itemLabel="0" itemValue="0" />
-                            <f:selectItem itemLabel="1" itemValue="1" />
-                            <f:selectItem itemLabel="2" itemValue="2" />
-                        </p:selectOneRadio>
-                        <p:outputLabel  value="" />
-                        <h:panelGrid columns="6" cellpadding="5">
-                            <p:radioButton id="opt1" for="customRadio" itemIndex="0" />
-                            <h:outputLabel for="opt1" value="Fecha:" />
-                            <p:calendar />
-                            <p:outputLabel  value="" />
-                            <p:outputLabel  value="" />
-                            <p:outputLabel  value="" />
-                            <p:radioButton id="opt2" for="customRadio" itemIndex="1" />
-                            <h:outputLabel for="opt2" value="De:" />
-                            <p:calendar />
-                            <p:outputLabel value="" />
-                            <h:outputLabel for="opt2" value="Hasta" />
-                            <p:calendar />
-                            <p:radioButton id="opt3" for="customRadio" itemIndex="2" />
-                            <h:outputLabel for="opt3" value="Todo" />
-                        </h:panelGrid>
+                        <p:commandButton value="Enviar" action="#{dtReporteView.generar()}" />
                     </h:panelGrid>
-                    <p:commandButton value="Enviar" action="#{dtReporteView.generar()}" />
+                    <p:dataTable id="tblVentas" value="#{dtReporteView.ventas}" var="item" rowKey="#{item.id}"
+                                 paginator="true" paginatorPosition="bottom" rows="10" rendered="true">
+                        <p:column headerText="Numero"> 
+                            <h:outputText value="#{item.id}" />
+                        </p:column>
+                        <p:column headerText="Fecha">
+                            <h:outputText value="#{Common.TimestampFormat(item.fecha)}"/>
+                        </p:column>
+                        <p:column headerText="Nro Factura">
+                            <h:outputText value="#{item.numfac}"/>
+                        </p:column>
+                        <p:column headerText="Cliente">
+                            <h:outputText value="#{item.cliente.apellido} #{item.cliente.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Total">
+                            <h:outputText value="#{item.total}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            Exportar a:
+                            <h:commandLink >
+                                <p:graphicImage value="../resources/images/pdf.png" title="Reporte de Ventas"/>  
+                                <p:dataExporter type="pdf" target="tblVentas" fileName="VENTAS" preProcessor="#{dtReporteView.preProcessPDF}"/> 
+                            </h:commandLink>
+                        </f:facet>
+                    </p:dataTable>
+
+
                     <br/><br/>
                 </div>
             </article>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="./../template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <div id="producto">
+            <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+            <article class="module width_full">
+                <header><h3>Gestion de Productos</h3></header>
+                <div class="module_content">
+                    <h:form id="frmProducto">
+
+                        <p:panelGrid style="margin-top:0px;">
+                            <f:facet name="header">                                
+                                <p:row>
+                                    <p:column >Tipo de Producto</p:column>                                    
+                                </p:row>
+                            </f:facet>
+
+                            <p:row>
+                                <p:column style="font-weight: bold;"> 
+
+                                    <p:selectOneMenu id="listaproductos" value="#{dtReporteproductoView.tipoproductosel}" style="width: 300px" 
+                                                     filter="true" >   
+                                        <f:selectItem itemLabel="Seleccione un item" itemValue="#{-1}" /> 
+                                        <f:selectItems value="#{dtReporteproductoView.tipoproductos}" var="producto" itemLabel="#{producto.nombre}"
+                                                       itemValue="#{producto.id}" />
+                                    </p:selectOneMenu>    
+
+                                </p:column>
+                            </p:row>
+
+                            <f:facet name="footer">
+                                <p:row>
+                                    <p:column colspan="4" style="text-align: center">
+                                        <p:commandButton value="Vizualizar Reporte" 
+                                                         actionListener="#{dtReporteproductoView.cargartablaportipoproducto()}"
+                                                         update="tblroles"
+                                                         icon="ui-icon-check" />
+                                    </p:column>
+                                </p:row>                                    
+                            </f:facet>                               
+
+                        </p:panelGrid>
+
+
+                        <center>
+                            <h:panelGrid cellpadding="4">
+                                <p:dataTable id="tblroles" value="#{dtReporteproductoView.listaportipoproducto}" var="item"                                             
+                                             rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
+                                             rendered="true">
+                                    <p:column headerText="Nombre"> 
+                                        <h:outputText value="#{item.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Marca">
+                                        <h:outputText value="#{item.marca}"/>
+                                    </p:column>
+                                    <p:column headerText="Modelo">
+                                        <h:outputText value="#{item.modelo}"/>
+                                    </p:column>
+                                    <p:column headerText="PVP">
+                                        <h:outputText value="#{item.pvp}"/>
+                                    </p:column>
+                                    <p:column headerText="Disponibles">
+                                        <h:outputText value="#{item.stock}"/>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </h:panelGrid>
+                        </center>
+                        <p:confirmDialog global="true">  
+                            <center>
+                                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                            </center>
+                        </p:confirmDialog>                        
+                        <div align="center">
+                                <div style="width: 300px">
+                                    <p:panel header="DESCARGAR REPORTE">
+                                        <h:commandLink >
+                                            <p:graphicImage value="../resources/images/pdf.png" title="Reporte de los Datos"/>  
+
+                                            <p:dataExporter type="pdf" target="tblroles" fileName="REPORTE DE PRODUCTOS POR SU TIPO" 
+                                                            preProcessor="#{dtReporteproductoView.preProcessPDF}"/> 
+                                        </h:commandLink>
+                                    </p:panel>
+                                </div>
+                            </div> 
+                    </h:form>
+                </div>
+                <footer> 
+                </footer>
+            </article>
+        </div>
+        
+        
+    </ui:define>
+</ui:composition>

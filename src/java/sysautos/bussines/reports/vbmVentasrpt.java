@@ -5,28 +5,20 @@
  */
 package sysautos.bussines.reports;
 
-import java.io.File;
-import java.io.InputStream;
-import java.sql.Date;
+import com.lowagie.text.BadElementException;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPTable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import sysautos.bussines.classes.rptCliente;
-import sysautos.bussines.drivers.dvrCliente;
-import sysautos.bussines.entities.Cliente;
-import sysautos.bussines.session.MbsMessages;
+import sysautos.bussines.drivers.dvrVenta;
+import sysautos.bussines.entities.User;
+import sysautos.bussines.entities.Venta;
 
 /**
  *
@@ -39,108 +31,50 @@ public class vbmVentasrpt {
     /**
      * Creates a new instance of vbmVentasrpt
      */
-    private int tipo;
-    private int parameter;
-    private Date from;
-    private Date until;
-    private List<Cliente> clientes;
+    private User agente;
+    private List<User> agentes;
+    private List<Venta> ventas;
 
     public vbmVentasrpt() {
-        this.clientes = new ArrayList<>();
-
+        this.ventas = new ArrayList<>();
+        this.agentes = new ArrayList<>();
+        this.agente = new User();
     }
 
-    public int getTipo() {
-        return tipo;
+    public User getAgente() {
+        return agente;
     }
 
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
+    public void setAgente(User agente) {
+        this.agente = agente;
     }
 
-    public Date getFrom() {
-        return from;
+    public List<User> getAgentes() {
+        return agentes;
     }
 
-    public void setFrom(Date from) {
-        this.from = from;
+    public void setAgentes(List<User> agentes) {
+        this.agentes = agentes;
     }
 
-    public Date getUntil() {
-        return until;
+    public List<Venta> getVentas() {
+        return ventas;
     }
 
-    public void setUntil(Date until) {
-        this.until = until;
+    public void setVentas(List<Venta> ventas) {
+        this.ventas = ventas;
     }
-
-    public int getParameter() {
-        return parameter;
-    }
-
-    public void setParameter(int parameter) {
-        this.parameter = parameter;
-    }
-
-    public List<Cliente> getClientes() {
-        return clientes;
-    }
-
-    public void setClientes(List<Cliente> clientes) {
-        this.clientes = clientes;
-    }
-
+    
     public void generar() throws Exception {
-        switch (this.tipo) {
-            case 1:
-                if (this.parameter == 2) {
-                    this.clientes = dvrCliente.getClienteList();
-                    rptCliente rptCli = new rptCliente();
-                    this.clientes.stream().forEach((cli) -> {
-                        rptCli.addDetalle(cli);
-                    });
-
-                    String path = "/reports/rptclientes.jasper";
-                    FacesContext fcontext = FacesContext.getCurrentInstance();
-                    File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath(path));
-                    JasperPrint jp = JasperFillManager.fillReport(jasper.getPath(), null, rptCli);
-                    HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-                    response.addHeader("ContentType", "attachment; application/pdf");
-                    ServletOutputStream stream = response.getOutputStream();
-                    JasperExportManager.exportReportToPdfStream(jp, stream);
-                    stream.flush();
-                    stream.close();
-                    fcontext.responseComplete();
-                } else {
-                    MbsMessages.error("Este tipo de reporte no puede generarse con los parametros selecionados");
-                }
-                break;
-            case 2:
-                if (this.parameter == 2) {
-                    MbsMessages.info("Reporte de Inventario");
-                } else {
-                    MbsMessages.error("Este tipo de reporte no puede generarse con los parametros selecionados");
-                }
-                break;
-            case 3:
-                switch (this.parameter) {
-                    case 0: {
-                        MbsMessages.info("Reporte de Ventas por fechas");
-                        break;
-                    }
-                    case 1: {
-                        MbsMessages.info("Reporte de Ventas en rango de Fechas");
-                        break;
-                    }
-                    case 2: {
-                        MbsMessages.info("Reporte Todas las ventas");
-                        break;
-                    }
-                }
-                break;
-            default:
-                MbsMessages.error("Este tipo de reporte no puede generarse con los parametros ingresados");
-                break;
-        }
+        this.ventas = dvrVenta.getVentaList();
+    }
+    
+    public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
+        final Paragraph paragrap = new Paragraph("Reporte: Ventas por Agente");
+        final Phrase phrase = new Phrase("\n ");
+        
+        PdfPTable dt = null;
+        ReporteItex obRepItx = new ReporteItex();
+        obRepItx.preProcessPDF(document, paragrap, phrase, dt);
     }
 }

@@ -98,12 +98,16 @@ public final class vmbProducto {
 
     public void register() {
         try {
-            int ban = dvrProducto.productoRegister(this.producto);
+            if (this.producto.getTptid() != -1 ) {
+                int ban = dvrProducto.productoRegister(this.producto);
             if (ban != 0) {
                 this.loadProductos();
                 MbsMessages.info("Producto creado exitosamente!");
             } else {
                 MbsMessages.error("No se pudo insertar el registro!");
+            }
+            } else {
+                MbsMessages.error("Seleccione un tipo de producto!");
             }
         } catch (Exception ex) {
             MbsMessages.fatal(ex.getMessage());

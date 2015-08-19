@@ -9,7 +9,6 @@
         <div id="clientediv">
             <h:form id="frmCliente">
                 <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
-                <p:growl id="mensajes" autoUpdate="true" life="10000"/>
                 <article class="module width_full">
                     <header><h3>Gestión de Clientes</h3></header>
                     <div class="module_content">
@@ -55,8 +54,9 @@
                                         <h:panelGrid>
                                             <center>
                                                 <f:facet name="footer">
+                                                    <p:commandButton value="Nuevo" icon="ui-icon-cancel" update=":frmCliente" process="@this" action="#{dtClientView.limpiarlistas()}" />
                                                     <p:commandButton value="Guardar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.register()}" action="#{dtClientView.limpiarlistas()}"/>
-                                                    <p:commandButton value="Cancelar" icon="ui-icon-cancel" update=":frmCliente" process="@this" action="#{dtClientView.limpiarlistas()}" />
+                                                    <p:commandButton value="Cerrar" icon="ui-icon-close" action="/clientes/selectcliente"/>
                                                 </f:facet>
                                             </center>
                                         </h:panelGrid>
@@ -513,7 +513,7 @@
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>
-                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerPais()}" oncomplete="PF('addpais').hide()" update="@form"/>
+                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerPais()}" oncomplete="PF('addpais').hide()" update=":additemdireccion :addpais" process="@this"/>
                                 <p:commandButton value="Cancelar" icon="ui-icon-circle-plus" onclick="PF('addpais').hide()" type="reset"/>
                             </center>
                         </f:facet> 
@@ -543,7 +543,7 @@
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>
-                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerProvincia()}" oncomplete="PF('addprovincia').hide()" update="@form"/>
+                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerProvincia()}" oncomplete="PF('addprovincia').hide()" update=":additemdireccion :addpais"/>
                                 <p:commandButton value="Cancelar" icon="ui-icon-circle-plus" onclick="PF('addprovincia').hide()" type="reset"/>
                             </center>
                         </f:facet> 
@@ -574,7 +574,7 @@
                         </h:panelGrid>
                         <f:facet name="footer">
                             <center>
-                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerCiudad()}" oncomplete="PF('addciudad').hide()" update="@form"/>
+                                <p:commandButton value="Agregar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.registerCiudad()}" oncomplete="PF('addciudad').hide()" update=":additemdireccion :addpais"/>
                                 <p:commandButton value="Cancelar" icon="ui-icon-circle-plus" onclick="PF('addciudad').hide()" type="reset"/>
                             </center>
                         </f:facet> 
