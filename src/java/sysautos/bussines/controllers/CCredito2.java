@@ -162,7 +162,7 @@ public class CCredito2 {
             credito.setIduser(1);
             ClienteCredito crecli = new ClienteCredito(this.intIdCliente, 0, this.intTipoDeudor);
             this.lstClienteCredito.add(crecli);
-            MbsMessages.info("Generado Correctamente");
+            //MbsMessages.info("Generado Correctamente");
 
             resul = dvrCredit.userCreditoRegister(credito);
             if (resul != 0) {
@@ -182,7 +182,7 @@ public class CCredito2 {
                     }
                 }
                 
-                //generarAmortizacion();
+                generarAmortizacion();
                 lstAmortizacion = (dvrAmortizacion.getAmortizacionListByCred(resul) );
                 cargar();
                 MbsMessages.info("Generado Correctamente");
@@ -233,7 +233,7 @@ public class CCredito2 {
             }
 
             DefaultRequestContext.getCurrentInstance().execute("wdlgAmortizacion.hide()");
-            MbsMessages.info("Generado Correctamente");
+            //MbsMessages.info("Generado Correctamente");
         } catch (Exception ex) {
 
         }
@@ -245,10 +245,8 @@ public class CCredito2 {
             for (Amortizacion amortizacion : listaAmt) {
                 dvrAmortizacion.userAmtRegister(amortizacion);
             }
-           
-            
             MbsMessages.info("Amortización Generado Correctamente");
-            DefaultRequestContext.getCurrentInstance().execute("CreditosListar");
+            //DefaultRequestContext.getCurrentInstance().execute("CreditosListar");
             
         } catch (Exception ex) {
             //Logger.getLogger(CCliente.class.getName()).log(Level.SEVERE, null, ex);
