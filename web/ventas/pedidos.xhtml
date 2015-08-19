@@ -37,6 +37,7 @@
                                         <f:setPropertyActionListener target="#{dtPedidoView.accion}" value="INS"/>
                                     </p:commandButton>
                                     <p:commandButton value="Editar"  icon="ui-icon-pencil" action="pedido"/><!-- Boton Editar -->
+                                    <p:commandButton value="Ver" icon="ui-icon-search" action="#{dtPedidosView.cargarverpedido(dtPedidosView.pedidoselect.id)}"/>
                                 </f:facet>
                             </p:dataTable>
                         </h:panelGrid>
@@ -44,6 +45,40 @@
                 </h:form>
             </article>
         </div>
+        <!-- Ver todo item de Pedido-->
+        <h:form id="frmVerPedido">
+            <p:dialog id="verpedido" widgetVar="verpedido" header="Pedido" modal="true" resizable="false">
+                <article class="module width_full">
+                    <header><center><h3>Informacion </h3></center></header>
+                    <div class="module_content">
+                        <h:panelGrid id="panelVerPedido" columns="4" width="60%">
+                            <h:outputText value="Número:"/>
+                            <h:inputText value="#{dtPedidosView.pedidoselect.id}" disabled="#{dtPedidosView.pedidoselect != 'id'}"/>
+                            <h:outputText value="País:"/>
+                            <h:inputText value="#{dtPedidosView.pedidoselect.fecha}" disabled="#{dtPedidosView.pedidoselect != 'fecha'}"/>
+                            <h:outputText value="Estado:"/>
+                            <h:inputText value="#{dtPedidosView.pedidoselect.estado}" disabled="#{dtPedidosView.pedidoselect != 'estado'}"/>
+                            <h:outputText value="Usuario:"/>
+                            <h:inputText value="#{dtPedidosView.pedidoselect.user.fisrtname} #{dtPedidosView.pedidoselect.user.lastname}" disabled="#{dtPedidosView.pedidoselect != 'fisrtname'}"/>
+                            <h:outputText value="Producto:"/>
+                            <h:inputText value="#{dtPedidosView.detallepedidosel.producto.nombre}" disabled="#{dtPedidosView.detallepedidosel != 'nombre'}"/>
+                            <h:outputText value="Cantidad:"/>
+                            <h:inputText value="#{dtPedidosView.detallepedidosel.cantidad}" disabled="#{dtPedidosView.detallepedidosel != 'cantidad'}"/>
+                            <h:outputText value="Estado:"/>
+                            <h:inputText value="#{dtPedidosView.detallepedidosel.estado}" disabled="#{dtPedidosView.detallepedidosel != 'estado'}"/>
+                            <h:outputText value="Observación:"/>
+                            <h:inputText value="#{dtPedidosView.detallepedidosel.obser}" disabled="#{dtPedidosView.detallepedidosel != 'obser'}"/>
+                        </h:panelGrid>
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        <p:commandButton value="Cerrar" oncomplete="PF('verpedido').hide()" />
+                    </center>
+                </article>
+            </p:dialog>
+        </h:form>
     </ui:define>
 </ui:composition>
 
