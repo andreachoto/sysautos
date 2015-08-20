@@ -11,7 +11,7 @@
                 <h:form id="frmPedidos">
                     <header><h3>Gestion de Pedidos</h3></header>
                     <div class="module_content">
-                        <h:panelGrid cellpadding="4" style="width: 70%;">
+                        <h:panelGrid cellpadding="4" style="width: 100%;">
                             <p:dataTable id="tblroles" value="#{dtPedidosView.pedidos}" var="item"
                                          selection="#{dtPedidosView.pedidoselect}" selectionMode="single" 
                                          rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
@@ -38,6 +38,7 @@
                                     </p:commandButton>
                                     <p:commandButton value="Editar"  icon="ui-icon-pencil" action="pedido"/><!-- Boton Editar -->
                                     <p:commandButton value="Ver" icon="ui-icon-search" action="#{dtPedidosView.cargarverpedido(dtPedidosView.pedidoselect.id)}"/>
+                                    <p:button value="Escritorio" outcome="/main"/>
                                 </f:facet>
                             </p:dataTable>
                         </h:panelGrid>

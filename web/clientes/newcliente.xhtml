@@ -57,6 +57,7 @@
                                                     <p:commandButton value="Nuevo" icon="ui-icon-cancel" update=":frmCliente" process="@this" action="#{dtClientView.limpiarlistas()}" />
                                                     <p:commandButton value="Guardar" icon="ui-icon-circle-plus" actionListener="#{dtClientView.register()}" action="#{dtClientView.limpiarlistas()}"/>
                                                     <p:commandButton value="Cerrar" icon="ui-icon-close" action="/clientes/selectcliente"/>
+                                                    <p:button value="Escritorio" outcome="/main"/>
                                                 </f:facet>
                                             </center>
                                         </h:panelGrid>
