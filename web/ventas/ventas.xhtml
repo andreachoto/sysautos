@@ -21,11 +21,11 @@
                                 <p:column headerText="Fecha">
                                     <h:outputText value="#{Common.TimestampFormat(item.fecha)}"/>
                                 </p:column>
-                                <p:column headerText="Nro Factura">
-                                    <h:outputText value="#{item.numfac}"/>
-                                </p:column>
                                 <p:column headerText="Cliente">
                                     <h:outputText value="#{item.cliente.apellido} #{item.cliente.nombre}"/>
+                                </p:column>
+                                <p:column headerText="Nro Factura">
+                                    <h:outputText value="#{item.numfac}"/>
                                 </p:column>
                                 <p:column headerText="Total">
                                     <h:outputText value="#{item.total}"/>
