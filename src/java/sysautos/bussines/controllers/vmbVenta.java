@@ -97,9 +97,7 @@ public final class vmbVenta implements Serializable {
     
     public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
         //*****++++ este es el encabezado
-        final Paragraph paragrap = new Paragraph("Facultad de Ciencias Pecuarias \n"
-                + "\n\n"
-                + "Reporte: Datos de los sensores" );
+        final Paragraph paragrap = new Paragraph("China Motors \n");
 
         final Phrase phrase = new Phrase("\n ");
         ///
