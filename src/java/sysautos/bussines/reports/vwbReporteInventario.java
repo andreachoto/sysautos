@@ -6,6 +6,7 @@
 package sysautos.bussines.reports;
 
 import com.lowagie.text.BadElementException;
+import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
@@ -54,19 +55,7 @@ public class vwbReporteInventario {
         }
     }
     
-    public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
-        //*****++++ este es el encabezado
-        final Paragraph paragrap = new Paragraph("Reporte de Vehículos \n"
-                + "\n\n"
-                + "Reporte: Datos de Productos");
-
-        final Phrase phrase = new Phrase("\n ");
-        ///
-        PdfPTable dt = null;
-        //
-        ReporteItex obRepItx = new ReporteItex();
-        obRepItx.preProcessPDF(document, paragrap, phrase, dt);
-    }
+    
 
     public List<Tipoproducto> getTipoproductos() {
         return tipoproductos;
