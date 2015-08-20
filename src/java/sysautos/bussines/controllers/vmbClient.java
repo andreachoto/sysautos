@@ -325,6 +325,7 @@ public class vmbClient implements Serializable {
     public void loadclientes() {
         try {
             this.lstCliente = dvrCliente.getClienteList();
+            this.lstIdentificacion = dvrIdentificacion.getidentificacionList();
         } catch (Exception ex) {
             MbsMessages.fatal(ex.getMessage());
         }
@@ -367,8 +368,8 @@ public class vmbClient implements Serializable {
     public void update(Cliente cli) {
         try {
             if (dvrCliente.clienteUpdate(cli)) {
+                this.updateIdentificacion(identificacionsel);
                 this.loadclientes();
-//                this.updateIdentificacion(identificacionsel);
 //                this.updateDireccion(direccionsel);
 //                this.updateTelefono(telefonosel);
                 MbsMessages.info("Cliente actualizado correctamente!");
@@ -632,7 +633,6 @@ public class vmbClient implements Serializable {
     public void updateIdentificacion(Identificacion ident) {
         try {
             if (dvrIdentificacion.identificacionUpdate(ident)) {
-                MbsMessages.info("Identificación actualizado correctamente!");
             } else {
                 MbsMessages.error("No se pudo Actualizar el registro!");
             }

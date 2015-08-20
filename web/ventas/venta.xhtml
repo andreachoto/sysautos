@@ -68,9 +68,25 @@
                         </footer>
 
                     </div>
+                    <div align="center">
+                            <div style="width: 300px">
+                                <p:panel header="DESCARGAR REPORTE">
+                                    <h:commandLink >
+                                        <p:graphicImage value="../resources/images/pdf.png" title="Reporte de los Datos"/>  
+
+                                        <p:dataExporter type="pdf" target="tblventaitems" fileName="REPORTE DE PRODUCTOS POR SU TIPO" 
+                                                        preProcessor="#{dtVentaView.preProcessPDF}"/> 
+                                    </h:commandLink>
+                                </p:panel>
+                            </div>
+                        </div> 
                 </h:form>
             </article>
         </div>
+        
+        
+        
+        
         <!-- Dialog para el ingreso de Items de detalle al Venta -->
         <p:dialog id="additemventa" widgetVar="additemventa" header="Item de Venta" modal="true" resizable="false">
             <h:form>

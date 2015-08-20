@@ -15,30 +15,30 @@
                     <div class="module_content">
                         <h:panelGrid columns="6">
                             <h:outputText value="Cliente" />
-                            <p:selectOneMenu value="#{dtCreditoView.intIdCliente}">
+                            <p:selectOneMenu value="#{dtCreditoView.intIdCliente}" required="true">
                                 <f:selectItem itemLabel="Cliente" itemValue="0" id="gl"/>
                                 <f:selectItems value="#{dtCreditoView.lstClients}" var="cliente" itemValue="#{cliente.id}"
                                                itemLabel="#{cliente.nombre} #{cliente.apellido}"/>
                             </p:selectOneMenu>
 
                             <h:outputText value="Tipo Deudor" />
-                            <p:selectOneMenu value="#{dtCreditoView.intTipoDeudor}">
+                            <p:selectOneMenu value="#{dtCreditoView.intTipoDeudor}" required="true">
                                 <f:selectItem itemLabel="Tipo" itemValue="0" id="tpd"/>
                                 <f:selectItems value="#{dtCreditoView.lstTipodeudor}" var="garante" itemValue="#{garante.id}"
                                                itemLabel="#{garante.nombre}"/>
                             </p:selectOneMenu>
                             <h:outputText value="Fecha" />
                             <p:calendar  
-                                value="#{dtCreditoView.fecha}" pattern="MM/dd/yyyy ">
+                                value="#{dtCreditoView.fecha}" pattern="MM/dd/yyyy " required="true">
                                 <p:ajax event="change" />
                             </p:calendar> 
                             <h:outputText value="Fecha de vencimiento." />
                             <p:calendar  
-                                value="#{dtCreditoView.fecha1}" pattern="MM/dd/yyyy">
+                                value="#{dtCreditoView.fecha1}" pattern="MM/dd/yyyy" required="true">
                                 <p:ajax event="change"/>
                             </p:calendar>
                             <h:outputText value="Forma Pago" />
-                            <p:selectOneMenu value="#{dtCreditoView.strFormaPago}">
+                            <p:selectOneMenu value="#{dtCreditoView.strFormaPago}" required="true">
                                 <f:selectItem itemLabel="Forma Pago" itemValue="0" id="Forma"/>
                                 <f:selectItem  itemValue="Mensual"
                                                itemLabel="Mensual"/>
@@ -47,7 +47,7 @@
                             </p:selectOneMenu>
                             <h:outputText value="Monto" />
                             <p:inputText  
-                                value="#{dtCreditoView.credito.monto}"/>
+                                value="#{dtCreditoView.credito.monto}" required="true"/>
                             <h:outputText value="Interes" />
                             <p:inputText  
                                 value="#{dtCreditoView.credito.interes}"/> 
@@ -57,7 +57,7 @@
                                          value="#{dtCreditoView.fechaActua}" />-->
 
                             <h:outputText value="Plazo" />
-                            <p:selectOneMenu value="#{dtCreditoView.credito.plazo}">
+                            <p:selectOneMenu value="#{dtCreditoView.credito.plazo}" required="true">
                                 <f:selectItem itemLabel="Plazo" itemValue="0" id="Plazo"/>
                                 <f:selectItem  itemValue="1"
                                                itemLabel="1 A"/>
@@ -89,7 +89,7 @@
                                                 <h:outputText value="#{clicre.cli.nombre} #{clicre.cli.apellido}"/>
                                             </p:column>
                                             <p:column headerText="Tipo Deudor">
-                                                <h:outputText value="#{clicre.tpd.descrip}"/>
+                                                <h:outputText value="#{clicre.tpd.nombre}"/>
                                             </p:column>
                                         </p:dataTable>
                                     </td>
@@ -105,8 +105,8 @@
                         <div  style="text-align:center">
                             <p:commandButton value="Guardar" 
                                              action="#{dtCreditoView.ingresar()}" />
-                            <p:commandButton value="Amortización" 
-                                             action="#{dtCreditoView.generarAmortizacion()}" />
+                            <!--<p:commandButton value="Amortización" 
+                                             action="#{dtCreditoView.generarAmortizacion()}" />-->
                            <!-- <p:commandButton value="Ver Tabla Amortzación"  oncomplete="PF('amortizacion').show()" />-->
 
                         </div>

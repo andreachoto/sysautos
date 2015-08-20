@@ -20,17 +20,17 @@
                                             <header><center><h3>Datos de Cliente</h3></center></header>
                                             <div class="module_content">
                                                 <h:panelGrid cellpadding="3" width="100%">
-                                                    <p:dataTable id="tblroles" value="#{dtClientView.lstCliente}" var="item"
+                                                    <p:dataTable id="tblclientes" value="#{dtClientView.lstCliente}" var="item"
                                                                  selection="#{dtClientView.clientesel}" selectionMode="single" 
                                                                  rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
-                                                                 rendered="true" widgetVar="carsTable">
+                                                                 rendered="true">
                                                         <p:column headerText="Nombre" filterBy="#{item.nombre} #{item.apellido} #{item.edad}"> 
                                                             <h:outputText value="#{item.nombre}" />
                                                         </p:column>
                                                         <p:column headerText="Apellido" filterBy="#{item.apellido}"> 
                                                             <h:outputText value="#{item.apellido}" />
                                                         </p:column>
-                                                        <p:column headerText="Número" filterBy="#{item.identificacion}">
+                                                        <p:column headerText="Cedula" filterBy="#{item.identificacion}">
                                                             <h:outputText value="#{item.identificacion}"/>
                                                         </p:column>
                                                         <p:column headerText="Sexo" width="70">
@@ -53,10 +53,8 @@
                                                             <p:button value="Nuevo" icon="ui-icon-search"  outcome="/clientes/newcliente" />
                                                             <p:commandButton value="Ver" icon="ui-icon-search" action="#{dtClientView.cargarvercliente(dtClientView.clientesel.id)}"/>
                                                             <p:commandButton value="Editar" icon="ui-icon-pencil" action="#{dtClientView.cargareditcliente(dtClientView.clientesel.id)}" />
-                                                            <p:button value="Cerrar" icon="ui-icon-close" outcome="/main"/>
-                                                            
-                                                           
-                                                          
+                                                            <p:button value="Escritorio" outcome="/main"/>
+
                                                         </f:facet>
 
                                                     </p:dataTable>
@@ -119,6 +117,8 @@
                                     <h:inputText value="#{dtClientView.clientesel.nombre}"/>
                                     <h:outputText value="Apellido:"/>
                                     <h:inputText value="#{dtClientView.clientesel.apellido}"/>
+                                    <h:outputText value="Cédula:"/>
+                                    <h:inputText value="#{dtClientView.identificacionsel.numdescripcion}"/>
                                     <h:outputText value="Sexo:"/>
                                     <p:selectOneMenu value="#{dtClientView.clientesel.sexo}">
                                         <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
@@ -140,8 +140,9 @@
                         <br/>
                         <article>
                             <center>
-                                <p:commandButton value="Aceptar" icon="ui-icon-circle-plus" update=":frmCliente" actionListener="#{dtClientView.update(dtClientView.clientesel)}" action="#{dtClientView.limpiar()}" oncomplete="PF('editcliente').hide()"/>
+                                <p:commandButton value="Aceptar" icon="ui-icon-circle-plus" update=":frmCliente:tbvcliente:tblclientes" actionListener="#{dtClientView.update(dtClientView.clientesel)}" action="#{dtClientView.limpiar()}" oncomplete="PF('editcliente').hide()"/>
                                 <p:commandButton value="Cerrar" oncomplete="PF('editcliente').hide()" />
+                               
                             </center>
                         </article>
                     </p:dialog>

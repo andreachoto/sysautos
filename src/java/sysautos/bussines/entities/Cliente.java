@@ -23,7 +23,7 @@ public class Cliente {
     private String estadocivil;
     private List<Identificacion> listaidentidad;
     private String identificacion;
-
+    
     public Cliente() {
     }
 
