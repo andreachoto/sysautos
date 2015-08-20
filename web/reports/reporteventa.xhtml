@@ -11,12 +11,18 @@
             <article class="module width_full">
                 <header><h3>Reportes de Ventas</h3></header>
                 <div align="center">
-                    <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
-                        <p:outputLabel for="tipo" value="Agente:" />
-                        <p:selectOneMenu id="tipo"  style="width:125px" value="#{dtReporteView.agente.id}">
+                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel for="agente" value="Agente:" />
+                        <p:selectOneMenu id="agente"  style="width:125px" value="#{dtReporteView.agente.id}">
                             <f:selectItem itemLabel="Todos" itemValue="0" />
+                            <f:selectItems value="#{dtReporteView.agentes}" var="itm" 
+                                           itemValue="#{itm.id}" itemLabel="#{itm.fisrtname} #{itm.lastname}" />
                         </p:selectOneMenu>
-                        <p:commandButton value="Enviar" action="#{dtReporteView.generar()}" />
+                        <p:outputLabel for="cal" value="Desde:" />
+                        <p:calendar id="cal" value="#{dtReporteView.date1}" showOn="button" />
+                        <p:outputLabel for="cal1" value="Hasta:" />
+                        <p:calendar id="cal1" value="#{dtReporteView.date2}" showOn="button" />
+                        <p:commandButton value="Enviar" action="#{dtReporteView.generar()}" update="tblVentas" />
                     </h:panelGrid>
                     <p:dataTable id="tblVentas" value="#{dtReporteView.ventas}" var="item" rowKey="#{item.id}"
                                  paginator="true" paginatorPosition="bottom" rows="10" rendered="true">
