@@ -1,7 +1,15 @@
 package sysautos.bussines.controllers;
 
+import com.lowagie.text.BadElementException;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPTable;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +35,7 @@ import sysautos.bussines.entities.Producto;
 import sysautos.bussines.entities.Proveedor;
 import sysautos.bussines.entities.Tipoproducto;
 import sysautos.bussines.entities.User;
+import sysautos.bussines.reports.ReporteItex1;
 import sysautos.bussines.session.MbsMessages;
 
 @ManagedBean(name = "dtVentaView")
@@ -63,6 +72,41 @@ public final class vmbVenta implements Serializable {
         this.clientesel = new Cliente();
         this.modopagos = dvrModopago.getModopagoList();
         this.mdopagosel = new Modopago();
+    }
+    
+    String datrepfecha;
+    String datrepcliente;
+    String datrepnumfactura;
+    String datrepmodopago;    
+    
+    public void cargardatosreporte(){
+        DateFormat fecha = new SimpleDateFormat("yyyy/MM/dd");
+	datrepfecha = fecha.format(date);
+        for (Cliente valor : clientes) {
+            if (valor.getId()==venta.getClitid()) {
+                datrepcliente=valor.getNombre()+" "+valor.getApellido();                
+            }
+        }
+        datrepnumfactura=venta.getNumfac();
+        for (Modopago valor : modopagos) {
+            if (valor.getId()==venta.getMpgid()) {
+                datrepmodopago=valor.getNombre();                
+            }
+        }
+    }
+    
+    public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
+        //*****++++ este es el encabezado
+        final Paragraph paragrap = new Paragraph("Facultad de Ciencias Pecuarias \n"
+                + "\n\n"
+                + "Reporte: Datos de los sensores" );
+
+        final Phrase phrase = new Phrase("\n ");
+        ///
+        PdfPTable dt = null;
+        //
+        ReporteItex1 obRepItx = new ReporteItex1();
+        obRepItx.preProcessPDF(document, paragrap, phrase, dt, datrepfecha, datrepcliente, datrepnumfactura, datrepmodopago);
     }
 
     public String getAccion() {
@@ -285,6 +329,7 @@ public final class vmbVenta implements Serializable {
                     for (Detalleventa item : this.ventaitems) {
                         item.setVtaid(ban);
                         dvrDetalleventa.detalleventaRegister(item);
+                        cargardatosreporte();
                     }
                     //refescamos la lista de ventas
                     MbsMessages.info("Venta creada exitosamente!");
