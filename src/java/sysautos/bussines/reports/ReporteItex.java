@@ -22,7 +22,7 @@ import javax.servlet.ServletContext;
 
 /**
  *
- * @author Joffre Vargas
+ * @author hp
  */
 public class ReporteItex {
 

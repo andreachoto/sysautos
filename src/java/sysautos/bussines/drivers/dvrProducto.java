@@ -172,4 +172,18 @@ public class dvrProducto {
         con.cerrarConexion();
         return lista;
     }
+
+    public static boolean setStockProducto(Producto objeto) throws Exception {
+        boolean respuesta = false;
+        List<Parameter> parametros = new ArrayList<>();
+        parametros.add(new Parameter(1, objeto.getId(), Types.INTEGER));
+        parametros.add(new Parameter(2, objeto.getStock(), Types.INTEGER));
+        String llamadaPA = "SELECT autos.\"productoUpdateStock_pa\"(?,?)";
+        Conexion con = new Conexion(llamadaPA, parametros);
+        while (con.siguiente()) {
+            respuesta = true;
+        }
+        con.cerrarConexion();
+        return respuesta;
+    }
 }

@@ -285,6 +285,7 @@ public final class vmbVenta implements Serializable {
                     for (Detalleventa item : this.ventaitems) {
                         item.setVtaid(ban);
                         dvrDetalleventa.detalleventaRegister(item);
+                        dvrProducto.setStockProducto(item.getProducto());
                     }
                     //refescamos la lista de ventas
                     MbsMessages.info("Venta creada exitosamente!");
