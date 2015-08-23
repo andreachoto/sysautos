@@ -9,22 +9,19 @@
         <h:form id="frmReporte">
             <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
             <article class="module width_full">
-                <header><h3>Reportes de Ventas</h3></header>
+                <header><h3>Reportes de Clientes</h3></header>
                 <div align="center">
                     <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                         <p:outputLabel for="agente" value="Agente:" />
-                        <p:selectOneMenu id="agente"  style="width:125px" value="#{dtReporteView.agente.id}">
+                        <p:selectOneMenu id="agente"  style="width:125px" value="#{dtRptClienteView.agente.id}">
                             <f:selectItem itemLabel="Todos" itemValue="0" />
-                            <f:selectItems value="#{dtReporteView.agentes}" var="itm" 
-                                           itemValue="#{itm.id}" itemLabel="#{itm.fisrtname} #{itm.lastname}" />
+                            <f:selectItem itemLabel="Nombre" itemValue="" />
                         </p:selectOneMenu>
-                        <p:outputLabel for="cal" value="Desde:" />
-                        <p:calendar id="cal" value="#{dtReporteView.date1}" showOn="button" />
-                        <p:outputLabel for="cal1" value="Hasta:" />
-                        <p:calendar id="cal1" value="#{dtReporteView.date2}" showOn="button" />
-                        <p:commandButton value="Enviar" action="#{dtReporteView.generar()}" update="tblVentas" />
+                        <p:outputLabel for="valor" value="Valor:" />
+                        <p:inputText id="valor" value="#{dtRptClienteView.valor}">
+                        <p:commandButton value="Enviar" action="#{dtRptClienteView.generar()}" update="tblVentas" />
                     </h:panelGrid>
-                    <p:dataTable id="tblVentas" value="#{dtReporteView.ventas}" var="item" rowKey="#{item.id}"
+                    <p:dataTable id="tblVentas" value="#{dtRptClienteView.ventas}" var="item" rowKey="#{item.id}"
                                  paginator="true" paginatorPosition="bottom" rows="10" rendered="true">
                         <p:column headerText="Numero"> 
                             <h:outputText value="#{item.id}" />
@@ -45,7 +42,7 @@
                             Exportar a:
                             <h:commandLink >
                                 <p:graphicImage value="../resources/images/pdf.png" title="Reporte de Ventas"/>  
-                                <p:dataExporter type="pdf" target="tblVentas" fileName="VENTAS" preProcessor="#{dtReporteView.preProcessPDF}"/> 
+                                <p:dataExporter type="pdf" target="tblVentas" fileName="Clientes" preProcessor="#{dtRptClienteView.preProcessPDF}"/> 
                             </h:commandLink>
                         </f:facet>
                     </p:dataTable>
