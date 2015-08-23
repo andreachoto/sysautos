@@ -73,28 +73,28 @@ public final class vmbVenta implements Serializable {
         this.modopagos = dvrModopago.getModopagoList();
         this.mdopagosel = new Modopago();
     }
-    
+
     String datrepfecha;
     String datrepcliente;
     String datrepnumfactura;
-    String datrepmodopago;    
-    
-    public void cargardatosreporte(){
+    String datrepmodopago;
+
+    public void cargardatosreporte() {
         DateFormat fecha = new SimpleDateFormat("yyyy/MM/dd");
-	datrepfecha = fecha.format(date);
+        datrepfecha = fecha.format(date);
         for (Cliente valor : clientes) {
-            if (valor.getId()==venta.getClitid()) {
-                datrepcliente=valor.getNombre()+" "+valor.getApellido();                
+            if (valor.getId() == venta.getClitid()) {
+                datrepcliente = valor.getNombre() + " " + valor.getApellido();
             }
         }
-        datrepnumfactura=venta.getNumfac();
+        datrepnumfactura = venta.getNumfac();
         for (Modopago valor : modopagos) {
-            if (valor.getId()==venta.getMpgid()) {
-                datrepmodopago=valor.getNombre();                
+            if (valor.getId() == venta.getMpgid()) {
+                datrepmodopago = valor.getNombre();
             }
         }
     }
-    
+
     public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
         //*****++++ este es el encabezado
         final Paragraph paragrap = new Paragraph("China Motors \n");
@@ -226,8 +226,6 @@ public final class vmbVenta implements Serializable {
     public void setFactura(boolean factura) {
         this.factura = factura;
     }
-    
-        
 
     //Metodos de logica    
     public void loadProveedores() {
@@ -263,23 +261,30 @@ public final class vmbVenta implements Serializable {
     }
 
     public void addItemDetalle() {
-        BigDecimal vu = this.itemventa.getValoruni();
-        Double sbt, tot, desc = 0.0;
-        sbt = vu.doubleValue() * this.itemventa.getCantidad();
-        tot = sbt - desc;
-
         try {
-            if (this.itemventa.getPdtid() != -1) {
-                if (this.itemventa.getCantidad() > 0) {
-                    Detalleventa item = new Detalleventa(0, 0, this.itemventa.getPdtid(), this.itemventa.getCantidad(),
-                            this.itemventa.getValoruni(), BigDecimal.valueOf(sbt), BigDecimal.valueOf(desc), BigDecimal.valueOf(tot));
-                    this.ventaitems.add(item);
+            BigDecimal vu = this.itemventa.getValoruni();
+            Double sbt, tot, desc = 0.0;
+            this.itemventa.setProducto(dvrProducto.getProductoById(this.itemventa.getPdtid()));
+            int stock = this.itemventa.getProducto().getStock();
+            int cant = this.itemventa.getCantidad();
+            if ((stock > 0) && (cant <= stock)) {
+                sbt = vu.doubleValue() * this.itemventa.getCantidad();
+                tot = sbt - desc;
+                if (this.itemventa.getPdtid() != -1) {
+                    if (this.itemventa.getCantidad() > 0) {
+                        Detalleventa item = new Detalleventa(0, 0, this.itemventa.getPdtid(), this.itemventa.getCantidad(),
+                                this.itemventa.getValoruni(), BigDecimal.valueOf(sbt), BigDecimal.valueOf(desc), BigDecimal.valueOf(tot));
+                        this.ventaitems.add(item);
+                    } else {
+                        MbsMessages.error("Ingrese la cantidad de productos al Item de Venta");
+                    }
                 } else {
-                    MbsMessages.error("Ingrese la cantidad de productos al Item de Venta");
+                    MbsMessages.error("Seleccione un producto para agregar Items al venta");
                 }
             } else {
-                MbsMessages.error("Seleccione un producto para agregar Items al venta");
+                MbsMessages.warn("Stock insuficiente para la presente venta!");
             }
+
         } catch (Exception ex) {
             MbsMessages.fatal(ex.getMessage());
         }
@@ -316,17 +321,20 @@ public final class vmbVenta implements Serializable {
                 vta.setIva(BigDecimal.valueOf(iva));
                 vta.setTotal(BigDecimal.valueOf(tot));
                 vta.setCancelado(Boolean.FALSE);
-                if (this.isFactura()){
+                if (this.isFactura()) {
                     vta.setFechafac(Genericas.parsDatetoTimestamp(dat));
                 } else {
-                   vta.setNumfac("");
+                    vta.setNumfac("");
                 }
-                int ban = dvrVenta.ventaRegister(vta);
-                if (ban != 0) {
+                int id = dvrVenta.ventaRegister(vta);
+                if (id != 0) {
                     //Guardar items del venta
                     for (Detalleventa item : this.ventaitems) {
-                        item.setVtaid(ban);
+                        item.setVtaid(id);
                         dvrDetalleventa.detalleventaRegister(item);
+                        int stock = item.getProducto().getStock();
+                        item.getProducto().setStock(stock-item.getCantidad());
+                        dvrProducto.setStockProducto(item.getProducto());
                         cargardatosreporte();
                     }
                     //refescamos la lista de ventas
@@ -354,14 +362,4 @@ public final class vmbVenta implements Serializable {
         }
 
     }
-
-    //metodo que valida la operacion a realizar.
-//    public void operar() {
-//        if (this.accion.equals("INS")) {
-//            this.register();
-//        } else if (this.accion.equals("UDP")) {
-//            this.update();
-//        }
-//
-//    }
 }
