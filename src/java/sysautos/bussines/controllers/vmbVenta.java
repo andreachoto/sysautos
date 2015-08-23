@@ -328,7 +328,6 @@ public final class vmbVenta implements Serializable {
                         item.setVtaid(ban);
                         dvrDetalleventa.detalleventaRegister(item);
                         cargardatosreporte();
-                        dvrProducto.setStockProducto(item.getProducto());
                     }
                     //refescamos la lista de ventas
                     MbsMessages.info("Venta creada exitosamente!");
