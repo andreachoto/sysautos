@@ -150,6 +150,25 @@ public class dvrCliente {
         con.cerrarConexion();
         return var;
     }
-    
+        public static List<Cliente> getClienteListToReport(int op) throws Exception {
+        List<Cliente> lista = new ArrayList<>();
+        List<Parameter> parametros = new ArrayList<>();
+        parametros.add(new Parameter(1, op, Types.INTEGER));
+        String llamadaPA = "SELECT * from autos.\"clientecreditoSelectAll_paTipo\"(?)";
+        Conexion con = new Conexion(llamadaPA, parametros);
+        while (con.siguiente()) {
+            int id = con.getInt("outid");
+            String nombre = con.getString("outnombre");
+            String apellido=con.getString("outapellido");
+            String sexo=con.getString("outsexo");
+            int edad = con.getInt("outedad");
+            String fax=con.getString("outfax");
+            String email=con.getString("outemail");
+            String estadocivil=con.getString("outestadocivil");
+            lista.add(new Cliente(id,nombre,apellido,sexo,edad,fax,email,estadocivil));
+        }
+        con.cerrarConexion();
+        return lista;
+    }
     
 }
