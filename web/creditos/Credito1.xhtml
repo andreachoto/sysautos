@@ -28,15 +28,9 @@
                                                itemLabel="#{garante.nombre}"/>
                             </p:selectOneMenu>
                             <h:outputText value="Fecha" />
-                            <p:calendar  
-                                value="#{dtCreditoView.fecha}" pattern="MM/dd/yyyy " required="true">
-                                <p:ajax event="change" />
-                            </p:calendar> 
+                            <p:calendar id="cal" value="#{dtCreditoView.fecha}" showOn="button" required="true"/>
                             <h:outputText value="Fecha de vencimiento." />
-                            <p:calendar  
-                                value="#{dtCreditoView.fecha1}" pattern="MM/dd/yyyy" required="true">
-                                <p:ajax event="change"/>
-                            </p:calendar>
+                            <p:calendar id="cal1" value="#{dtCreditoView.fecha1}" showOn="button" required="true" />
                             <h:outputText value="Forma Pago" />
                             <p:selectOneMenu value="#{dtCreditoView.strFormaPago}" required="true">
                                 <f:selectItem itemLabel="Forma Pago" itemValue="0" id="Forma"/>
@@ -51,11 +45,6 @@
                             <h:outputText value="Interes" />
                             <p:inputText  
                                 value="#{dtCreditoView.credito.interes}"/> 
-
-                            <!--<h:outputText value="Vence Hasta." />
-                            <p:inputText disabled="true" id="impVence"
-                                         value="#{dtCreditoView.fechaActua}" />-->
-
                             <h:outputText value="Plazo" />
                             <p:selectOneMenu value="#{dtCreditoView.credito.plazo}" required="true">
                                 <f:selectItem itemLabel="Plazo" itemValue="0" id="Plazo"/>
@@ -107,7 +96,8 @@
                                              action="#{dtCreditoView.ingresar()}" />
                             <!--<p:commandButton value="Amortización" 
                                              action="#{dtCreditoView.generarAmortizacion()}" />-->
-                           <!-- <p:commandButton value="Ver Tabla Amortzación"  oncomplete="PF('amortizacion').show()" />-->
+                            <!-- <p:commandButton value="Ver Tabla Amortzación"  oncomplete="PF('amortizacion').show()" />-->
+
 
                         </div>
                     </div>
@@ -128,7 +118,7 @@
                                 </p:selectOneMenu>
                                 <p:selectOneMenu value="#{dtCreditoView.tipodeudor.id}" id="tipod">
                                     <f:selectItem itemLabel="Tipo Deudor" itemValue="0" id="tipodeu"/>
-                                    <f:selectItems value="#{dtCreditoView.lstTipodeudor}" var="tipo" itemValue="#{tipo.id}"
+                                    <f:selectItems value="#{dtCreditoView.lstGarante}" var="tipo" itemValue="#{tipo.id}"
                                                    itemLabel="#{tipo.nombre}"/>
                                     <p:ajax event="change"/>
                                 </p:selectOneMenu>
