@@ -202,4 +202,33 @@ public class dvrVenta {
         con.cerrarConexion();
         return lista;
     }
+
+    public static List<Venta> getVentaListByModo(int cli, int mpg) throws Exception {
+        List<Venta> lista = new ArrayList<>();
+        List<Parameter> parametros = new ArrayList<>();
+        parametros.add(new Parameter(1, cli, Types.INTEGER));
+        parametros.add(new Parameter(2, mpg, Types.INTEGER));
+        String llamadaPA = "SELECT * from autos.\"ventaByForeingID_pa\"(?,?)";
+        Conexion con = new Conexion(llamadaPA, parametros);
+        while (con.siguiente()) {
+            int id = con.getInt("outid");
+            int clitid = con.getInt("outclitid");
+            int mpgid = con.getInt("outmpgid");
+            int usrid = con.getInt("outusrid");
+            Timestamp fecha = con.getTimestamp("outfecha");
+            String numfac = con.getString("outnumfac");
+            Timestamp fechafac = con.getTimestamp("outfechafac");
+            BigDecimal subtotal = con.getBigDecimal("outsubtotal");
+            BigDecimal iva = con.getBigDecimal("outiva");
+            BigDecimal impuestos = con.getBigDecimal("outimpuestos");
+            BigDecimal descuento = con.getBigDecimal("outdescuento");
+            BigDecimal total = con.getBigDecimal("outtotal");
+            String estado = con.getString("outestado");
+            boolean cancelado = con.getBoolean("outcancelado");
+            lista.add(new Venta(id, clitid, mpgid, usrid, fecha, numfac, fechafac, subtotal, iva,
+                    impuestos, descuento, total, estado, cancelado));
+        }
+        con.cerrarConexion();
+        return lista;
+    }
 }

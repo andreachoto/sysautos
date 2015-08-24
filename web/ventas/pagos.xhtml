@@ -11,28 +11,43 @@
                 <h:form id="frmPagos">
                     <header><h3>Gestion de Cobros</h3></header>
                     <div class="module_content">
+                        <!-- Area de Busqueda  -->
+                        <h:panelGrid cellpadding="6" style="width: 100%;">
+                            <p:outputLabel value="Modo de Pago:"/>
+                            <p:selectOneMenu id="modopago" value="#{dtPagosView.modoselect.id}" filter="true" >   
+                                <f:selectItem itemLabel="Todo" itemValue="#{0}" /> 
+                                <f:selectItems value="#{dtPagosView.modopago}" var="modo" itemLabel="#{modo.nombre}" itemValue="#{modo.id}" />
+                            </p:selectOneMenu> 
+                            <p:commandButton value="Buscar" update="tblVentas" icon="ui-icon-check"  
+                                             actionListener="#{dtPagosView.loadVentas()}"/>
+                        </h:panelGrid>
+                        <!-- tabla de ventas -->
                         <h:panelGrid cellpadding="4" style="width: 100%;">
-                            <p:dataTable id="tblroles" value="#{dtPagosView.pagos}" var="item"
+                            <p:dataTable id="tblVentas" value="#{dtPagosView.ventas}" var="item" 
+                                         selection="#{dtPagosView.ventaselect}" selectionMode="single"
                                          rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
                                          rendered="true">
-                                <p:column headerText="Numero"> 
-                                    <h:outputText value="#{item.id}" />
+                                <p:column headerText="Fecha" filterBy="#{item.fecha}"> 
+                                    <h:outputText value="#{Common.TimestampFormat(item.fecha)}" />
                                 </p:column>
-                                <p:column headerText="Fecha">
-                                    <h:outputText value="#{Common.TimestampFormat(item.fecha)}"/>
-                                </p:column>
-                                <p:column headerText="Cliente">
-                                    <h:outputText value="#{item.cliente.apellido} #{item.cliente.nombre}"/>
-                                </p:column>
-                                <p:column headerText="Nro Factura">
+                                <p:column headerText="Factura" filterBy="#{item.numfac}">
                                     <h:outputText value="#{item.numfac}"/>
                                 </p:column>
-                                <p:column headerText="Total">
+                                <p:column headerText="Cliente" filterBy="#{item.cliente.apellido}">
+                                    <h:outputText value="#{item.cliente.apellido} #{item.cliente.nombre}"/>
+                                </p:column>
+                                <p:column headerText="Valor">
                                     <h:outputText value="#{item.total}"/>
                                 </p:column>
+                                <p:column headerText="Modo de Pago">
+                                    <h:outputText value="#{item.modopago.nombre}"/>
+                                </p:column>
+                                <p:column headerText="Pagado">
+                                    <h:outputText value="#{item.cancelado}"/>
+                                </p:column>
+                                <!-- Area de comandos -->
                                 <f:facet name="footer">
-                                    <!-- Boton Nuevo -->
-                                    <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" action="venta">
+                                    <p:commandButton value="Cobrar" icon="ui-icon-circle-plus" oncomplete="PF('cobroscash').show()" >
                                         <f:setPropertyActionListener target="#{dtVentaView.accion}" value="INS"/>
                                     </p:commandButton>
                                     <p:button value="Escritorio" outcome="/main"/>
@@ -43,6 +58,23 @@
                 </h:form>
             </article>
         </div>
+        <!-- dialogo cobros Cash -->
+        <p:dialog id="cobroscash" widgetVar="cobroscash" header="Cobro" modal="true" resizable="false">
+            <h:form>
+                <article class="module width_full">
+                    <header><center><h3>Cobro en Efectivo</h3></center></header>
+                    <div class="module_content">
+                        
+                    </div>
+                </article>
+                <br/>
+                <article>
+                    <center>
+                        
+                    </center>
+                </article>
+            </h:form>
+        </p:dialog>
     </ui:define>
 </ui:composition>
 

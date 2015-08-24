@@ -18,14 +18,12 @@
                                              selection="#{dtModoView.mdpSel}" selectionMode="single" 
                                              rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
                                              rendered="true">
-                                    <p:column headerText="Nombre"> 
+                                    <p:column headerText="Nombre" width="40%"> 
                                         <h:outputText value="#{item.nombre}" />
                                     </p:column>
-                                    <p:column headerText="Descripcion" width="70">
+                                    <p:column headerText="Descripcion" >
                                         <h:outputText value="#{item.descrip}"/>
                                     </p:column>
-                                    
-
                                     <f:facet name="footer">
                                         <p:commandButton value="Nuevo" icon="ui-icon-circle-plus" oncomplete="PF('newmodo').show()" />
                                         <p:commandButton value="Editar" icon="ui-icon-pencil" actionListener="#{dtModoView.loadmodo(dtModoView.mdpSel)}" />
@@ -51,7 +49,7 @@
             </article>
         </div>
         <!-- Ingreso de Datos Modo Cliente -->
-         <h:form>
+        <h:form>
             <p:dialog id="newmodo" widgetVar="newmodo" header="ModoPago" modal="true" resizable="false">
                 <article class="module width_full">
                     <header><center><h3>Nuevo Modo Pago</h3></center></header>
@@ -61,7 +59,7 @@
                             <h:inputText value="#{dtModoView.mdpNuevo.nombre}" />
                             <h:outputText value="Descripcion:" />
                             <h:inputText value="#{dtModoView.mdpNuevo.descrip}" />
-                            
+
                         </h:panelGrid>
                     </div>
                 </article>
@@ -74,9 +72,9 @@
                 </article>
             </p:dialog>
         </h:form>
-        
-        
-        
+
+
+
         <!-- Editar datos de Cliente -->
         <h:form id="frmEditModo">
             <p:dialog id="editmodo" widgetVar="editmodo" header="Modo Pago" modal="true" resizable="false">
@@ -88,7 +86,7 @@
                             <h:inputText value="#{dtModoView.mdpSel.nombre}" />
                             <h:outputText value="Descripcion:" />
                             <h:inputText value="#{dtModoView.mdpSel.descrip}" />
-                            
+
                         </h:panelGrid>
                     </div>
                 </article>
