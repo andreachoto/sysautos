@@ -356,7 +356,7 @@ public final class vmbVenta implements Serializable {
     public void loadpriceProducto(int id) {
         try {
             Producto prod = dvrProducto.getProductoById(id);
-            this.itemventa.setValoruni(prod.getValorunit());
+            this.itemventa.setValoruni(prod.getPvp());
         } catch (Exception ex) {
             Logger.getLogger(vmbVenta.class.getName()).log(Level.SEVERE, null, ex);
         }

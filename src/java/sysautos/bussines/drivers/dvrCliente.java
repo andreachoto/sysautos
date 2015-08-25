@@ -157,14 +157,14 @@ public class dvrCliente {
         String llamadaPA = "SELECT * from autos.\"clientecreditoSelectAll_paTipo\"(?)";
         Conexion con = new Conexion(llamadaPA, parametros);
         while (con.siguiente()) {
-            int id = con.getInt("outid");
-            String nombre = con.getString("outnombre");
-            String apellido=con.getString("outapellido");
-            String sexo=con.getString("outsexo");
-            int edad = con.getInt("outedad");
-            String fax=con.getString("outfax");
-            String email=con.getString("outemail");
-            String estadocivil=con.getString("outestadocivil");
+            int id = con.getInt("outcltid");
+            String nombre = con.getString("outcltnombre");
+            String apellido=con.getString("outcltapellido");
+            String sexo=con.getString("outcltsexo");
+            int edad = con.getInt("outcltedad");
+            String fax=con.getString("outcltfax");
+            String email=con.getString("outcltemail");
+            String estadocivil=con.getString("outcltestadocivil");
             lista.add(new Cliente(id,nombre,apellido,sexo,edad,fax,email,estadocivil));
         }
         con.cerrarConexion();

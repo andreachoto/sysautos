@@ -26,11 +26,13 @@ public class Credit {
     private int plazo;
     private int iduser;
     private  User user;
+    private String estado;
+    private String cliente;
 
     public Credit() {
     }
 
-    public Credit(int id, Timestamp fecha, Timestamp vencimiento, String formapago, BigDecimal monto, BigDecimal interes, int plazo, int iduser) throws Exception {
+    public Credit(int id, Timestamp fecha, Timestamp vencimiento, String formapago, BigDecimal monto, BigDecimal interes, int plazo, int iduser, String estado) throws Exception {
         this.id = id;
         this.fecha = fecha;
         this.vencimiento = vencimiento;
@@ -39,11 +41,48 @@ public class Credit {
         this.interes = interes;
         this.plazo = plazo;
         this.iduser = iduser;
+        this.estado=estado;
         if (iduser != 0) {
             this.user = dvrUser.getUserById(iduser);
         } else {
             this.user = null;
         }
+    }
+
+    public Credit(int id, Timestamp fecha, Timestamp vencimiento, String formapago, BigDecimal monto, BigDecimal interes, int plazo, int iduser, String estado, String cliente) {
+        this.id = id;
+        this.fecha = fecha;
+        this.vencimiento = vencimiento;
+        this.formapago = formapago;
+        this.monto = monto;
+        this.interes = interes;
+        this.plazo = plazo;
+        this.iduser = iduser;
+        this.estado = estado;
+        this.cliente = cliente;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+    
+    
+    
+    
+    
+    
+    
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public int getId() {
