@@ -2,6 +2,7 @@ package sysautos.bussines.entities;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import sysautos.bussines.drivers.dvrCliente;
 import sysautos.bussines.drivers.dvrModopago;
 import sysautos.bussines.drivers.dvrUser;
 
