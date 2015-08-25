@@ -82,6 +82,25 @@ public class dvrTipodeudor {
         con.cerrarConexion();
         return lista;
     }
+    
+     public static ArrayList<Tipodeudor> getTipoGarantesList() throws Exception {
+        ArrayList<Tipodeudor> lista = new ArrayList<>();
+        String llamadaPA = "SELECT * from autos.\"tipogaranteSelectAll_pa\"()";
+        Conexion con = new Conexion(llamadaPA);
+        while (con.siguiente()) {
+            int id = con.getInt("outtpdid");
+            String name = con.getString("outtpdnombre");
+            String desc = con.getString("outtpddescrip");
+            lista.add(new Tipodeudor(id, name, desc));
+        }
+        con.cerrarConexion();
+        return lista;
+    }
+    
+    
+    
+    
+    
 
     //OUT outtpdid integer, OUT outtpdnombre character varying, OUT outtpddescrip character varying
     
