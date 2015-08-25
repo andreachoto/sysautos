@@ -9,49 +9,56 @@
         <h:form id="frmReporte">
             <p:messages globalOnly="true" id="messages" showDetail="true" autoUpdate="true" closable="true"/>
             <article class="module width_full">
-                <header><h3>Reportes de Clientes</h3></header>
+                <header><h3>Reportes Ingreso de Clientes</h3></header>
                 <div align="center">
                     <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel for="agente" value="Tipo Cliente:" />
+                        <p:selectOneMenu id="agente"  style="width:140px" value="#{dtRptClientesView.agente.idtipo}">
+                            <f:selectItem itemLabel="Escoja una opción" itemValue="0" />
+                            <f:selectItems value="#{dtRptClientesView.lstTipodecudors}" var="itm" 
+                                           itemValue="#{itm.id}" itemLabel="#{itm.nombre}" />
+                        </p:selectOneMenu>
                         
-                    </h:panelGrid>
-                    <p:dataTable id="tblClientes" value="#{dtRptClientesView.lstclientes}" var="item" rowKey="#{item.id}"
-                                 paginator="true" paginatorPosition="bottom" rows="10" rendered="true">
-                        <p:column headerText="Nombre"> 
-                            <h:outputText value="#{item.nombre}" />
-                        </p:column>
-                        <p:column headerText="Apellido">
-                            <h:outputText value="#{item.apellido}"/>
-                        </p:column>
-                        <p:column headerText="Sexo">
-                            <h:outputText value="#{item.sexo}"/>
-                        </p:column>
-                        <p:column headerText="Edad" width="50">
-                            <h:outputText value="#{item.edad}"/>
-                        </p:column>
-                        <p:column headerText="Fax">
-                            <h:outputText value="#{item.fax}"/>
-                        </p:column>
-                        <p:column headerText="Email">
-                            <h:outputText value="#{item.email}"/>
-                        </p:column>
-                        <p:column headerText="Estado Civil">
-                            <h:outputText value="#{item.estadocivil}"/>
-                        </p:column>
-                        <f:facet name="footer">
-                            Exportar a:
-                            <h:commandLink >
-                                <p:graphicImage value="../resources/images/pdf.png" title="Reporte de Clientes"/>  
-                                <p:dataExporter type="pdf" target="tblClientes" fileName="CLIENTES" preProcessor="#{dtRptClientesView.preProcessPDF}"/> 
-                            </h:commandLink>
-                        </f:facet>
-                    </p:dataTable>
+                        <p:commandButton value="Enviar" action="#{dtRptClientesView.generar()}" update="tblClientes" />
+                </h:panelGrid>
+                <p:dataTable id="tblClientes" value="#{dtRptClientesView.lstclientes}" var="item" rowKey="#{item.id}"
+                             paginator="true" paginatorPosition="bottom" rows="10" rendered="true">
+                    <p:column headerText="Nombre"> 
+                        <h:outputText value="#{item.nombre}" />
+                    </p:column>
+                    <p:column headerText="Apellido">
+                        <h:outputText value="#{item.apellido}"/>
+                    </p:column>
+                    <p:column headerText="Sexo">
+                        <h:outputText value="#{item.sexo}"/>
+                    </p:column>
+                    <p:column headerText="Edad" width="50">
+                        <h:outputText value="#{item.edad}"/>
+                    </p:column>
+                    <p:column headerText="Fax">
+                        <h:outputText value="#{item.fax}"/>
+                    </p:column>
+                    <p:column headerText="Email">
+                        <h:outputText value="#{item.email}"/>
+                    </p:column>
+                    <p:column headerText="Estado Civil">
+                        <h:outputText value="#{item.estadocivil}"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        Exportar a:
+                        <h:commandLink >
+                            <p:graphicImage value="../resources/images/pdf.png" title="Reporte de Clientes"/>  
+                            <p:dataExporter type="pdf" target="tblClientes" fileName="CLIENTES" preProcessor="#{dtRptClientesView.preProcessPDF}"/> 
+                        </h:commandLink>
+                    </f:facet>
+                </p:dataTable>
 
 
-                    <br/><br/>
-                </div>
-            </article>
-        </h:form>
-    </ui:define>
+                <br/><br/>
+            </div>
+        </article>
+    </h:form>
+</ui:define>
 </ui:composition>
 
 
