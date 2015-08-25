@@ -1,5 +1,11 @@
 package sysautos.bussines.controllers;
 
+import com.lowagie.text.BadElementException;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPTable;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.sql.Timestamp;
@@ -25,6 +31,7 @@ import sysautos.bussines.entities.Credit;
 import sysautos.bussines.entities.Requisitos;
 import sysautos.bussines.entities.RequisitosCliente;
 import sysautos.bussines.entities.Tipodeudor;
+import sysautos.bussines.reports.ReporteItex;
 import sysautos.bussines.session.MbsMessages;
 
 @ManagedBean(name = "dtCreditoView")
@@ -32,7 +39,7 @@ import sysautos.bussines.session.MbsMessages;
 public class CCredito2 {
 
     private static List<Credit> lstcreditos;
-    private Credit credito, creditoSeleccion;
+    private Credit credito, creditoSeleccion,objcredito;
     private ClienteCredito clicredsel;
     private Date fecha, fecha1;
     private ClienteCredito clientecredito;
@@ -55,6 +62,7 @@ public class CCredito2 {
     private static List<Cliente> lstClients;
     private List<Requisitos> lstRequisitos;
     private List<Amortizacion> lstAmortizacion;
+   private  List<Credit> lstcreditosclientes;
     
     
 
@@ -67,6 +75,7 @@ public class CCredito2 {
         lstcreditos = new ArrayList<>();
         listaAmt = new ArrayList<>();
         objAmortizacion = new Amortizacion();
+        objcredito= new Credit();
         lstTipodeudor = new ArrayList<>();
         lstGarante = new ArrayList<>();
         listaMeses = new ArrayList<>();
@@ -103,6 +112,8 @@ public class CCredito2 {
         this.resul = resul;
         this.modo = modo;
     }
+
+  
    
     //FUNCIONES
     public static void cargar() {
@@ -111,9 +122,16 @@ public class CCredito2 {
             lstTipodeudor = dvrTipodeudor.getTipodeudorList();
             lstGarante = dvrTipodeudor.getTipoGarantesList();
             lstClients = dvrCliente.getClienteList();
+            
         } catch (Exception ex) {
             //Util.addErrorMessage("Error en la Aplicacion.");
         }
+
+    }
+    public void buscar() throws Exception {
+
+        String estado = credito.getEstado();
+        lstcreditosclientes = dvrCredit.getCreditoClienteById(estado);
 
     }
 
@@ -139,6 +157,8 @@ public class CCredito2 {
             MbsMessages.fatal(ex.getMessage());
         }
     }
+     
+      
     
  
     public void mostrar(int intOpcion) {
@@ -227,14 +247,7 @@ public class CCredito2 {
         }
 
     }
-    
-    public void buscar(){
-        
-        
-        
-        
-        
-    }
+  
     
     
     
@@ -437,7 +450,17 @@ public class CCredito2 {
         String strFechaRetorno = Mes[mes - 1] + " " + anio;
         return strFechaRetorno;
     }
+    
+    public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
+        final Paragraph paragrap = new Paragraph("Reporte: Créditos ");
+        final Phrase phrase = new Phrase("\n ");
 
+        PdfPTable dt = null;
+        ReporteItex obRepItx = new ReporteItex();
+        obRepItx.preProcessPDF(document, paragrap, phrase, dt);
+    }
+    
+   
     public static java.sql.Timestamp obtieneFechaTimeStamp(long fecha) throws ParseException {
         java.sql.Timestamp timeStampDate = new Timestamp(fecha * 1000);
 //          java.sql.Timestamp timeStampDate = new Timestamp(fecha);
@@ -462,9 +485,18 @@ public class CCredito2 {
         long fecha = dt.getTime();
         return fecha;
     }
-    
-   
 
+    public List<Credit> getLstcreditosclientes() {
+        return lstcreditosclientes;
+    }
+
+    public void setLstcreditosclientes(List<Credit> lstcreditosclientes) {
+        this.lstcreditosclientes = lstcreditosclientes;
+    }
+
+  
+
+ 
     public List<Requisitos> getLstRequisitos() {
         return lstRequisitos;
     }

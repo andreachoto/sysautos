@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h:form id="frmReporte">
+            <article class="module width_full">
+                <header><h3>Reportes de Créditos Aprobados o Solicitados</h3></header>
+                <div align="center">
+                    <br></br>
+                    <br></br>
+                    <h:outputText value="Estado :" />
+                    <p:selectOneMenu id="agente"  style="width:125px" value="#{dtCreditoView.credito.estado}">
+                        <f:selectItem itemLabel="Todos" itemValue="0" />
+                        <f:selectItem itemLabel="SOLICITADO" itemValue="SOLICITADO" />
+                        <f:selectItem itemLabel="APROBADO" itemValue="APROBADO" />
+                    </p:selectOneMenu>
+                    <p:commandButton value="Generar" icon="ui-icon-search"  action="#{dtCreditoView.buscar()}" update=":frmReporte:tblcredito" />
+
+                </div>
+                <br></br>
+                <br></br>
+                <p:dataTable id="tblcredito" value="#{dtCreditoView.lstcreditosclientes}" var="item"
+                             selection="#{dtCreditoView.creditoSeleccion}" selectionMode="single" 
+                             rowKey="#{item.id}" paginator="true" paginatorPosition="bottom" rows="10" 
+                             rendered="true">
+                    <p:column headerText="Crédito Número">
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column headerText="Cliente">
+                        <h:outputText value="#{item.cliente}"/>
+                    </p:column>
+                    <p:column headerText="Fecha Crédito">
+                        <h:outputText value="#{Common.TimestampFormat(item.fecha)}"/>
+                    </p:column>
+                    <p:column headerText="Fecha Vencimiento">
+                        <h:outputText value="#{Common.TimestampFormat(item.vencimiento)}"/>
+                    </p:column>
+                    <p:column headerText="Monto">
+                        <h:outputText value="#{item.monto}"/>
+                    </p:column>
+                    <p:column headerText="Estado">
+                        <h:outputText value="#{item.estado}"/>
+                    </p:column>
+
+                    <f:facet name="footer">
+                        Exportar a:
+                        <h:commandLink >
+                            <p:graphicImage value="../resources/images/pdf.png" title="Reporte de Créditos"/>  
+                            <p:dataExporter type="pdf" target="tblcredito" fileName="Créditos" preProcessor="#{dtCreditoView.preProcessPDF}"/> 
+                        </h:commandLink>
+
+                    </f:facet>
+                </p:dataTable>
+
+            </article>
+
+
+            <br/><br/>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+
+
+

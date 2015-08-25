@@ -50,7 +50,7 @@ public class dvrCredit {
     public static ArrayList<Credit> getuserCreditoList() throws Exception {
         ArrayList<Credit> lista = new ArrayList<>();
         // OUT  character varying, OUT  numeric, OUT  numeric, OUT  integer, OUT  integer)
-        String llamadaPA = "SELECT * from autos.\"creditoSelectAll_pa\"()";
+        String llamadaPA = "SELECT * from autos.\"creditosclientesByID_pa\"()";
         Conexion con = new Conexion(llamadaPA);
         while (con.siguiente()) {
             int id = con.getInt("outcrtid");
@@ -62,14 +62,41 @@ public class dvrCredit {
             int plazo = con.getInt("outcrtplazo");
             int userid = con.getInt("outuserid");
             String estado=con.getString("outcrtestado");
+            String cliente=con.getString("outcliente");
             
-            lista.add(new Credit(id, fecha, venci, formap, monto, interes, plazo, userid,estado));
+            lista.add(new Credit(id, fecha, venci, formap, monto, interes, plazo, userid,estado,cliente));
         }
 
         return lista;
     }
     //Listar los registros de la tabla dado el nombre 
 
+    
+    
+    public static ArrayList<Credit> getCreditoClienteById(String val) throws Exception {
+        ArrayList<Credit> lista = new ArrayList<>();
+        List<Parameter> parametros = new ArrayList<>();
+        parametros.add(new Parameter(1, val, Types.VARCHAR));
+        String llamadaPA = "SELECT * from autos.\"creditosclientesEstByID_pa\"(?)";
+        Conexion con = new Conexion(llamadaPA, parametros);
+        while(con.siguiente()) {
+            int id = con.getInt("outcrtid");
+            Timestamp fecha = con.getTimestamp("outcrtfecha");
+            Timestamp venci = con.getTimestamp("outcrtvencimiento");
+            String formap = con.getString("outcrtformapago");
+            BigDecimal monto = con.getBigDecimal("outcrtmonto");
+            BigDecimal interes = con.getBigDecimal("outcrtinteres");
+            int plazo = con.getInt("outcrtplazo");
+            int userid = con.getInt("outuserid");
+            String estado=con.getString("outcrtestado");
+            String cliente=con.getString("outcliente");
+            lista.add( new Credit(id, fecha, venci, formap, monto, interes, plazo, userid,estado,cliente));
+        }
+      
+        return lista;
+    }
+    
+    
     public static Credit getCreditoById(int val) throws Exception {
         Credit var = null;
         List<Parameter> parametros = new ArrayList<>();
@@ -94,5 +121,12 @@ public class dvrCredit {
         con.cerrarConexion();
         return var;
     }
+    
+    
+    
+    
+    
+    
+    
 
 }
