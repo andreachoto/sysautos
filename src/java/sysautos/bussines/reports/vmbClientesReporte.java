@@ -41,13 +41,17 @@ public class vmbClientesReporte {
 
     public vmbClientesReporte() {
         try {
-//            this.lstclientes = new ArrayList<>();
-            this.lstclientes = dvrCliente.getClienteList();
+            this.lstclientes = new ArrayList<>();
+//            this.lstclientes = dvrCliente.getClienteList();
             this.lstTipodecudors = dvrTipodeudor.getTipodeudorList();
             this.agente = new ClienteCredito();
+            this.loadClientes();
         } catch (Exception ex) {
             Logger.getLogger(vmbClientesReporte.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+      public void loadClientes() throws Exception {
+        this.lstclientes = dvrCliente.getClienteList();
     }
 
     public ClienteCredito getAgente() {

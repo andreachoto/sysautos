@@ -5,6 +5,7 @@
  */
 package sysautos.bussines.controllers;
 
+import java.math.BigDecimal;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -99,6 +100,9 @@ public final class vmbProducto {
     public void register() {
         try {
             if (this.producto.getTptid() != -1 ) {
+                Double pcm  = this.producto.getValorunit().doubleValue();
+                BigDecimal pvp = new BigDecimal(pcm * 1.22);
+                this.producto.setPvp(pvp);
                 int ban = dvrProducto.productoRegister(this.producto);
             if (ban != 0) {
                 this.loadProductos();
