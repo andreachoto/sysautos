@@ -10,6 +10,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.context.DefaultRequestContext;
+import org.primefaces.context.RequestContext;
+import sysautos.bussines.common.Genericas;
 import sysautos.bussines.drivers.dvrAmortizacion;
 import sysautos.bussines.drivers.dvrCliente;
 import sysautos.bussines.drivers.dvrClienteCredito;
@@ -44,6 +46,7 @@ public class CCredito2 {
     private Timestamp fechaActua;
     private ArrayList<Amortizacion> listaAmt;
     private static ArrayList<Tipodeudor> lstTipodeudor;
+    private static ArrayList<Tipodeudor> lstGarante;
     private ArrayList<Integer> listaMeses;
     private boolean verificacion;
     private List<ClienteCredito> lstClienteCredito;
@@ -65,6 +68,7 @@ public class CCredito2 {
         listaAmt = new ArrayList<>();
         objAmortizacion = new Amortizacion();
         lstTipodeudor = new ArrayList<>();
+        lstGarante = new ArrayList<>();
         listaMeses = new ArrayList<>();
         lstClienteCredito = new ArrayList<>();
         lstRequisitosCliente = new ArrayList<>();
@@ -72,6 +76,7 @@ public class CCredito2 {
         lstRequisitosClienteid = new ArrayList<>();
         loadClientes();
         loadTipodeudor();
+        loadGarante();
         this.tipodeudor = new Tipodeudor();
         cargar();
     }
@@ -104,6 +109,7 @@ public class CCredito2 {
         try {
             lstcreditos = dvrCredit.getuserCreditoList();
             lstTipodeudor = dvrTipodeudor.getTipodeudorList();
+            lstGarante = dvrTipodeudor.getTipoGarantesList();
             lstClients = dvrCliente.getClienteList();
         } catch (Exception ex) {
             //Util.addErrorMessage("Error en la Aplicacion.");
@@ -118,7 +124,23 @@ public class CCredito2 {
             MbsMessages.fatal("Error: " + ex.getMessage());
         }
     }
-
+    
+     public void loadcredito( Credit tipo) {
+        try {
+            if (tipo != null) {
+               
+                this.creditoSeleccion = dvrCredit.getCreditoById(tipo.getId());
+                RequestContext.getCurrentInstance().update("frmCredito");
+                RequestContext.getCurrentInstance().execute("PF('creditos').show()");
+            } else {
+                MbsMessages.error("Seleccione un registro");
+            }
+        } catch (Exception ex) {
+            MbsMessages.fatal(ex.getMessage());
+        }
+    }
+    
+ 
     public void mostrar(int intOpcion) {
         try {
 
@@ -150,16 +172,26 @@ public class CCredito2 {
         }
     }
 
+    public void loadGarante() {
+        try {
+            this.lstGarante = dvrTipodeudor.getTipoGarantesList();
+        } catch (Exception ex) {
+            MbsMessages.fatal("Error: " + ex.getMessage());
+        }
+    }
     public void ingresar() {
         try {
 
             
-            long fechasAc = obtieneFecha(fecha1) - obtieneFecha(fecha);
-            fechaActua = obtieneFechaTimeStamp(fechasAc);
-            credito.setFecha(obtieneFechaTimeStamp(fecha.getTime()));
+           
+            Timestamp fec1=Genericas.parsDatetoTimestamp(fecha1);
+            Timestamp fec2=Genericas.parsDatetoTimestamp(fecha);
+           
+            credito.setFecha(fec2);
             credito.setFormapago(strFormaPago);
-            credito.setVencimiento(obtieneFechaTimeStamp(fecha1.getTime()));
+            credito.setVencimiento(fec1);
             credito.setIduser(1);
+            credito.setEstado("SOLICITADO");
             ClienteCredito crecli = new ClienteCredito(this.intIdCliente, 0, this.intTipoDeudor);
             this.lstClienteCredito.add(crecli);
             //MbsMessages.info("Generado Correctamente");
@@ -430,8 +462,18 @@ public class CCredito2 {
         long fecha = dt.getTime();
         return fecha;
     }
+    
+   
+
+    public List<Requisitos> getLstRequisitos() {
+        return lstRequisitos;
+    }
 
 //Methods getter and setter of app.
+    public void setLstRequisitos(List<Requisitos> lstRequisitos) {    
+        this.lstRequisitos = lstRequisitos;
+    }
+
     public List<Credit> getLstcreditos() {
         return lstcreditos;
     }
@@ -650,6 +692,16 @@ public class CCredito2 {
         this.lstTipodeudor = lstTipodeudor;
     }
 
+     public ArrayList<Tipodeudor> getLstGarante() {
+        return lstGarante;
+    }
+
+    public  void setLstGarante(ArrayList<Tipodeudor> lstGarante) {
+        this.lstGarante = lstGarante;
+    }
+    
+    
+    
     public ArrayList<Integer> getListaMeses() {
         return listaMeses;
     }

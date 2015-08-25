@@ -14,6 +14,7 @@ public final class vmbVentas implements Serializable{
     private List<Venta> ventas;
     private Venta ventaselect;
 
+
     public vmbVentas() {
          this.ventaselect = new Venta();
          this.loadVentas();
@@ -34,7 +35,7 @@ public final class vmbVentas implements Serializable{
     public void setVentaselect(Venta ventaselect) {
         this.ventaselect = ventaselect;
     }
-    
+
     //Acciones del bean
     public void loadVentas() {
         try {
@@ -43,4 +44,5 @@ public final class vmbVentas implements Serializable{
             MbsMessages.fatal(ex.getMessage());
         }
     }
+
 }
